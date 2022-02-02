@@ -34,9 +34,10 @@ class RobotContainer {
   
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
-
-  // The robot's subsystems and commands are defined here...
-
+  frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
+  
+  // The robot's subsystems and commands are defined here..
+  
   // The robot's subsystems
   DriveSubsystem m_drive;
 

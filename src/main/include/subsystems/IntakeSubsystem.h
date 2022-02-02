@@ -23,7 +23,8 @@ IntakeSubsystem(
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
-
+  void Deploy();
+  void Retreat();
   
  private:
   

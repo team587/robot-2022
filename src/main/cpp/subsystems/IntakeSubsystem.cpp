@@ -28,3 +28,11 @@ void IntakeSubsystem::Periodic() {
 
 
 }
+void IntakeSubsystem::Deploy(){
+
+  
+}
+void IntakeSubsystem::Retreat(){
+
+
+}

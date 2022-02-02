@@ -29,10 +29,11 @@ void IntakeSubsystem::Periodic() {
 
 }
 void IntakeSubsystem::Deploy(){
+  m_intakeSolenoid->Set(true);
 
-  
 }
-void IntakeSubsystem::Retreat(){
 
+void IntakeSubsystem::Retreat(){
+  m_intakeSolenoid->Set(false);
 
 }

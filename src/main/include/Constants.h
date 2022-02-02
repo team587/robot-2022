@@ -110,8 +110,14 @@ namespace OIConstants {
 constexpr int kDriverControllerPort = 0;
 }  // namespace OIConstants
 
-namespace CANBusConstants {
-constexpr int kClimberMotorPort = 0;
-constexpr int kExtendedDigitalInput = 0;
-constexpr int kContractedDigitalInput = 0;
-}
+enum solenoidIDs {
+    kIntakeSolenoid = 1
+};
+
+enum canIDs {
+    kIntakeMotor = 1,
+    kClimberMotorPort = 2,
+    kExtendedDigitalInput = 3,
+    kContractedDigitalInput = 4
+
+};

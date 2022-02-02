@@ -19,6 +19,9 @@
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
+#include <ctre/Phoenix.h>
+#include <frc/Solenoid.h>
+#include "subsystems/IntakeSubsystem.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -31,9 +34,17 @@ class RobotContainer {
  public:
   RobotContainer();
 
+  DriveSubsystem *GetDriveSubsystem() { return &m_drive; }
+
+
   frc2::Command* GetAutonomousCommand();
 
  private:
+
+    WPI_TalonSRX m_intakeMotor;
+    frc::Solenoid m_intakeSolenoid;  
+
+    IntakeSubsystem m_intakeSubsystem;
   
     rev::CANSparkMax m_climberMotor;
     frc::DigitalInput m_extendedDigitalInput;

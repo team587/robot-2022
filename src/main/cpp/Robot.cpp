@@ -19,7 +19,7 @@ void Robot::RobotInit() {}
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-   frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.m_drive.GetHeading());
+   frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
 }
 
 /**

@@ -14,7 +14,7 @@
 
 class HopperSubsystem : public frc2::SubsystemBase {
  public:
- HopperSubsystem();
+  HopperSubsystem();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

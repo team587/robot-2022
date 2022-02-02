@@ -20,10 +20,17 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include <ctre/Phoenix.h>
+#include <frc/Solenoid.h>
+#include "subsystems/IntakeSubsystem.h"
 
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer() : 
+        m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
+        m_intakeMotor {canIDs::kIntakeMotor},
+        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid} {
+        
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings

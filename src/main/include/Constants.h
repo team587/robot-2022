@@ -110,3 +110,11 @@ namespace OIConstants {
 constexpr int kDriverControllerPort = 0;
 constexpr int kCoDriverControllerPort = 0;
 }  // namespace OIConstants
+
+enum solenoidIDs {
+    kIntakeSolenoid = 1
+};
+
+enum canIDs {
+    kIntakeMotor = 1
+};

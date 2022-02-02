@@ -16,6 +16,9 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include <ctre/Phoenix.h>
+#include <frc/Solenoid.h>
+#include "subsystems/IntakeSubsystem.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -28,9 +31,19 @@ class RobotContainer {
  public:
   RobotContainer();
 
+
+
+
   frc2::Command* GetAutonomousCommand();
 
- //private:
+ private:
+
+ 
+
+  WPI_TalonSRX m_intakeMotor;
+  frc::Solenoid m_intakeSolenoid;  
+
+  IntakeSubsystem m_intakeSubsystem;
   
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};

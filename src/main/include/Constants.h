@@ -109,3 +109,11 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 namespace OIConstants {
 constexpr int kDriverControllerPort = 0;
 }  // namespace OIConstants
+
+enum solenoidIDs {
+    kIntakeSolenoid = 1
+};
+
+enum canIDs {
+    kIntakeMotor = 1
+};

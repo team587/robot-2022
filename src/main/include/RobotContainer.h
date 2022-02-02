@@ -13,9 +13,12 @@
 #include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
+#include <rev/CANSparkMax.h>
+#include <frc/DigitalInput.h>
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
 #include "subsystems/IntakeSubsystem.h"
@@ -31,20 +34,26 @@ class RobotContainer {
  public:
   RobotContainer();
 
-
+  DriveSubsystem *GetDriveSubsystem() { return &m_drive; }
 
 
   frc2::Command* GetAutonomousCommand();
 
  private:
 
- 
+    WPI_TalonSRX m_intakeMotor;
+    frc::Solenoid m_intakeSolenoid;  
 
-  WPI_TalonSRX m_intakeMotor;
-  frc::Solenoid m_intakeSolenoid;  
-
-  IntakeSubsystem m_intakeSubsystem;
+    IntakeSubsystem m_intakeSubsystem;
   
+    rev::CANSparkMax m_climberMotor;
+    frc::DigitalInput m_extendedDigitalInput;
+    frc::DigitalInput m_contractedDigitalInput;
+
+    ClimberSubsystem m_climberSubsystem;
+
+
+
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};

@@ -116,5 +116,9 @@ enum solenoidIDs {
 };
 
 enum canIDs {
-    kIntakeMotor = 1
+    kIntakeMotor = 1,
+    kClimberMotorPort = 2,
+    kExtendedDigitalInput = 3,
+    kContractedDigitalInput = 4
+
 };

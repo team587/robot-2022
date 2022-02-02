@@ -20,13 +20,19 @@
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
 #include "subsystems/IntakeSubsystem.h"
 
+
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer() : 
+RobotContainer::RobotContainer() :
+        m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
+        m_contractedDigitalInput {canIDs::kContractedDigitalInput},
+        m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
         m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
         m_intakeMotor {canIDs::kIntakeMotor},
         m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid} {

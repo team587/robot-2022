@@ -17,13 +17,20 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
+#include
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
+#include "subsystems/ClimberSubsystem.h"
 
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer() :
+        m_climberMotor {CANBusConstants::kClimberMotorPort},
+        m_extendedDigitalInput {CANBusConstants::kExtendedDigitalInput},
+        m_contractedDigitalInput {CANBusConstants::kContractedDigitalInput},
+        m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput} {
+
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings

@@ -109,3 +109,9 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 namespace OIConstants {
 constexpr int kDriverControllerPort = 0;
 }  // namespace OIConstants
+
+namespace CANBusConstants {
+constexpr int kClimberMotorPort = 0;
+constexpr int kExtendedDigitalInput = 0;
+constexpr int kContractedDigitalInput = 0;
+}

@@ -28,6 +28,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
 
   void Start();
   void Stop();
+  void turnRight();
+  void turnLeft();
+  void stopTurning();
   
  private:
   
@@ -36,6 +39,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   rev::CANSparkMax *m_hoodMotor;
   rev::CANSparkMax *m_turningMotor;
   double shooterSpeed;
+  double turningSpeed;
 
 
 

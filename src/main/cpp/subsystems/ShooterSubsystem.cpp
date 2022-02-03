@@ -23,6 +23,7 @@ ShooterSubsystem::ShooterSubsystem(
       shooterSpeed = 1;
       //shooterMotor2->Follow(m_shooterMotor1, true);
       shooterMotor2->SetInverted(true);
+      turningSpeed = 1;
 }
 
 void ShooterSubsystem::Periodic() {
@@ -37,4 +38,15 @@ void ShooterSubsystem::Start() {
 void ShooterSubsystem::Stop() {
   m_shooterMotor1->Set(0);
   m_shooterMotor2->Set(0);
+}
+void ShooterSubsystem::turnRight(){
+  m_turningMotor->Set(turningSpeed);
+} 
+
+void ShooterSubsystem::turnLeft(){
+  m_turningMotor->Set(turningSpeed * -1);
+} 
+
+void ShooterSubsystem::stopTurning(){
+  m_turningMotor->Set(0);
 }

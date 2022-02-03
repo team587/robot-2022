@@ -22,6 +22,8 @@
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
 #include "subsystems/IntakeSubsystem.h"
+#include "subsystems/ShooterSubsystem.h"
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -52,7 +54,12 @@ class RobotContainer {
 
     ClimberSubsystem m_climberSubsystem;
 
+    rev::CANSparkMax m_shooterMotor1;
+    rev::CANSparkMax m_shooterMotor2;
+    rev::CANSparkMax m_hoodMotor;
+    rev::CANSparkMax m_turningMotor;
 
+    ShooterSubsystem m_shooterSubsystem;
 
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};

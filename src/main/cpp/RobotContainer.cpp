@@ -17,6 +17,7 @@
 #include <frc2/command/button/JoystickButton.h>
 #include <units/angle.h>
 #include <units/velocity.h>
+#include <rev/CANSparkMax.h>
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
@@ -24,6 +25,8 @@
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
 #include "subsystems/IntakeSubsystem.h"
+#include "subsystems/ShooterSubsystem.h"
+
 
 
 using namespace DriveConstants;
@@ -35,7 +38,12 @@ RobotContainer::RobotContainer() :
         m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
         m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
         m_intakeMotor {canIDs::kIntakeMotor},
-        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid} {
+        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}, 
+        m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
+        m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor} {
         
   // Initialize all of your commands and subsystems here
 

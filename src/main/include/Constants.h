@@ -118,6 +118,10 @@ enum canIDs {
     kIntakeMotor = 1,
     kClimberMotorPort = 2,
     kExtendedDigitalInput = 3,
-    kContractedDigitalInput = 4
+    kContractedDigitalInput = 4,
+    kShooterMotor1 = 5,
+    kShooterMotor2 = 6,
+    kHoodMotor = 7,
+    kTurningMotor = 8
 
 };

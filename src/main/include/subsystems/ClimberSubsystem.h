@@ -26,6 +26,11 @@ class ClimberSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  void ClimberForward();
+  void ClimberBackward();
+  void ClimberStop();
+
+
   
   
  private:
@@ -33,7 +38,7 @@ class ClimberSubsystem : public frc2::SubsystemBase {
     rev::CANSparkMax *m_climberMotor;
     frc::DigitalInput *m_extendedDigitalInput;
     frc::DigitalInput *m_contractedDigitalInput;
-
+    double speed;
   
 
 };

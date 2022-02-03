@@ -20,10 +20,21 @@ ShooterSubsystem::ShooterSubsystem(
       m_shooterMotor2 = shooterMotor2;
       m_hoodMotor = hoodMotor;
       m_turningMotor = turningMotor;
+      turningSpeed = 1;
 }
 
 void ShooterSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
 
+void ShooterSubsystem::turnRight(){
+  m_turningMotor->Set(turningSpeed);
+} 
 
+void ShooterSubsystem::turnLeft(){
+  m_turningMotor->Set(turningSpeed * -1);
+} 
+
+void ShooterSubsystem::stopTurning(){
+  m_turningMotor->Set(0);
+}

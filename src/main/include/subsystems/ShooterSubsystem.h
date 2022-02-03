@@ -26,6 +26,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
+  void turnRight();
+  void turnLeft();
+  void stopTurning();
   
  private:
   
@@ -33,6 +36,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   rev::CANSparkMax *m_shooterMotor2;
   rev::CANSparkMax *m_hoodMotor;
   rev::CANSparkMax *m_turningMotor;
+  double turningSpeed;
 
 
 

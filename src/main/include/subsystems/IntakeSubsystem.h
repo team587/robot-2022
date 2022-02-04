@@ -25,6 +25,7 @@ IntakeSubsystem(
   void Periodic() override;
   void Deploy();
   void Retreat();
+  void IntakeSpeed(double IntakeSpeed);
   
  private:
   

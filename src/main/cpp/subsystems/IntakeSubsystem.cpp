@@ -30,10 +30,12 @@ void IntakeSubsystem::Periodic() {
 }
 void IntakeSubsystem::Deploy(){
   m_intakeSolenoid->Set(true);
-
 }
 
 void IntakeSubsystem::Retreat(){
   m_intakeSolenoid->Set(false);
 
+}
+void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){
+  m_intakeMotor->Set(IntakeSpeed);
 }

@@ -39,14 +39,17 @@ class RobotContainer {
   DriveSubsystem *GetDriveSubsystem() { return &m_drive; }
 
 
+
   frc2::Command* GetAutonomousCommand();
 
  private:
 
-    WPI_TalonSRX m_intakeMotor;
-    frc::Solenoid m_intakeSolenoid;  
+    
 
-    IntakeSubsystem m_intakeSubsystem;
+    WPI_TalonSRX m_intakeMotor{canIDs::kIntakeMotor};
+    frc::Solenoid m_intakeSolenoid{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
+
+    IntakeSubsystem m_intakeSubsystem{&m_intakeMotor, &m_intakeSolenoid};
   
     rev::CANSparkMax m_climberMotor;
     frc::DigitalInput m_extendedDigitalInput;
@@ -65,6 +68,7 @@ class RobotContainer {
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
   
+
   // The robot's subsystems and commands are defined here..
   
   // The robot's subsystems
@@ -74,5 +78,13 @@ class RobotContainer {
   frc::SendableChooser<frc2::Command*> m_chooser;
 
   void ConfigureButtonBindings();
+
+
   frc2::InstantCommand m_ZeroHeading{[this] {m_drive.ZeroHeading(); }, {&m_drive}};
-};
+  
+  frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
+  frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
+
+  
+  
+  };

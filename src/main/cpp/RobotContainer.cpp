@@ -36,14 +36,14 @@ RobotContainer::RobotContainer() :
         m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
         m_contractedDigitalInput {canIDs::kContractedDigitalInput},
         m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
-        m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
-        m_intakeMotor {canIDs::kIntakeMotor},
-        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}, 
+        //m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
+        //m_intakeMotor {canIDs::kIntakeMotor},
+        //m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}, 
         m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
         m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor} {
+        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor}{
         
   // Initialize all of your commands and subsystems here
 
@@ -61,10 +61,28 @@ RobotContainer::RobotContainer() :
             units::radians_per_second_t(m_driverController.GetRawAxis(4)), true);
       },
       {&m_drive}));
+
+ m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
+      [this] {
+        m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(4));
+      },
+      {&m_intakeSubsystem}));
+
+
+      
 }
 
 void RobotContainer::ConfigureButtonBindings() {
+
+//These are the drive controllers
+
     frc2::Button{[&] {return m_driverController.GetRawButton(8);}}.WhenPressed(&m_ZeroHeading);
+
+
+//These are the co-driver controllers
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(6);}}.WhenPressed(&m_zeroIntakeDeploy);
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(5);}}.WhenPressed(&m_zeroIntakeRetreat);
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

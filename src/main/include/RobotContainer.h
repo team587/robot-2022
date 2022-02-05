@@ -23,7 +23,7 @@
 #include <frc/Solenoid.h>
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
-
+#include "Trajectories.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -45,7 +45,7 @@ class RobotContainer {
  private:
 
     
-
+/*
     WPI_TalonSRX m_intakeMotor{canIDs::kIntakeMotor};
     frc::Solenoid m_intakeSolenoid{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
 
@@ -63,7 +63,7 @@ class RobotContainer {
     rev::CANSparkMax m_turningMotor;
 
     ShooterSubsystem m_shooterSubsystem;
-
+  */  
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
@@ -82,8 +82,8 @@ class RobotContainer {
 
   frc2::InstantCommand m_ZeroHeading{[this] {m_drive.ZeroHeading(); }, {&m_drive}};
   
-  frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
-  frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
+  //frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
+  //frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
 
   
   

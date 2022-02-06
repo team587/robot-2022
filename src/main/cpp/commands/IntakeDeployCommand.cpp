@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/ContractClimberCommand.h"
+#include "commands/IntakeDeployCommand.h"
 #include "Constants.h"
 #include "RobotContainer.h"
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -16,32 +16,30 @@
 #include <frc2/command/CommandBase.h>
 #include <iostream>
 
-ContractClimberCommand::ContractClimberCommand(ClimberSubsystem* climberSubsystem) {
+IntakeDeployCommand::IntakeDeployCommand(IntakeSubsystem* intakeSubsystem) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
-  m_climberSubsystem = climberSubsystem;
-  AddRequirements(m_climberSubsystem);
+  m_intakeSubsystem = intakeSubsystem;
+  AddRequirements(m_intakeSubsystem);
   std::cout << "Constructor Exit\n";
 }
 
 // Called when the command is initially scheduled.
-void ContractClimberCommand::Initialize() {
+void IntakeDeployCommand::Initialize() {
   std::cout << "Initialize\n";
-  if(!m_climberSubsystem->ClimberContracted()) {
-    m_climberSubsystem->ClimberBackward();
-  }
+  m_intakeSubsystem->Deploy();
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ContractClimberCommand::Execute() {
+void IntakeDeployCommand::Execute() {
   std::cout << "Execute\n";
 }
 
 // Called once the command ends or is interrupted.
-void ContractClimberCommand::End(bool interrupted) {
+void IntakeDeployCommand::End(bool interrupted) {
 }
 
 // Returns true when the command should end.
-bool ContractClimberCommand::IsFinished() {
-  m_climberSubsystem->ClimberContracted();
+bool IntakeDeployCommand::IsFinished() {
+  return true;
 }

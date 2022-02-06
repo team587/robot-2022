@@ -19,9 +19,9 @@
 ExtendClimberCommand::ExtendClimberCommand(ClimberSubsystem* climberSubsystem) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
+  m_climberSubsystem = climberSubsystem;
   AddRequirements(m_climberSubsystem);
   std::cout << "Constructor Exit\n";
-  m_climberSubsystem = climberSubsystem;
 }
 
 // Called when the command is initially scheduled.

@@ -20,12 +20,7 @@ IntakeSubsystem::IntakeSubsystem(
     m_intakeSolenoid = intakeSolenoid;
 }
 
-
-
-
 void IntakeSubsystem::Periodic() {
-
-
 
 }
 void IntakeSubsystem::Deploy(){

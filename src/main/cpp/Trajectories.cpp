@@ -7,11 +7,15 @@
 #include <units/acceleration.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
+#include "Constants.h"
 
 using namespace pathplanner;
 
 trajectories::trajectories() {
     std::cout << "Trajectories start\n";
+    //slot_two_first = PathPlanner::loadPath("slot2 first", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    //slot_three_second = PathPlanner::loadPath("slot3 second", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+
     slot_two_first = PathPlanner::loadPath("slot2 first", 8_mps, 5_mps_sq);
     slot_three_second = PathPlanner::loadPath("slot3 second", 8_mps, 5_mps_sq);
     std::cout << "Trajectories end\n";

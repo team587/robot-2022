@@ -14,6 +14,8 @@
 #include <wpi/numbers>
 #include <rev/CANSparkMax.h>
 #include <ctre/Phoenix.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
+#include <units/voltage.h>
 
 #include "Constants.h"
 
@@ -59,6 +61,12 @@ class SwerveModule {
   double turnP = -0.25;
   double turnI = 0.001;
   double turnD = 0;
+  
+  double driveP = 1;
+  double driveI = 0;
+  double driveD = 0; 
 
   frc2::PIDController m_turningPIDController{turnP, turnI, turnD};
+  //frc2::PIDController m_drivePIDController{driveP, driveI, driveD};
+  //frc::SimpleMotorFeedforward<units::meters> m_driveFeedForward{1_V, 3_V / 1_mps};
 };

@@ -28,6 +28,8 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_driveMotor.SetInverted(m_reverseDriveEncoder);
     m_driveMotor.SetSmartCurrentLimit(50);
     m_driveMotor.SetSecondaryCurrentLimit(80);
+    m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
     m_turningMotor.RestoreFactoryDefaults();
     m_turningMotor.SetInverted(m_reverseTurningEncoder);
     m_turningMotor.SetSmartCurrentLimit(50);
@@ -40,6 +42,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 100);
     m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 100);   
     m_absoluteEncoder.SetStatusFramePeriod(ctre::phoenix::sensors::CANCoderStatusFrame::CANCoderStatusFrame_SensorData, 20);
+
     frc::SmartDashboard::PutNumber("PValue", turnP);
     frc::SmartDashboard::PutNumber("IValue", turnI);
     frc::SmartDashboard::PutNumber("DValue", turnD);
@@ -106,6 +109,7 @@ void SwerveModule::SetDesiredState(
 
   // Set the motor outputs.
   m_driveMotor.Set(referenceState.speed.to<double>() / 5.0);
+  
   //m_driveMotor.Set(0);
   m_turningMotor.Set(output);
 }

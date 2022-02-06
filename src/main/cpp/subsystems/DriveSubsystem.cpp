@@ -79,6 +79,14 @@ void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {
   kDriveKinematics.DesaturateWheelSpeeds(&desiredStates,
                                          AutoConstants::kMaxSpeed);
+
+  double maxspeed = (double)AutoConstants::kMaxSpeed;
+
+  desiredStates[0].speed = desiredStates[0].speed / maxspeed;
+  desiredStates[1].speed = desiredStates[1].speed / maxspeed; 
+  desiredStates[2].speed = desiredStates[2].speed / maxspeed; 
+  desiredStates[3].speed = desiredStates[3].speed / maxspeed; 
+
   m_frontLeft.SetDesiredState(desiredStates[0]);
   m_frontRight.SetDesiredState(desiredStates[1]);
   m_rearLeft.SetDesiredState(desiredStates[2]);

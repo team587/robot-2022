@@ -45,9 +45,20 @@ void AutoDriving::Execute() {
   std::cout << "RobotPose\n";
   const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
   std::cout << "ControllerCalculate\n";
-  //auto [fl, fr, bl, br] = m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds);
+  auto [fl, fr, bl, br] = m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds);
   m_container->GetDriveSubsystem()->SetModuleStates(m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds));
-  std::cout << "Execute End\n";
+  std::cout << (double)fl.speed << " fls ";
+  std::cout << (double)fr.speed << " frs ";
+
+  std::cout << (double)bl.speed << " bls ";
+  std::cout << (double)br.speed << " brs ";
+
+  std::cout << (double)fl.angle.Radians() << " fla ";
+  std::cout << (double)fr.angle.Radians() << " fra ";
+
+  std::cout << (double)bl.angle.Radians() << " bla ";
+  std::cout << (double)br.angle.Radians() << " bra \n";
+
 }
 
 // Called once the command ends or is interrupted.

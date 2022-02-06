@@ -89,8 +89,8 @@ using radians_per_second_squared_t =
     units::compound_unit<units::radians,
                          units::inverse<units::squared<units::second>>>;
 
-constexpr auto kMaxSpeed = units::meters_per_second_t(3);
-constexpr auto kMaxAcceleration = units::meters_per_second_squared_t(3);
+constexpr auto kMaxSpeed = units::meters_per_second_t(8);
+constexpr auto kMaxAcceleration = units::meters_per_second_squared_t(5);
 constexpr auto kMaxAngularSpeed = units::radians_per_second_t(3.142);
 constexpr auto kMaxAngularAcceleration =
     units::unit_t<radians_per_second_squared_t>(3.142);

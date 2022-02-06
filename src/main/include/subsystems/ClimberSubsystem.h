@@ -30,7 +30,8 @@ class ClimberSubsystem : public frc2::SubsystemBase {
   void ClimberBackward();
   void ClimberStop();
 
-
+  bool ClimberExtended();
+  bool ClimberContracted();
   
   
  private:

@@ -36,3 +36,11 @@ void ClimberSubsystem::ClimberBackward() {
 void ClimberSubsystem::ClimberStop() {
   m_climberMotor->Set(0);
 }
+
+bool ClimberSubsystem::ClimberExtended() {
+  return m_extendedDigitalInput->Get();
+}
+
+bool ClimberSubsystem::ClimberContracted() {
+  return m_contractedDigitalInput->Get();
+}

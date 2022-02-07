@@ -43,5 +43,5 @@ void ContractClimberCommand::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool ContractClimberCommand::IsFinished() {
-  m_climberSubsystem->ClimberContracted();
+  return m_climberSubsystem->ClimberContracted();
 }

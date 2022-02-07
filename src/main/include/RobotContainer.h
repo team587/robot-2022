@@ -49,23 +49,23 @@ class RobotContainer {
 
     
 #ifdef COMPETITIONBOT
-    WPI_TalonSRX m_intakeMotor{canIDs::kIntakeMotor};
-    frc::Solenoid m_intakeSolenoid{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
-
-    IntakeSubsystem m_intakeSubsystem{&m_intakeMotor, &m_intakeSolenoid};
-  
+    
     rev::CANSparkMax m_climberMotor;
     frc::DigitalInput m_extendedDigitalInput;
     frc::DigitalInput m_contractedDigitalInput;
-
     ClimberSubsystem m_climberSubsystem;
+    
+    WPI_TalonSRX m_intakeMotor;//{canIDs::kIntakeMotor};
+    frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
+    IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
+  
 
     rev::CANSparkMax m_shooterMotor1;
     rev::CANSparkMax m_shooterMotor2;
     rev::CANSparkMax m_hoodMotor;
     rev::CANSparkMax m_turningMotor;
-
     ShooterSubsystem m_shooterSubsystem;
+    
 #endif
 
   // The driver's controller

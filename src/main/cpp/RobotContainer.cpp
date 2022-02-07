@@ -34,18 +34,22 @@ using namespace DriveConstants;
 
 RobotContainer::RobotContainer() 
 #ifdef COMPETITIONBOT
-    :   m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+    :   
+        m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
         m_contractedDigitalInput {canIDs::kContractedDigitalInput},
         m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
-        m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
+        
         m_intakeMotor {canIDs::kIntakeMotor},
+        m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
         m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}, 
+        
         m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
         m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor}
+
 #endif
 {
         

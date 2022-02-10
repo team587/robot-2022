@@ -105,7 +105,8 @@ units::radian_t DriveSubsystem::GetHeading() const {
   double GyroAngle = (double)m_NavX.GetRotation2d().Radians();
   GyroAngle = fmod(GyroAngle, wpi::numbers::pi * 2.0);
   if (GyroAngle < 0)
-  GyroAngle = GyroAngle + wpi::numbers::pi * 2.0;
+      GyroAngle = GyroAngle + wpi::numbers::pi * 2.0; // make sure 0 -2pi
+  GyroAngle = GyroAngle - wpi::numbers::pi; // convert to -pi to pi
   return (units::radian_t)GyroAngle;
 
 }

@@ -51,7 +51,8 @@ DriveSubsystem::DriveSubsystem()
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  m_odometry.Update(m_NavX.GetRotation2d(), m_frontLeft.GetState(),
+  //m_odometry.Update(m_NavX.GetRotation2d(), m_frontLeft.GetState(),
+  m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())), m_frontLeft.GetState(),
                     m_rearLeft.GetState(), m_frontRight.GetState(),
                     m_rearRight.GetState());
 }
@@ -124,5 +125,5 @@ frc::Pose2d DriveSubsystem::GetPose() {
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
   m_odometry.ResetPosition(pose,
-                           frc::Rotation2d(units::degree_t(GetHeading())));
+                           frc::Rotation2d(units::radian_t(GetHeading())));
 }

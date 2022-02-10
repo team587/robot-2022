@@ -29,6 +29,9 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_driveMotor.SetSmartCurrentLimit(50);
     m_driveMotor.SetSecondaryCurrentLimit(80);
     m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    m_driveMotor.GetEncoder().SetPositionConversionFactor(0.319 / 6.12);
+    m_driveMotor.GetEncoder().SetVelocityConversionFactor((0.319 / 6.12)/60.0); // wheel circumfrence meters / gear reduction
+  
 
     m_turningMotor.RestoreFactoryDefaults();
     m_turningMotor.SetInverted(m_reverseTurningEncoder);
@@ -39,7 +42,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 100);
     m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 100);   
     m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 100);
-    m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 100);
+    m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 20);
     m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 100);   
     m_absoluteEncoder.SetStatusFramePeriod(ctre::phoenix::sensors::CANCoderStatusFrame::CANCoderStatusFrame_SensorData, 20);
 
@@ -73,8 +76,8 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
 frc::SwerveModuleState SwerveModule::GetState() {
   double angle = m_absoluteEncoder.GetAbsolutePosition();
   angle = angle * (wpi::numbers::pi / 180.0) - wpi::numbers::pi;
-  //return {units::meters_per_second_t{m_driveMotor.GetEncoder().GetVelocity()},
-    return {units::meters_per_second_t{0},
+  return {units::meters_per_second_t{m_driveMotor.GetEncoder().GetVelocity()},
+  //return {units::meters_per_second_t{0},
 
           frc::Rotation2d(units::radian_t(angle))};
 }

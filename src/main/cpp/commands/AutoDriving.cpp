@@ -44,8 +44,8 @@ void AutoDriving::Execute() {
   frc::Pose2d RobotPose = m_container->GetDriveSubsystem()->GetPose();
   //const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
   frc::Rotation2d robotangle(m_container->GetDriveSubsystem()->GetHeading());
-  frc::Rotation2d ourpi((units::radian_t)wpi::numbers::pi);
-  robotangle.RotateBy(-ourpi);
+  //frc::Rotation2d ourpi((units::radian_t)wpi::numbers::pi);
+  //robotangle.RotateBy(-ourpi);
   const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, robotangle);
   std::cout << (double)adjustedSpeeds.vx << " x ";
   std::cout << (double)adjustedSpeeds.vy << " y ";

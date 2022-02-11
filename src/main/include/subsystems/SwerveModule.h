@@ -62,13 +62,13 @@ class SwerveModule {
   double turnI = 0.001;
   double turnD = 0;
   
-  double driveP = 1;
+  double driveP = 2.3252;
   double driveI = 0;
   double driveD = 0; 
 
   rev::SparkMaxRelativeEncoder m_drive_encoder;
 
   frc2::PIDController m_turningPIDController{turnP, turnI, turnD};
-  //frc2::PIDController m_drivePIDController{driveP, driveI, driveD};
-  //frc::SimpleMotorFeedforward<units::meters> m_driveFeedForward{1_V, 3_V / 1_mps};
+  frc2::PIDController m_drivePIDController{driveP, driveI, driveD};
+  frc::SimpleMotorFeedforward<units::meters> m_driveFeedForward{.086153_V, 2.4552_V / 1_mps};
 };

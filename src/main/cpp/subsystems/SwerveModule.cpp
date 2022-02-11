@@ -20,7 +20,8 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_name(name),
       m_absoluteEncoder(absoluteEncoderChannel),
       m_reverseDriveEncoder(driveEncoderReversed),
-      m_reverseTurningEncoder(turningEncoderReversed) {
+      m_reverseTurningEncoder(turningEncoderReversed),
+      m_drive_encoder(m_driveMotor.GetEncoder()) {
 
   m_absoluteEncoder.SetPositionToAbsolute();
 
@@ -29,8 +30,11 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_driveMotor.SetSmartCurrentLimit(50);
     m_driveMotor.SetSecondaryCurrentLimit(80);
     m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-    m_driveMotor.GetEncoder().SetPositionConversionFactor(0.319 / 6.12);
-    m_driveMotor.GetEncoder().SetVelocityConversionFactor((0.319 / 6.12)/60.0); // wheel circumfrence meters / gear reduction
+    m_driveMotor.EnableVoltageCompensation(12);
+    //m_drive_encoder = &m_driveMotor.GetEncoder();
+
+    m_drive_encoder.SetPositionConversionFactor(0.319 / 6.12);
+    m_drive_encoder.SetVelocityConversionFactor((0.319 / 6.12)/60.0); // wheel circumfrence meters / gear reduction
   
 
     m_turningMotor.RestoreFactoryDefaults();
@@ -76,7 +80,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
 frc::SwerveModuleState SwerveModule::GetState() {
   double angle = m_absoluteEncoder.GetAbsolutePosition();
   angle = angle * (wpi::numbers::pi / 180.0) - wpi::numbers::pi;
-  return {units::meters_per_second_t{m_driveMotor.GetEncoder().GetVelocity()},
+  return {units::meters_per_second_t{m_drive_encoder.GetVelocity()},
   //return {units::meters_per_second_t{0},
 
           frc::Rotation2d(units::radian_t(angle))};
@@ -91,8 +95,9 @@ void SwerveModule::SetDesiredState(
       //referenceState, units::radian_t(angle));
   const auto state = referenceState;
   // Calculate the drive output from the drive PID controller.
-  //const auto driveOutput = m_drivePIDController.Calculate(
-      //m_driveEncoder.GetRate(), state.speed.value());
+    const auto driveOutput = m_drivePIDController.Calculate(
+    m_drive_encoder.GetVelocity(), state.speed.value());
+    const auto driveFeedforward = m_driveFeedForward.Calculate(state.speed);
 
   // Calculate the turning motor output from the turning PID controller.
   //auto turnOutput = m_turningPIDController.Calculate(
@@ -111,7 +116,8 @@ void SwerveModule::SetDesiredState(
   if (output < -1.0) output = -1.0;
 
   // Set the motor outputs.
-  m_driveMotor.Set(referenceState.speed.to<double>() / 5.0);
+  //m_driveMotor.Set(referenceState.speed.to<double>());
+  m_driveMotor.SetVoltage(units::volt_t{driveOutput} + driveFeedforward);
   
   //m_driveMotor.Set(0);
   m_turningMotor.Set(output);

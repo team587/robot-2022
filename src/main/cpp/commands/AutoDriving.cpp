@@ -27,24 +27,32 @@ AutoDriving::AutoDriving(RobotContainer* container):m_container(container) {
 void AutoDriving::Initialize() {
   std::cout << "Initialize\n";
   m_container->GetDriveSubsystem()->ResetOdometry(m_container->GetDriveSubsystem()->GetPose());
-  std::cout << "Middle\n";
   Trajectory = m_trajectory.get_auto_trajectory();
   m_timer.Reset();
   m_timer.Start();
-  std::cout << "Initialize Exit" << Trajectory << "\n";
 }
 
 // Called repeatedly when this Command is scheduled to run
 void AutoDriving::Execute() {
-  std::cout << "Execute\n";
   units::time::second_t time = m_timer.Get();
-  std::cout << "GetTimer\n";
   PathPlannerTrajectory::PathPlannerState state = Trajectory->sample(time);
-  std::cout << "Trajectory\n";
+  std::cout << (double)state.pose.X() << " pose x ";
+  std::cout << (double)state.pose.Y() << " pose y ";
+  std::cout << (double)state.holonomicRotation.Radians() << " holonomic ";
+  std::cout << (double)m_container->GetDriveSubsystem()->GetHeading() << " heading \n";
+
   frc::Pose2d RobotPose = m_container->GetDriveSubsystem()->GetPose();
-  std::cout << "RobotPose\n";
-  const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
-  std::cout << "ControllerCalculate\n";
+  //const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
+  frc::Rotation2d robotangle(m_container->GetDriveSubsystem()->GetHeading());
+  //frc::Rotation2d ourpi((units::radian_t)wpi::numbers::pi);
+  //robotangle.RotateBy(-ourpi);
+  const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, robotangle);
+  std::cout << (double)adjustedSpeeds.vx << " x ";
+  std::cout << (double)adjustedSpeeds.vy << " y ";
+  std::cout << (double)adjustedSpeeds.omega << " omega \n";
+
+  //m_container->GetDriveSubsystem()->Drive(adjustedSpeeds.vx/8.0, adjustedSpeeds.vy/8.0, adjustedSpeeds.omega, true);
+
   auto [fl, fr, bl, br] = m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds);
   m_container->GetDriveSubsystem()->SetModuleStates(m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds));
   std::cout << (double)fl.speed << " fls ";
@@ -69,6 +77,6 @@ void AutoDriving::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool AutoDriving::IsFinished() {
-  std::cout << "IsFinished\n";
+  //std::cout << "IsFinished\n";
   return m_timer.HasElapsed(Trajectory->getTotalTime());
 }

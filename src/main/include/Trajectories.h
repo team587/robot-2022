@@ -13,4 +13,5 @@ class trajectories {
   PathPlannerTrajectory* get_auto_trajectory();
   PathPlannerTrajectory slot_two_first;
   PathPlannerTrajectory slot_three_second;
+  PathPlannerTrajectory test_path;
 };

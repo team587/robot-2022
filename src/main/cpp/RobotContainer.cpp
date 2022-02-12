@@ -64,9 +64,9 @@ RobotContainer::RobotContainer()
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
         m_drive.Drive(
-            units::meters_per_second_t(m_driverController.GetRawAxis(1)),
-            units::meters_per_second_t(m_driverController.GetRawAxis(0)),
-            units::radians_per_second_t(m_driverController.GetRawAxis(4)), true);
+            units::meters_per_second_t(AutoConstants::kMaxSpeed*m_driverController.GetRawAxis(1)),
+            units::meters_per_second_t(AutoConstants::kMaxSpeed*m_driverController.GetRawAxis(0)),
+            units::radians_per_second_t(2.0*m_driverController.GetRawAxis(4)), true);
       },
       {&m_drive}));
 #ifdef COMPETITIONBOT

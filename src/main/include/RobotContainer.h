@@ -10,6 +10,7 @@
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
@@ -24,6 +25,7 @@
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
 #include "Trajectories.h"
+#include "commands/AutoDriving.h"
 
 //Comment out the below line if deploying code for mini-bot.
 #define COMPETITIONBOT
@@ -90,6 +92,26 @@ class RobotContainer {
   frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
   #endif
-  
-  
+
+  AutoDriving m_autoCommand1;
+  AutoDriving m_autoCommand2;
+  AutoDriving m_autoCommand3;
+  AutoDriving m_autoCommand4;
+
+  frc2::SequentialCommandGroup m_slotCommand1 {
+    m_autoCommand1
   };
+
+  frc2::SequentialCommandGroup m_slotCommand2 {
+    m_autoCommand2
+  };
+
+  frc2::SequentialCommandGroup m_slotCommand3 {
+    m_autoCommand3
+  };
+
+  frc2::SequentialCommandGroup m_slotCommand4 {
+    m_autoCommand4
+  };
+  
+};

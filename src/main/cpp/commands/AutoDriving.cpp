@@ -4,7 +4,6 @@
 
 #include "commands/AutoDriving.h"
 #include "Constants.h"
-#include "RobotContainer.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/controller/PIDController.h>
 #include <frc/controller/ProfiledPIDController.h>
@@ -16,20 +15,20 @@
 #include <frc2/command/CommandBase.h>
 #include <iostream>
 
-AutoDriving::AutoDriving(RobotContainer* container):m_container(container) {
+AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot): m_driveSubsystem(subsystem), m_slot(slot) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements(m_container->GetDriveSubsystem());
+  AddRequirements(subsystem);
   std::cout << "Constructor Exit\n";
 }
 
 // Called when the command is initially scheduled.
 void AutoDriving::Initialize() {
   std::cout << "Initialize\n";
-  Trajectory = m_trajectory.get_auto_trajectory();
+  Trajectory = m_trajectory.get_auto_trajectory(m_slot);
   PathPlannerTrajectory::PathPlannerState *initial_state = Trajectory->getInitialState();
-  m_container->GetDriveSubsystem()->ZeroHeading();
-  m_container->GetDriveSubsystem()->ResetOdometry(initial_state->pose);
+  m_driveSubsystem->ZeroHeading();
+  m_driveSubsystem->ResetOdometry(initial_state->pose);
 
   m_timer.Reset();
   m_timer.Start();
@@ -43,14 +42,14 @@ void AutoDriving::Execute() {
   std::cout << (double)state.pose.Y() << " pose y ";
   std::cout << (double)state.pose.Rotation().Radians() << " pose rot ";
   std::cout << (double)state.holonomicRotation.Radians() << " holonomic ";
-  std::cout << (double)m_container->GetDriveSubsystem()->GetHeading() << " heading \n";
+  std::cout << (double)m_driveSubsystem->GetHeading() << " heading \n";
 
-  frc::Pose2d RobotPose = m_container->GetDriveSubsystem()->GetPose();
+  frc::Pose2d RobotPose = m_driveSubsystem->GetPose();
   std::cout << (double)RobotPose.X() << " robot x ";
   std::cout << (double)RobotPose.Y() << " robot y ";
   std::cout << (double)RobotPose.Rotation().Radians() << " robot rot "; 
   const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
-  //frc::Rotation2d robotangle(m_container->GetDriveSubsystem()->GetHeading());
+  //frc::Rotation2d robotangle(m_driveSubsystem->GetHeading());
   //const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, robotangle);
   std::cout << (double)adjustedSpeeds.vx << " x ";
   std::cout << (double)adjustedSpeeds.vy << " y ";
@@ -59,7 +58,7 @@ void AutoDriving::Execute() {
   //m_container->GetDriveSubsystem()->Drive(adjustedSpeeds.vx/8.0, adjustedSpeeds.vy/8.0, adjustedSpeeds.omega, true);
 
   //auto [fl, fr, bl, br] = m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds);
-  m_container->GetDriveSubsystem()->SetModuleStates(m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds));
+  m_driveSubsystem->SetModuleStates(m_driveSubsystem->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds));
   /*
   std::cout << (double)fl.speed << " fls ";
   std::cout << (double)fr.speed << " frs ";
@@ -78,7 +77,7 @@ void AutoDriving::Execute() {
 // Called once the command ends or is interrupted.
 void AutoDriving::End(bool interrupted) {
   m_timer.Stop();
-  m_container->GetDriveSubsystem()->Drive(units::meters_per_second_t(0), units::meters_per_second_t(0), units::radians_per_second_t(0), true);
+  m_driveSubsystem->Drive(units::meters_per_second_t(0), units::meters_per_second_t(0), units::radians_per_second_t(0), true);
 }
 
 // Returns true when the command should end.

@@ -10,7 +10,6 @@
 #include <frc/controller/HolonomicDriveController.h>
 #include <frc/Timer.h>
 #include "Trajectories.h"
-#include "RobotContainer.h"
 
 using namespace pathplanner;
 
@@ -25,8 +24,7 @@ using namespace pathplanner;
 class AutoDriving
     : public frc2::CommandHelper<frc2::CommandBase, AutoDriving> {
  public:
-    explicit AutoDriving(DriveSubsystem* subsystem);
-  AutoDriving(RobotContainer* container);
+  explicit AutoDriving(DriveSubsystem* subsystem, int slot);
 
   void Initialize() override;
 
@@ -37,11 +35,12 @@ class AutoDriving
   bool IsFinished() override;
     PathPlannerTrajectory* Trajectory;
 
+    int m_slot;
     double lastTime;
     bool ignoreHeading;
     trajectories m_trajectory;
     frc::Timer m_timer;
-    RobotContainer* m_container;
+    DriveSubsystem *m_driveSubsystem;
 
     frc::HolonomicDriveController controller{
        frc2::PIDController{1, 0, 0}, frc2::PIDController{1, 0, 0},

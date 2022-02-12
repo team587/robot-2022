@@ -12,23 +12,28 @@
 using namespace pathplanner;
 
 trajectories::trajectories() {
-    slot_two_first = PathPlanner::loadPath("slot2 first", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot_three_second = PathPlanner::loadPath("slot3 second", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-   test_path = PathPlanner::loadPath("New Path", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot1 = PathPlanner::loadPath("slot2 first", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot2 = PathPlanner::loadPath("slot3 second", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot3 = PathPlanner::loadPath("New Path", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot4 = PathPlanner::loadPath("New Path", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
    //slot_two_first = PathPlanner::loadPath("slot2 first", 4_mps, 4_mps_sq);
    //slot_three_second = PathPlanner::loadPath("slot3 second", 4_mps, 4_mps_sq);
    //test_path = PathPlanner::loadPath("New Path", 4_mps, 4_mps_sq);
 }
 
-PathPlannerTrajectory* trajectories::get_auto_trajectory() {
+PathPlannerTrajectory* trajectories::get_auto_trajectory(int slot) {
     //std::cout << "GetNumber start\n";
-    double slot = frc::SmartDashboard::GetNumber("auto_slot", 0);
-    if (slot == 2) {
-        return &slot_two_first;
-    } else if(slot == 4) {
-        return &test_path;
+    //double slot = frc::SmartDashboard::GetNumber("auto_slot", 0);
+    if (slot ==1 ) {
+        return &slot1;
+    } else if (slot == 2) {
+        return &slot2;
+    } else if (slot == 3) {
+        return &slot3;
+    } else if (slot == 4) {
+        return &slot4;
     }
-    return &slot_three_second;
+    return &slot1;
 
 }

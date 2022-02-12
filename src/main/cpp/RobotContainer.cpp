@@ -27,14 +27,18 @@
 #include <frc/Solenoid.h>
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
-
+#include <frc/smartdashboard/SmartDashboard.h>
 
 
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer() 
+RobotContainer::RobotContainer():
+    m_autoCommand1(&m_drive,1),
+    m_autoCommand2(&m_drive,2),
+    m_autoCommand3(&m_drive,3),
+    m_autoCommand4(&m_drive,4)
 #ifdef COMPETITIONBOT
-    :   
+    ,   
         m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
         m_contractedDigitalInput {canIDs::kContractedDigitalInput},
@@ -52,7 +56,13 @@ RobotContainer::RobotContainer()
 
 #endif
 {
-        
+       
+    m_chooser.SetDefaultOption("Slot 2", &m_slotCommand2);
+    m_chooser.AddOption("Slot 1", &m_slotCommand1);
+    m_chooser.AddOption("Slot 3", &m_slotCommand3);
+    m_chooser.AddOption("Slot 4", &m_slotCommand4);
+
+    frc::SmartDashboard::PutData(&m_chooser);
   // Initialize all of your commands and subsystems here
 
   // Configure the button bindings
@@ -94,7 +104,8 @@ void RobotContainer::ConfigureButtonBindings() {
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-    return new AutoDriving(this);
+   return m_chooser.GetSelected();
+    //return new AutoDriving(this);
 }
 
 /*

@@ -21,13 +21,18 @@ ShooterSubsystem::ShooterSubsystem(
       m_hoodMotor = hoodMotor;
       m_turningMotor = turningMotor;
       shooterSpeed = 1;
-      //shooterMotor2->Follow(m_shooterMotor1, true);
-      shooterMotor2->SetInverted(true);
+      shooterMotor2->Follow(*m_shooterMotor1, true);
+      //shooterMotor2->SetInverted(true);
       turningSpeed = 1;
+
+      hoodAngle = 0;
+      turretAngle = 0;
 }
 
 void ShooterSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  adjustHoodAngle();
+  adjustTurretAngle();
 }
 
 void ShooterSubsystem::Start() {
@@ -50,3 +55,6 @@ void ShooterSubsystem::turnLeft(){
 void ShooterSubsystem::stopTurning(){
   m_turningMotor->Set(0);
 }
+
+void ShooterSubsystem::adjustHoodAngle() {}
+void ShooterSubsystem::adjustTurretAngle() {}

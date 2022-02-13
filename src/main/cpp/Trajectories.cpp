@@ -12,10 +12,10 @@
 using namespace pathplanner;
 
 trajectories::trajectories() {
-    slot1 = PathPlanner::loadPath("slot2 first", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot2 = PathPlanner::loadPath("slot3 second", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot3 = PathPlanner::loadPath("New Path", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot4 = PathPlanner::loadPath("New Path", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot1 = PathPlanner::loadPath("slot1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot2 = PathPlanner::loadPath("slot2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot3 = PathPlanner::loadPath("slot3", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot4 = PathPlanner::loadPath("slot4", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
    //slot_two_first = PathPlanner::loadPath("slot2 first", 4_mps, 4_mps_sq);
    //slot_three_second = PathPlanner::loadPath("slot3 second", 4_mps, 4_mps_sq);

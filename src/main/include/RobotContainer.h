@@ -28,7 +28,7 @@
 #include "commands/AutoDriving.h"
 
 //Comment out the below line if deploying code for mini-bot.
-#define COMPETITIONBOT
+//#define COMPETITIONBOT
 
 /**
  * This class is where the bulk of the robot should be declared.  Since

@@ -11,21 +11,27 @@
 #include <frc/Relay.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc2/command/CommandHelper.h>
+#include <rev/CANSparkMax.h>
 
 class HopperSubsystem : public frc2::SubsystemBase {
  public:
-  HopperSubsystem();
+  HopperSubsystem(
+    rev::CANSparkMax *hopperMotor);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
   void Periodic() override;
 
- 
+   void HopperStart();
+   void HopperStop();
+   void Hopper();
+
+
   
  private:
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+  rev::CANSparkMax *m_hopperMotor;
+  double hopperSpeed;
   
   
 };

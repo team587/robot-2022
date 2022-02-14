@@ -11,8 +11,20 @@
 
 #include "subsystems/HopperSubsystem.h"
 
-HopperSubsystem::HopperSubsystem() {
-  // Implementation of subsystem constructor goes here.
+HopperSubsystem::HopperSubsystem(  
+  rev::CANSparkMax * hopperMotor) {
+  m_hopperMotor = hopperMotor;
+  hopperSpeed = 1;
+
+}
+void HopperSubsystem::HopperStart(){
+  m_hopperMotor->Set(hopperSpeed);
+}
+void HopperSubsystem::HopperReverse(){
+  m_hopperMotor->Set(hopperSpeed * -1);
+}
+void HopperSubsystem::HopperStop(){
+  m_hopperMotor->Set(0);
 }
 void HopperSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.

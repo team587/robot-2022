@@ -67,5 +67,6 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};
   frc2::PIDController m_turretPIDController{turretP, turretI, turretD};
 
-  rev::SparkMaxRelativeEncoder m_turning_encoder;
+  rev::SparkMaxRelativeEncoder m_turret_encoder;
+  rev::SparkMaxRelativeEncoder m_hood_encoder;
 };

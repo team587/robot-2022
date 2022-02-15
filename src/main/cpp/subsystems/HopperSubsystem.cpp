@@ -10,6 +10,13 @@
 #include <Constants.h>
 
 #include "subsystems/HopperSubsystem.h"
+#include <rev/ColorSensorV3.h>
+#include <rev/ColorMatch.h>
+#include <ctre/Phoenix.h>
+#include <frc/smartdashboard/smartdashboard.h>
+#include <iostream>
+#include <string>
+
 
 HopperSubsystem::HopperSubsystem(  
   rev::CANSparkMax * hopperMotor) {
@@ -30,6 +37,35 @@ void HopperSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
 }
 
+int HopperSubsystem::GetColor(){
+  frc::Color detectedColor = m_colorSensor.GetColor();
+  frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+  frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+  double tolerance = frc::SmartDashboard::GetNumber("Tolerance", .8);
+  rev::ColorMatch Matcher;
+  for (int x = 0; x< 2; x++){
+  Matcher.AddColorMatch(kColorCodes[x]);
+  }
+  Matcher.SetConfidenceThreshold(tolerance);
+std::optional<frc::Color> matchedColor = Matcher.MatchColor(detectedColor);  frc::SmartDashboard::PutNumber("Matched Red", matchedColor.has_value() ? matchedColor.value().red : 0);
+  int colorIndex = -1;
+  for (int color = 0; color < 4; color++) {
+    if (matchedColor == kColorCodes[color]) {
+      frc::SmartDashboard::PutNumber("Color", color);
+      colorIndex = color;
+    }
+  }
+  return colorIndex;
+}
 
+std::string HopperSubsystem::ConvertColor(int colorIndex){
+  if (colorIndex == 0) {
+    return "R";
+  } else if (colorIndex == 1) {
+    return "B";
+  } else {
+    return "Unknown";
+  }
+}
 
 

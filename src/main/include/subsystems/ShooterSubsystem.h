@@ -48,6 +48,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   rev::CANSparkMax *m_hoodMotor;
   rev::CANSparkMax *m_turningMotor;
 
+  //rev::SparkMaxLimitSwitch m_turningLimitSwitch0;
+  //rev::SparkMaxLimitSwitch m_turningLimitSwitch180;
+
   double shooterSpeed;
   double turningSpeed;
   double hoodAngle;
@@ -64,4 +67,5 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};
   frc2::PIDController m_turretPIDController{turretP, turretI, turretD};
 
+  rev::SparkMaxRelativeEncoder m_turning_encoder;
 };

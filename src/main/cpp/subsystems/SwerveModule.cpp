@@ -116,6 +116,43 @@ void SwerveModule::SetDesiredState(
   if (output < -1.0) output = -1.0;
 
   // Set the motor outputs.
+  m_driveMotor.Set(referenceState.speed.to<double>());
+  //m_driveMotor.SetVoltage(units::volt_t{driveOutput} + driveFeedforward);
+  
+  //m_driveMotor.Set(0);
+  m_turningMotor.Set(output);
+}
+
+void SwerveModule::SetDesiredAutoState(
+    const frc::SwerveModuleState& referenceState) {
+  // Optimize the reference state to avoid spinning further than 90 degrees
+  double angle = m_absoluteEncoder.GetAbsolutePosition();
+  angle = angle * (wpi::numbers::pi / 180.0) - wpi::numbers::pi;
+  //const auto state = frc::SwerveModuleState::Optimize(
+      //referenceState, units::radian_t(angle));
+  const auto state = referenceState;
+  // Calculate the drive output from the drive PID controller.
+    const auto driveOutput = m_drivePIDController.Calculate(
+    m_drive_encoder.GetVelocity(), state.speed.value());
+    const auto driveFeedforward = m_driveFeedForward.Calculate(state.speed);
+
+  // Calculate the turning motor output from the turning PID controller.
+  //auto turnOutput = m_turningPIDController.Calculate(
+      //units::radian_t(m_turningEncoder.Get()), state.angle.Radians());
+
+  frc::SmartDashboard::PutNumber(m_name + " TurnAngle", state.angle.Radians().to<double>());
+  frc::SmartDashboard::PutNumber(m_name + " CurAngle", angle);
+  frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
+  //double temp_p = frc::SmartDashboard::GetNumber("PValue", turnP);
+  //double temp_i = frc::SmartDashboard::GetNumber("IValue", turnI);
+  //double temp_d = frc::SmartDashboard::GetNumber("DValue", turnD);
+
+  //m_turningPIDController.SetPID(temp_p, temp_i, temp_d);
+  double output = m_turningPIDController.Calculate(angle, state.angle.Radians().to<double>());
+  if (output > 1.0) output = 1.0;
+  if (output < -1.0) output = -1.0;
+
+  // Set the motor outputs.
   //m_driveMotor.Set(referenceState.speed.to<double>());
   m_driveMotor.SetVoltage(units::volt_t{driveOutput} + driveFeedforward);
   

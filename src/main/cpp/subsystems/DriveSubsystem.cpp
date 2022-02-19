@@ -46,7 +46,8 @@ DriveSubsystem::DriveSubsystem()
           kRearRightDriveEncoderReversed, 
           kRearRightTurningEncoderReversed,
           "RR"},
-
+      
+      m_speedController(1.0),
       m_odometry{kDriveKinematics, m_NavX.GetRotation2d(), frc::Pose2d()} {}
 
 void DriveSubsystem::Periodic() {
@@ -61,6 +62,9 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+  xSpeed = xSpeed / m_speedController;
+  ySpeed = ySpeed / m_speedController;
+  rot = rot / m_speedController;                        
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
                           xSpeed, ySpeed, rot, m_NavX.GetRotation2d())
@@ -88,10 +92,10 @@ void DriveSubsystem::SetModuleStates(
   desiredStates[2].speed = desiredStates[2].speed / maxspeed; 
   desiredStates[3].speed = desiredStates[3].speed / maxspeed; 
 */
-  m_frontLeft.SetDesiredState(desiredStates[0]);
-  m_frontRight.SetDesiredState(desiredStates[1]);
-  m_rearLeft.SetDesiredState(desiredStates[2]);
-  m_rearRight.SetDesiredState(desiredStates[3]);
+  m_frontLeft.SetDesiredAutoState(desiredStates[0]);
+  m_frontRight.SetDesiredAutoState(desiredStates[1]);
+  m_rearLeft.SetDesiredAutoState(desiredStates[2]);
+  m_rearRight.SetDesiredAutoState(desiredStates[3]);
 }
 
 void DriveSubsystem::ResetEncoders() {

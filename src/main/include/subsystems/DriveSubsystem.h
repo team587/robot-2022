@@ -45,7 +45,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
              bool fieldRelative);
-
+             
+  void SetSpeedController(double speed) {m_speedController = speed;}
   /**
    * Resets the drive encoders to currently read a position of 0.
    */
@@ -108,6 +109,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   SwerveModule m_rearLeft;
   SwerveModule m_frontRight;
   SwerveModule m_rearRight;
+  
+  double m_speedController;
 
   // The gyro sensor
   //AHRS m_NavX{frc::SPI::Port::kMXP};

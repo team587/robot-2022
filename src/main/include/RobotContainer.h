@@ -30,7 +30,7 @@
 #include "commands/CycleTurretPositions.h"
 
 //Comment out the below line if deploying code for mini-bot.
-#define COMPETITIONBOT
+//#define COMPETITIONBOT
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -89,7 +89,10 @@ class RobotContainer {
 
 
   frc2::InstantCommand m_ZeroHeading{[this] {m_drive.ZeroHeading(); }, {&m_drive}};
-  
+  frc2::InstantCommand m_setSpeedLow{[this] {m_drive.SetSpeedController(4.0); }, {&m_drive}};
+  frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); }, {&m_drive}};
+  frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
+
   #ifdef COMPETITIONBOT
   frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
@@ -107,21 +110,29 @@ class RobotContainer {
   AutoDriving m_autoCommand2;
   AutoDriving m_autoCommand3;
   AutoDriving m_autoCommand4;
+  
+  frc2::InstantCommand m_stopDriving{[this] {m_drive.Drive(units::meters_per_second_t(0),
+                          units::meters_per_second_t(0),
+                          units::radians_per_second_t(0), false); }, {&m_drive}};
 
   frc2::SequentialCommandGroup m_slotCommand1 {
-    m_autoCommand1
+    m_autoCommand1,
+    m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand2 {
-    m_autoCommand2
+    m_autoCommand2,
+    m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand3 {
-    m_autoCommand3
+    m_autoCommand3,
+    m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand4 {
-    m_autoCommand4
+    m_autoCommand4,
+    m_stopDriving
   };
   
 };

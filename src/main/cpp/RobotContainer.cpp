@@ -86,8 +86,7 @@ RobotContainer::RobotContainer():
       },
       {&m_intakeSubsystem}));
 #endif
-
-      
+  
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -99,8 +98,6 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenReleased(&m_setSpeedHigh);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenPressed(&m_setSpeedMid);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenReleased(&m_setSpeedHigh);
-
-
 
 #ifdef COMPETITIONBOT
 

@@ -62,11 +62,19 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+  if (fabs((double)xSpeed) < 0.05) {
+    xSpeed = (units::meters_per_second_t)0.0;
+  }
+  
+  if (fabs((double)ySpeed) < 0.05) {
+    ySpeed = (units::meters_per_second_t)0.0;
+  } 
+
   xSpeed = xSpeed / m_speedController;
   ySpeed = ySpeed / m_speedController;
   rot = rot / m_speedController;                        
   auto states = kDriveKinematics.ToSwerveModuleStates(
-      fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds(
+      fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds( 
                           xSpeed, ySpeed, rot, m_NavX.GetRotation2d())
                     : frc::ChassisSpeeds{xSpeed, ySpeed, rot});
 

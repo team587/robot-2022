@@ -106,7 +106,7 @@ units::radian_t DriveSubsystem::GetHeading() const {
   GyroAngle = fmod(GyroAngle, wpi::numbers::pi * 2.0);
   if (GyroAngle < 0)
       GyroAngle = GyroAngle + wpi::numbers::pi * 2.0; // make sure 0 -2pi
-  GyroAngle = GyroAngle - wpi::numbers::pi; // convert to -pi to pi
+  GyroAngle = GyroAngle;// - wpi::numbers::pi; // convert to -pi to pi
   return (units::radian_t)GyroAngle;
 
 }

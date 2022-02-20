@@ -23,7 +23,7 @@ HopperSubsystem::HopperSubsystem(
   m_hopperMotor = hopperMotor;
   hopperSpeed = 1;
 
-}
+} 
 void HopperSubsystem::HopperStart(){
   m_hopperMotor->Set(hopperSpeed);
 }
@@ -35,21 +35,28 @@ void HopperSubsystem::HopperStop(){
 }
 void HopperSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
+
+  frc::SmartDashboard::PutString("Detected Color", ConvertColor(GetColor()));
 }
 
 int HopperSubsystem::GetColor(){
   frc::Color detectedColor = m_colorSensor.GetColor();
   frc::SmartDashboard::PutNumber("Red", detectedColor.red);
   frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-  double tolerance = frc::SmartDashboard::GetNumber("Tolerance", .8);
+  frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+  double tolerance = frc::SmartDashboard::GetNumber("Tolerance", .9);
+  frc::SmartDashboard::PutNumber("Tolerance", tolerance);
   rev::ColorMatch Matcher;
   for (int x = 0; x< 2; x++){
   Matcher.AddColorMatch(kColorCodes[x]);
   }
   Matcher.SetConfidenceThreshold(tolerance);
-std::optional<frc::Color> matchedColor = Matcher.MatchColor(detectedColor);  frc::SmartDashboard::PutNumber("Matched Red", matchedColor.has_value() ? matchedColor.value().red : 0);
+std::optional<frc::Color> matchedColor = Matcher.MatchColor(detectedColor); 
+//frc::SmartDashboard::PutNumber("Matched Red", matchedColor.has_value() ? matchedColor.value().red : 0);
+//frc::SmartDashboard::PutNumber("Matched Blue", matchedColor.has_value() ? matchedColor.value().blue : 0);
+//frc::SmartDashboard::PutNumber("Matched Green", matchedColor.has_value() ? matchedColor.value().green : 0);
   int colorIndex = -1;
-  for (int color = 0; color < 4; color++) {
+  for (int color = 0; color < 2; color++) {
     if (matchedColor == kColorCodes[color]) {
       frc::SmartDashboard::PutNumber("Color", color);
       colorIndex = color;

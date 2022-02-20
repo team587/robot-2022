@@ -24,12 +24,14 @@ class HopperSubsystem : public frc2::SubsystemBase {
    */
 
   frc::Color kColorCodes[2] = {
-    frc::Color(.42, .50, .08),
-    frc::Color(.61, .32, .07),
+    //Red
+    frc::Color(.55, .33, .12),
+    //Blue
+    frc::Color(.17, .39, .44),
   };
 
 
-  double kColorTolerance = .8;
+  double kColorTolerance = .9;
   int GetColor();
   std::string ConvertColor(int colorIndex);
 

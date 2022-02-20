@@ -28,9 +28,10 @@
 #include "commands/AutoDriving.h"
 #include "commands/CycleHoodPositions.h"
 #include "commands/CycleTurretPositions.h"
+#include "subsystems/HopperSubsystem.h"
 
 //Comment out the below line if deploying code for mini-bot.
-//#define COMPETITIONBOT
+#define COMPETITIONBOT
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -63,14 +64,18 @@ class RobotContainer {
     frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
     IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
   
-
     rev::CANSparkMax m_shooterMotor1;
     rev::CANSparkMax m_shooterMotor2;
     rev::CANSparkMax m_hoodMotor;
     rev::CANSparkMax m_turningMotor;
     ShooterSubsystem m_shooterSubsystem;
+
+    rev::CANSparkMax m_hopperMotor;
+    HopperSubsystem m_hopperSubsystem;
+
     
 #endif
+
 
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
@@ -96,9 +101,6 @@ class RobotContainer {
   #ifdef COMPETITIONBOT
   frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
-  frc2::InstantCommand m_setSpeedLow{[this] {m_drive.SetSpeedController(4.0); }, {&m_drive}};
-  frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); }, {&m_drive}};
-  frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
   CycleHoodPositions m_hoodCycleUp{&m_shooterSubsystem, true};
   CycleHoodPositions m_hoodCycleDown{&m_shooterSubsystem, false};
 

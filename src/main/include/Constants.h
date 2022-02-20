@@ -145,6 +145,6 @@ enum canIDs {
     kShooterMotor1 = 13,
     kShooterMotor2 = 14,
     kHoodMotor = 15,
-    kTurningMotor = 16
-
+    kTurningMotor = 16,
+    kHopperMotor = 17
 };

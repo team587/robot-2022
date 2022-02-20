@@ -52,8 +52,10 @@ RobotContainer::RobotContainer():
         m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor}
+        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor},
 
+        m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        m_hopperSubsystem {&m_hopperMotor}
 #endif
 {
        

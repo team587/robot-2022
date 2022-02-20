@@ -35,8 +35,16 @@ void HopperSubsystem::HopperStop(){
 }
 void HopperSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-
-  frc::SmartDashboard::PutString("Detected Color", ConvertColor(GetColor()));
+  int currentColor = GetColor();
+  if (m_coDriverController.GetRawButton(leftJoystickButton)) {
+    double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickHorizontal);
+    m_hopperMotor->Set(joystickAxis);
+  } else if (currentColor == 0 || currentColor == 1) {
+    m_hopperMotor->Set(0);
+  } else {
+    m_hopperMotor->Set(hopperSpeed);
+  }
+  frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
 }
 
 int HopperSubsystem::GetColor(){
@@ -47,7 +55,7 @@ int HopperSubsystem::GetColor(){
   double tolerance = frc::SmartDashboard::GetNumber("Tolerance", .9);
   frc::SmartDashboard::PutNumber("Tolerance", tolerance);
   rev::ColorMatch Matcher;
-  for (int x = 0; x< 2; x++){
+  for (int x = 0; x < 2; x++){
   Matcher.AddColorMatch(kColorCodes[x]);
   }
   Matcher.SetConfidenceThreshold(tolerance);

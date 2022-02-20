@@ -18,11 +18,19 @@ ClimberSubsystem::ClimberSubsystem(
   m_contractedDigitalInput = contractedDigitalInput;
   m_extendedDigitalInput = extendedDigitalInput;
   speed = 1;
+  startClimb = false;
 }
 
 
 void ClimberSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  if (m_coDriverController.GetRawButton(buttonStart)) {
+    startClimb = true;
+  }
+  if (startClimb) {
+    double climb = m_coDriverController.GetRawAxis(rightJoystickVertical);
+    m_climberMotor->Set(climb);
+  }
 }
 
 void ClimberSubsystem::ClimberForward() {

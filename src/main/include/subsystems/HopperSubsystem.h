@@ -48,5 +48,5 @@ class HopperSubsystem : public frc2::SubsystemBase {
   rev::ColorSensorV3 m_colorSensor {frc::I2C::Port::kOnboard };
   double hopperSpeed;
   double tolerance;
-  
+  frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
 };

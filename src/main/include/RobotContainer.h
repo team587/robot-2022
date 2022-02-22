@@ -29,6 +29,8 @@
 #include "commands/CycleHoodPositions.h"
 #include "commands/CycleTurretPositions.h"
 #include "subsystems/HopperSubsystem.h"
+#include "commands/AdjustHoodAngle.h"
+#include "commands/TurretAngle.h"
 
 //Comment out the below line if deploying code for mini-bot.
 #define COMPETITIONBOT
@@ -117,24 +119,60 @@ class RobotContainer {
                           units::meters_per_second_t(0),
                           units::radians_per_second_t(0), false); }, {&m_drive}};
 
+  #ifdef COMPETITIONBOT
+
+  frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
+  frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
+  AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
+  TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
+
+  #endif
+
   frc2::SequentialCommandGroup m_slotCommand1 {
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
     m_autoCommand1,
     m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand2 {
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
     m_autoCommand2,
     m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand3 {
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
     m_autoCommand3,
     m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand4 {
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
     m_autoCommand4,
     m_stopDriving
   };
-  
 };

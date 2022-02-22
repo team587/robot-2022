@@ -55,7 +55,9 @@ RobotContainer::RobotContainer():
         m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor},
 
         m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hopperSubsystem {&m_hopperMotor}
+        m_hopperSubsystem {&m_hopperMotor},
+        m_adjustHoodAngle{25, &m_shooterSubsystem},
+        m_turretAngle{90, &m_shooterSubsystem}
 #endif
 {
        

@@ -10,9 +10,20 @@ class trajectories {
  public:
   trajectories();
 
-  PathPlannerTrajectory* get_auto_trajectory(int slot);
-  PathPlannerTrajectory slot1;
-  PathPlannerTrajectory slot2;
-  PathPlannerTrajectory slot3;
-  PathPlannerTrajectory slot4;
+  PathPlannerTrajectory* get_auto_trajectory(int slot, int pathNum);
+  PathPlannerTrajectory slot1_0;
+  PathPlannerTrajectory slot1_1;
+  PathPlannerTrajectory slot1_2;
+
+  PathPlannerTrajectory slot2_0;
+  PathPlannerTrajectory slot2_1;
+  PathPlannerTrajectory slot2_2;
+
+  PathPlannerTrajectory slot3_0;
+  PathPlannerTrajectory slot3_1;
+  PathPlannerTrajectory slot3_2;
+
+  PathPlannerTrajectory slot4_0;
+  PathPlannerTrajectory slot4_1;
+  PathPlannerTrajectory slot4_2;
 };

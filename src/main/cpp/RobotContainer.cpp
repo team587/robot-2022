@@ -33,10 +33,22 @@
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer():
-    m_autoCommand1(&m_drive,1),
-    m_autoCommand2(&m_drive,2),
-    m_autoCommand3(&m_drive,3),
-    m_autoCommand4(&m_drive,4)
+    m_autoCommand1_0(&m_drive, 1, 0),
+    m_autoCommand1_1(&m_drive, 1, 1),
+    m_autoCommand1_2(&m_drive, 1, 2),
+    
+    m_autoCommand2_0(&m_drive, 2, 0),
+    m_autoCommand2_1(&m_drive, 2, 1),
+    m_autoCommand2_2(&m_drive, 2, 2),
+
+    m_autoCommand3_0(&m_drive, 3, 0),
+    m_autoCommand3_1(&m_drive, 3, 1),
+    m_autoCommand3_2(&m_drive, 3, 2),
+
+    m_autoCommand4_0(&m_drive, 4, 0),
+    m_autoCommand4_1(&m_drive, 4, 1),
+    m_autoCommand4_2(&m_drive, 4, 2)
+    
 #ifdef COMPETITIONBOT
     ,   
         m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},

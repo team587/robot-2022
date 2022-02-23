@@ -15,7 +15,7 @@
 #include <frc2/command/CommandBase.h>
 #include <iostream>
 
-AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot): m_driveSubsystem(subsystem), m_slot(slot) {
+AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot, int numPath): m_driveSubsystem(subsystem), m_slot(slot), m_numPath(numPath) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(subsystem);
@@ -25,7 +25,7 @@ AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot): m_driveSubsystem(
 // Called when the command is initially scheduled.
 void AutoDriving::Initialize() {
   std::cout << "Initialize\n";
-  Trajectory = m_trajectory.get_auto_trajectory(m_slot);
+  Trajectory = m_trajectory.get_auto_trajectory(m_slot, m_numPath);
   PathPlannerTrajectory::PathPlannerState *initial_state = Trajectory->getInitialState();
   m_driveSubsystem->ZeroHeading();
   m_driveSubsystem->ResetOdometry(initial_state->pose);

@@ -24,7 +24,7 @@ using namespace pathplanner;
 class AutoDriving
     : public frc2::CommandHelper<frc2::CommandBase, AutoDriving> {
  public:
-  explicit AutoDriving(DriveSubsystem* subsystem, int slot);
+  explicit AutoDriving(DriveSubsystem* subsystem, int slot, int numPath);
 
   void Initialize() override;
 
@@ -36,6 +36,7 @@ class AutoDriving
     PathPlannerTrajectory* Trajectory;
 
     int m_slot;
+    int m_numPath;
     double lastTime;
     bool ignoreHeading;
     trajectories m_trajectory;

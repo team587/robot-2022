@@ -110,10 +110,21 @@ class RobotContainer {
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
   #endif
 
-  AutoDriving m_autoCommand1;
-  AutoDriving m_autoCommand2;
-  AutoDriving m_autoCommand3;
-  AutoDriving m_autoCommand4;
+  AutoDriving m_autoCommand1_0;
+  AutoDriving m_autoCommand1_1;
+  AutoDriving m_autoCommand1_2;
+  
+  AutoDriving m_autoCommand2_0;
+  AutoDriving m_autoCommand2_1;
+  AutoDriving m_autoCommand2_2;
+  
+  AutoDriving m_autoCommand3_0;
+  AutoDriving m_autoCommand3_1;
+  AutoDriving m_autoCommand3_2;
+
+  AutoDriving m_autoCommand4_0;
+  AutoDriving m_autoCommand4_1;
+  AutoDriving m_autoCommand4_2;
   
   frc2::InstantCommand m_stopDriving{[this] {m_drive.Drive(units::meters_per_second_t(0),
                           units::meters_per_second_t(0),
@@ -136,7 +147,10 @@ class RobotContainer {
     m_adjustHoodAngle,
     m_turretAngle,
     #endif
-    m_autoCommand1,
+    m_autoCommand1_0,
+    m_stopDriving,
+    m_autoCommand1_1,
+    m_autoCommand1_2,
     m_stopDriving
   };
 
@@ -148,7 +162,10 @@ class RobotContainer {
     m_adjustHoodAngle,
     m_turretAngle,
     #endif
-    m_autoCommand2,
+    m_autoCommand2_0,
+    m_stopDriving,
+    m_autoCommand2_1,
+    m_autoCommand2_2, 
     m_stopDriving
   };
 
@@ -160,7 +177,10 @@ class RobotContainer {
     m_adjustHoodAngle,
     m_turretAngle,
     #endif
-    m_autoCommand3,
+    m_autoCommand3_0,
+    m_stopDriving,
+    m_autoCommand3_1,
+    m_autoCommand3_2,
     m_stopDriving
   };
 
@@ -172,7 +192,10 @@ class RobotContainer {
     m_adjustHoodAngle,
     m_turretAngle,
     #endif
-    m_autoCommand4,
+    m_autoCommand4_0,
+    m_stopDriving,
+    m_autoCommand4_1,
+    m_autoCommand4_2,
     m_stopDriving
   };
 };

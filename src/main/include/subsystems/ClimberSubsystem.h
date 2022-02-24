@@ -13,6 +13,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <rev/CANSparkMax.h>
 #include <frc/DigitalInput.h>
+#include "Constants.h"
 
 class ClimberSubsystem : public frc2::SubsystemBase {
  public:
@@ -40,6 +41,6 @@ class ClimberSubsystem : public frc2::SubsystemBase {
     frc::DigitalInput *m_extendedDigitalInput;
     frc::DigitalInput *m_contractedDigitalInput;
     double speed;
-  
-
+    bool startClimb;
+    frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
 };

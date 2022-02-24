@@ -26,9 +26,14 @@
 #include "subsystems/ShooterSubsystem.h"
 #include "Trajectories.h"
 #include "commands/AutoDriving.h"
+#include "commands/CycleHoodPositions.h"
+#include "commands/CycleTurretPositions.h"
+#include "subsystems/HopperSubsystem.h"
+#include "commands/AdjustHoodAngle.h"
+#include "commands/TurretAngle.h"
 
 //Comment out the below line if deploying code for mini-bot.
-//#define COMPETITIONBOT
+#define COMPETITIONBOT
 
 
 /**
@@ -62,14 +67,18 @@ class RobotContainer {
     frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
     IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
   
-
     rev::CANSparkMax m_shooterMotor1;
     rev::CANSparkMax m_shooterMotor2;
     rev::CANSparkMax m_hoodMotor;
     rev::CANSparkMax m_turningMotor;
     ShooterSubsystem m_shooterSubsystem;
+
+    rev::CANSparkMax m_hopperMotor;
+    HopperSubsystem m_hopperSubsystem;
+
     
 #endif
+
 
   // The driver's controller
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
@@ -88,31 +97,106 @@ class RobotContainer {
 
 
   frc2::InstantCommand m_ZeroHeading{[this] {m_drive.ZeroHeading(); }, {&m_drive}};
-  
+  frc2::InstantCommand m_setSpeedLow{[this] {m_drive.SetSpeedController(4.0); }, {&m_drive}};
+  frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); }, {&m_drive}};
+  frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
+
   #ifdef COMPETITIONBOT
   frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
+  CycleHoodPositions m_hoodCycleUp{&m_shooterSubsystem, true};
+  CycleHoodPositions m_hoodCycleDown{&m_shooterSubsystem, false};
+
+  CycleTurretPositions m_turretCycleLeft{&m_shooterSubsystem, true};
+  CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
   #endif
 
-  AutoDriving m_autoCommand1;
-  AutoDriving m_autoCommand2;
-  AutoDriving m_autoCommand3;
-  AutoDriving m_autoCommand4;
+  AutoDriving m_autoCommand1_0;
+  AutoDriving m_autoCommand1_1;
+  AutoDriving m_autoCommand1_2;
+  
+  AutoDriving m_autoCommand2_0;
+  AutoDriving m_autoCommand2_1;
+  AutoDriving m_autoCommand2_2;
+  
+  AutoDriving m_autoCommand3_0;
+  AutoDriving m_autoCommand3_1;
+  AutoDriving m_autoCommand3_2;
+
+  AutoDriving m_autoCommand4_0;
+  AutoDriving m_autoCommand4_1;
+  AutoDriving m_autoCommand4_2;
+  
+  frc2::InstantCommand m_stopDriving{[this] {m_drive.Drive(units::meters_per_second_t(0),
+                          units::meters_per_second_t(0),
+                          units::radians_per_second_t(0), false); }, {&m_drive}};
+
+  #ifdef COMPETITIONBOT
+
+  frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
+  frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
+  AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
+  TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
+
+  #endif
 
   frc2::SequentialCommandGroup m_slotCommand1 {
-    m_autoCommand1
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
+    m_autoCommand1_0,
+    m_stopDriving,
+    m_autoCommand1_1,
+    m_autoCommand1_2,
+    m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand2 {
-    m_autoCommand2
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
+    m_autoCommand2_0,
+    m_stopDriving,
+    m_autoCommand2_1,
+    m_autoCommand2_2, 
+    m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand3 {
-    m_autoCommand3
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
+    m_autoCommand3_0,
+    m_stopDriving,
+    m_autoCommand3_1,
+    m_autoCommand3_2,
+    m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand4 {
-    m_autoCommand4
+    #ifdef COMPETITIONBOT
+    m_shooterSpeed,
+    m_zeroIntakeDeploy,
+    m_intakeSpeed,
+    m_adjustHoodAngle,
+    m_turretAngle,
+    #endif
+    m_autoCommand4_0,
+    m_stopDriving,
+    m_autoCommand4_1,
+    m_autoCommand4_2,
+    m_stopDriving
   };
-  
 };

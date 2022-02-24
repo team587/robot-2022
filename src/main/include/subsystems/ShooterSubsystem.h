@@ -35,8 +35,14 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void setHoodAngle(double angle) {
     hoodAngle = angle;
   };
+  double getHoodAngle() {
+    return hoodAngle;
+  };
   void setTurretAngle(double TurretAngle) {
     turretAngle = TurretAngle;
+  };
+  double getTurretAngle() {
+    return turretAngle;
   };
   void adjustHoodAngle();
   void adjustTurretAngle();

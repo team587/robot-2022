@@ -27,6 +27,28 @@
  * they are needed.
  */
 
+enum JoystickButtonConstants {
+    buttonA = 2,
+    buttonB = 3,
+    buttonX = 1,
+    buttonY = 4,
+    buttonStart = 10,
+    buttonBack = 9,
+    rightTrigger = 8,
+    leftTrigger = 7,
+    rightBumper = 6,
+    leftBumper = 5,
+    rightJoystickButton = 12,
+    leftJoystickButton = 11
+};
+
+enum JoystickAxesConstants {
+    leftJoystickVertical = 1,
+    leftJoystickHorizontal = 0,
+    rightJoystickVertical = 3,
+    rightJoystickHorizontal = 2
+};
+
 namespace DriveConstants {
 constexpr int kFrontLeftDriveMotorPort = 1;
 constexpr int kRearLeftDriveMotorPort = 6;
@@ -125,6 +147,6 @@ enum canIDs {
     kShooterMotor1 = 13,
     kShooterMotor2 = 14,
     kHoodMotor = 15,
-    kTurningMotor = 16
-
+    kTurningMotor = 16,
+    kHopperMotor = 17
 };

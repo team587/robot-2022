@@ -19,21 +19,21 @@ trajectories::trajectories() {
 
 #ifndef EXCLUDE_PATHPLANNER
 
-    slot1_0 = PathPlanner::loadPath("slot 1.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot1_1 = PathPlanner::loadPath("slot 1.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot1_2 = PathPlanner::loadPath("slot 1.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot1_0 = PathPlanner::loadPath("slot1.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot1_1 = PathPlanner::loadPath("slot1.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot1_2 = PathPlanner::loadPath("slot1.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
-    slot2_0 = PathPlanner::loadPath("slot 2.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot2_1 = PathPlanner::loadPath("slot 2.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot2_2 = PathPlanner::loadPath("slot 2.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot2_0 = PathPlanner::loadPath("slot2.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot2_1 = PathPlanner::loadPath("slot2.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot2_2 = PathPlanner::loadPath("slot2.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
-    slot3_0 = PathPlanner::loadPath("slot 3.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot3_1 = PathPlanner::loadPath("slot 3.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot3_2 = PathPlanner::loadPath("slot 3.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot3_0 = PathPlanner::loadPath("slot3.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot3_1 = PathPlanner::loadPath("slot3.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot3_2 = PathPlanner::loadPath("slot3.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
-    slot4_0 = PathPlanner::loadPath("slot 4.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot4_1 = PathPlanner::loadPath("slot 4.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
-    slot4_2 = PathPlanner::loadPath("slot 4.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot4_0 = PathPlanner::loadPath("slot4.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot4_1 = PathPlanner::loadPath("slot4.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot4_2 = PathPlanner::loadPath("slot4.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
 #endif
 

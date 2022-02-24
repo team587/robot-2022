@@ -11,8 +11,11 @@
 #include <frc/Timer.h>
 #include "Trajectories.h"
 
+#ifndef EXCLUDE_PATHPLANNER
+
 using namespace pathplanner;
 
+#endif
 
 /**
  * An example command.
@@ -33,7 +36,12 @@ class AutoDriving
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+#ifndef EXCLUDE_PATHPLANNER
+
     PathPlannerTrajectory* Trajectory;
+
+#endif 
 
     int m_slot;
     double lastTime;

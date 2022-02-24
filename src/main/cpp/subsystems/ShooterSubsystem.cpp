@@ -16,8 +16,8 @@ ShooterSubsystem::ShooterSubsystem(
     rev::CANSparkMax *shooterMotor2,
     rev::CANSparkMax *hoodMotor,
     rev::CANSparkMax *turningMotor):
-     m_turningMotor(turningMotor),
      m_hoodMotor(hoodMotor),
+     m_turningMotor(turningMotor),
      m_turret_encoder(m_turningMotor->GetEncoder()),
      m_hood_encoder(m_hoodMotor->GetEncoder())
     {

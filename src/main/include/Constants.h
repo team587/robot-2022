@@ -16,6 +16,8 @@
 
 #pragma once
 
+#define EXCLUDE_PATHPLANNER
+
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
  * numerical or bool constants.  This should not be used for any other purpose.

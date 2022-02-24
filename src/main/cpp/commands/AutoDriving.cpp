@@ -15,7 +15,9 @@
 #include <frc2/command/CommandBase.h>
 #include <iostream>
 
-AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot): m_driveSubsystem(subsystem), m_slot(slot) {
+AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot) :  
+    m_slot(slot),
+    m_driveSubsystem(subsystem) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(subsystem);
@@ -25,10 +27,16 @@ AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot): m_driveSubsystem(
 // Called when the command is initially scheduled.
 void AutoDriving::Initialize() {
   std::cout << "Initialize\n";
+
+  m_driveSubsystem->ZeroHeading();
+
+#ifndef EXCLUDE_PATHPLANNER
+
   Trajectory = m_trajectory.get_auto_trajectory(m_slot);
   PathPlannerTrajectory::PathPlannerState *initial_state = Trajectory->getInitialState();
-  m_driveSubsystem->ZeroHeading();
   m_driveSubsystem->ResetOdometry(initial_state->pose);
+  
+#endif
 
   m_timer.Reset();
   m_timer.Start();
@@ -36,6 +44,9 @@ void AutoDriving::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void AutoDriving::Execute() {
+
+#ifndef EXCLUDE_PATHPLANNER
+
   units::time::second_t time = m_timer.Get();
   PathPlannerTrajectory::PathPlannerState state = Trajectory->sample(time);
   std::cout << (double)state.pose.X() << " pose x ";
@@ -72,6 +83,9 @@ void AutoDriving::Execute() {
   std::cout << (double)bl.angle.Radians() << " bla ";
   std::cout << (double)br.angle.Radians() << " bra \n";
   */
+
+ #endif 
+
 }
 
 // Called once the command ends or is interrupted.
@@ -83,5 +97,14 @@ void AutoDriving::End(bool interrupted) {
 // Returns true when the command should end.
 bool AutoDriving::IsFinished() {
   //std::cout << "IsFinished\n";
+
+#ifndef EXCLUDE_PATHPLANNER
+
   return m_timer.HasElapsed(Trajectory->getTotalTime());
+
+#else
+
+  return true;
+
+#endif
 }

@@ -12,8 +12,11 @@
 #include "Trajectories.h"
 #include "RobotContainer.h"
 
+#ifndef EXCLUDE_PATHPLANNER
+
 using namespace pathplanner;
 
+#endif
 
 /**
  * An example command.

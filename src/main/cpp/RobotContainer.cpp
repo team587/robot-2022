@@ -49,6 +49,7 @@ RobotContainer::RobotContainer():
     m_autoCommand4_1(&m_drive, 4, 1),
     m_autoCommand4_2(&m_drive, 4, 2)
     
+    
 #ifdef COMPETITIONBOT
     ,   
         m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
@@ -72,7 +73,15 @@ RobotContainer::RobotContainer():
         m_turretAngle{90, &m_shooterSubsystem}
 #endif
 {
-       
+
+    for (int i = 0; i < kLength; i++) {
+        //Set the value
+        m_ledBuffer[i].SetRGB(0,255,0);
+    }
+    m_led.SetLength(kLength);
+    m_led.SetData(m_ledBuffer);
+    m_led.Start();
+
     m_chooser.SetDefaultOption("Slot 2", &m_slotCommand2);
     m_chooser.AddOption("Slot 1", &m_slotCommand1);
     m_chooser.AddOption("Slot 3", &m_slotCommand3);

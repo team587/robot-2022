@@ -31,6 +31,7 @@
 #include "subsystems/HopperSubsystem.h"
 #include "commands/AdjustHoodAngle.h"
 #include "commands/TurretAngle.h"
+#include <frc/AddressableLED.h>
 
 //Comment out the below line if deploying code for mini-bot.
 //#define COMPETITIONBOT
@@ -53,6 +54,11 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
+
+  static constexpr int kLength = 62; // number of leds in rings
+  std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
+  // Must be a PWM header, not MXP or DIO
+  frc::AddressableLED m_led{0};
 
     
 #ifdef COMPETITIONBOT

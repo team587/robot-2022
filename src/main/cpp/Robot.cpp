@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-
+#include <photonlib/PhotonUtils.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 
@@ -22,6 +22,22 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
    frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
+   photonlib::PhotonPipelineResult result = camera.GetLatestResult();
+  wpi::outs() << "Camera is connected";
+  frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
+  if(result.HasTargets()){
+    photonlib::PhotonTrackedTarget target = result.GetBestTarget();
+    wpi::outs() << "dist estamate"; 
+    wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
+          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+          units::degree_t{result.GetBestTarget().GetPitch()}).value());
+    frc::SmartDashboard::PutNumber("Yaw", target.GetYaw());
+    frc::SmartDashboard::PutNumber("Pitch", target.GetPitch());
+    frc::SmartDashboard::PutNumber("Skew", target.GetSkew());
+    frc::SmartDashboard::PutNumber("Distance", photonlib::PhotonUtils::CalculateDistanceToTarget(
+          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+          units::degree_t{result.GetBestTarget().GetPitch()}).value());
+  }
 }
 
 /**

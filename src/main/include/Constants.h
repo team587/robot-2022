@@ -16,7 +16,7 @@
 
 #pragma once
 
-#define EXCLUDE_PATHPLANNER
+//#define EXCLUDE_PATHPLANNER
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide

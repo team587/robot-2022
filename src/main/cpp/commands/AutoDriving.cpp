@@ -15,7 +15,10 @@
 #include <frc2/command/CommandBase.h>
 #include <iostream>
 
-AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot, int numPath): m_driveSubsystem(subsystem), m_slot(slot), m_numPath(numPath) {
+AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot, int numPath) : 
+    m_driveSubsystem(subsystem), 
+    m_slot(slot), 
+    m_numPath(numPath) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(subsystem);

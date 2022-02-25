@@ -43,13 +43,15 @@ class AutoDriving
 
 #endif 
 
+    DriveSubsystem *m_driveSubsystem;
     int m_slot;
     int m_numPath;
     double lastTime;
     bool ignoreHeading;
+    
     trajectories m_trajectory;
     frc::Timer m_timer;
-    DriveSubsystem *m_driveSubsystem;
+    
 
     frc::HolonomicDriveController controller{
        frc2::PIDController{1, 0, 0}, frc2::PIDController{1, 0, 0},

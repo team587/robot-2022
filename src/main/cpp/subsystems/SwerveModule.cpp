@@ -95,9 +95,9 @@ void SwerveModule::SetDesiredState(
       //referenceState, units::radian_t(angle));
   const auto state = referenceState;
   // Calculate the drive output from the drive PID controller.
-    const auto driveOutput = m_drivePIDController.Calculate(
-    m_drive_encoder.GetVelocity(), state.speed.value());
-    const auto driveFeedforward = m_driveFeedForward.Calculate(state.speed);
+    //const auto driveOutput = m_drivePIDController.Calculate(
+    //m_drive_encoder.GetVelocity(), state.speed.value());
+    //const auto driveFeedforward = m_driveFeedForward.Calculate(state.speed);
 
   // Calculate the turning motor output from the turning PID controller.
   //auto turnOutput = m_turningPIDController.Calculate(

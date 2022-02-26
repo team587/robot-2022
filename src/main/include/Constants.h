@@ -148,7 +148,8 @@ enum canIDs {
     kShooterMotor2 = 14,
     kHoodMotor = 15,
     kTurningMotor = 16,
-    kHopperMotor = 17
+    kHopperMotor = 17,
+    kLoadShooterMotor =18
 };
 namespace Camerapos { //All of these save goal height are completly made up.
 constexpr auto cam_height_meters = units::meter_t(.3937); // We will have to calculate this dynamicly, but this will be the base hight when the camera is at its lowest position. It is also possible that the camera is close enough to the center of the hood rotation such that it does not matter.

@@ -18,8 +18,7 @@
 #include <string>
 
 
-HopperSubsystem::HopperSubsystem(  
-  rev::CANSparkMax * hopperMotor) {
+HopperSubsystem::HopperSubsystem(rev::CANSparkMax * hopperMotor) {
   m_hopperMotor = hopperMotor;
   hopperSpeed = 1;
 

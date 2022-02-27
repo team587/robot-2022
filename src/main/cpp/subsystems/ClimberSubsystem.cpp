@@ -15,8 +15,9 @@ ClimberSubsystem::ClimberSubsystem(
     frc::DigitalInput *extendedDigitalInput,
     frc::DigitalInput *contractedDigitalInput) {
   m_climberMotor = climberMotor;
-  m_contractedDigitalInput = contractedDigitalInput;
   m_extendedDigitalInput = extendedDigitalInput;
+  m_contractedDigitalInput = contractedDigitalInput;
+  
   speed = 1;
   startClimb = false;
 }

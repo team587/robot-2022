@@ -27,6 +27,7 @@ IntakeRetreatCommand::IntakeRetreatCommand(IntakeSubsystem* intakeSubsystem) {
 void IntakeRetreatCommand::Initialize() {
   std::cout << "Initialize\n";
   m_intakeSubsystem->Retreat();
+  m_intakeSubsystem->IntakeSpeed(0);
 }
 
 // Called repeatedly when this Command is scheduled to run

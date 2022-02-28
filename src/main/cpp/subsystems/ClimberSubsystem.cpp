@@ -20,6 +20,16 @@ ClimberSubsystem::ClimberSubsystem(
   
   speed = 1;
   startClimb = false;
+
+  m_climberMotor->RestoreFactoryDefaults();
+  m_climberMotor->SetSmartCurrentLimit(50);
+  m_climberMotor->SetSecondaryCurrentLimit(80);
+  m_climberMotor->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
+  rev::SparkMaxLimitSwitch m_climberLimitSwitchBottom = m_climberMotor->GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
+  rev::SparkMaxLimitSwitch m_climberLimitSwitchTop = m_climberMotor->GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
+  m_climberLimitSwitchBottom.EnableLimitSwitch(true);
+  m_climberLimitSwitchTop.EnableLimitSwitch(true);
 }
 
 

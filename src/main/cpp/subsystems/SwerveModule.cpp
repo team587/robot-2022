@@ -35,7 +35,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
 
     m_drive_encoder.SetPositionConversionFactor(0.319 / 6.12);
     m_drive_encoder.SetVelocityConversionFactor((0.319 / 6.12)/60.0); // wheel circumfrence meters / gear reduction
-  
+
 
     m_turningMotor.RestoreFactoryDefaults();
     m_turningMotor.SetInverted(m_reverseTurningEncoder);
@@ -43,8 +43,8 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_turningMotor.SetSecondaryCurrentLimit(80);
 
     m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 100);
-    m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 100);
     m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 100);   
+    m_turningMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 100);
     m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus0, 100);
     m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus1, 20);
     m_driveMotor.SetPeriodicFramePeriod(rev::CANSparkMaxLowLevel::PeriodicFrame::kStatus2, 100);   

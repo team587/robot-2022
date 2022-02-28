@@ -27,6 +27,7 @@ IntakeDeployCommand::IntakeDeployCommand(IntakeSubsystem* intakeSubsystem) {
 void IntakeDeployCommand::Initialize() {
   std::cout << "Initialize\n";
   m_intakeSubsystem->Deploy();
+  m_intakeSubsystem->IntakeSpeed(.1);
 }
 
 // Called repeatedly when this Command is scheduled to run

@@ -8,15 +8,12 @@
 #include <frc2/command/CommandHelper.h>
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/controller/HolonomicDriveController.h>
-#include <frc/Timer.h>
-#include "Trajectories.h"
 #include <photonlib/PhotonUtils.h>
 #include <photonlib/PhotonCamera.h>
-
+#include <wpi/span.h>
 
 #ifndef EXCLUDE_PATHPLANNER
 
-using namespace pathplanner;
 
 #endif
 

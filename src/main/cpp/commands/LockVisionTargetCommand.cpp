@@ -28,17 +28,30 @@ void LockVisionTargetCommand::Execute() {
   wpi::outs() << "Camera is connected\n";
   frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
   if(result.HasTargets()){
-    photonlib::PhotonTrackedTarget target = result.GetBestTarget();
-    wpi::outs() << "dist estamate\n"; 
-    wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
-          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
-          units::degree_t{result.GetBestTarget().GetPitch()}).value()) << "\n";
-    frc::SmartDashboard::PutNumber("Yaw", target.GetYaw());
-    frc::SmartDashboard::PutNumber("Pitch", target.GetPitch());
-    frc::SmartDashboard::PutNumber("Skew", target.GetSkew());
-    frc::SmartDashboard::PutNumber("Distance", photonlib::PhotonUtils::CalculateDistanceToTarget(
-          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
-          units::degree_t{result.GetBestTarget().GetPitch()}).value());
+    //Gets array of targets
+    wpi::span<const photonlib::PhotonTrackedTarget> targets = result.GetTargets();
+    //finds the ones likely to be of the goal
+    double meanPitch = result.GetBestTarget().GetPitch();
+    //These may return unit values, if it breaks, that is why
+    //This is meant to hold an array of pointers
+    const photonlib::PhotonTrackedTarget* goalresults[5] = {};
+    int y = 0;
+    for(int x = targets.size(); x>0; x--){
+      if(abs(targets[x].GetPitch()-meanPitch)>10.0){
+        goalresults[y] = &targets[x];
+        y++;
+      }
+    };
+    //wpi::outs() << "dist estamate\n"; 
+    //wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
+    //      Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+    //      units::degree_t{result.GetBestTarget().GetPitch()}).value()) << "\n";
+    //frc::SmartDashboard::PutNumber("Yaw", target.GetYaw());
+    //frc::SmartDashboard::PutNumber("Pitch", target.GetPitch());
+    //frc::SmartDashboard::PutNumber("Skew", target.GetSkew());
+    //frc::SmartDashboard::PutNumber("Distance", photonlib::PhotonUtils::CalculateDistanceToTarget(
+    //      Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+    //      units::degree_t{result.GetBestTarget().GetPitch()}).value());
   }
 }
 

@@ -11,6 +11,9 @@
 #include <photonlib/PhotonUtils.h>
 #include <photonlib/PhotonCamera.h>
 #include <wpi/span.h>
+#include <units/length.h>
+#include <math.h> 
+
 
 #ifndef EXCLUDE_PATHPLANNER
 

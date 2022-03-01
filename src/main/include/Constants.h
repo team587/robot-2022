@@ -154,4 +154,5 @@ namespace Camerapos { //All of these save goal height are completly made up.
 constexpr auto cam_height_meters = units::meter_t(.3937); // We will have to calculate this dynamicly, but this will be the base hight when the camera is at its lowest position. It is also possible that the camera is close enough to the center of the hood rotation such that it does not matter.
 constexpr auto goal_height_meters = units::meter_t(1.59385);// This is 8ft in meters
 constexpr auto pitch = units::degree_t(45); //We will need a way to calculate this dynamicly, this is just for testing
+constexpr auto tape_spacing = units::inch_t(10.5); //spacing between peices of tape
 }

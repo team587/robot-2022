@@ -13,11 +13,12 @@
 #include <frc2/command/CommandHelper.h>
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
+#include <rev/CANSparkMax.h>
 
 class IntakeSubsystem : public frc2::SubsystemBase {
  public:
 IntakeSubsystem(
-  WPI_TalonSRX *intakeMotor,
+  rev::CANSparkMax *intakeMotor,
   frc::Solenoid *intakeSolenoid);
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -29,7 +30,7 @@ IntakeSubsystem(
   
  private:
   
-  WPI_TalonSRX *m_intakeMotor;
+  rev::CANSparkMax *m_intakeMotor;
   frc::Solenoid *m_intakeSolenoid;
   
 

@@ -69,7 +69,7 @@ class RobotContainer {
     frc::DigitalInput m_contractedDigitalInput;
     ClimberSubsystem m_climberSubsystem;
     
-    WPI_TalonSRX m_intakeMotor;//{canIDs::kIntakeMotor};
+    rev::CANSparkMax m_intakeMotor;//{canIDs::kIntakeMotor};
     frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
     IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
   

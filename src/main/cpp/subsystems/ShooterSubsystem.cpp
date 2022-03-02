@@ -17,7 +17,7 @@ ShooterSubsystem::ShooterSubsystem(
     rev::CANSparkMax *hoodMotor,
     rev::CANSparkMax *turningMotor) :
       m_turretEncoder(turningMotor->GetEncoder()),
-      m_hoodEncoder(hoodMotor->GetEncoder())
+      m_hoodAnalogInput(0)
     {
       m_hoodMotor = hoodMotor;
       m_turningMotor = turningMotor;
@@ -59,7 +59,7 @@ ShooterSubsystem::ShooterSubsystem(
       m_hoodLimitSwitch0.EnableLimitSwitch(true);
       m_hoodLimitSwitch180.EnableLimitSwitch(true);
 
-      m_hoodEncoder.SetPositionConversionFactor(8);
+      //m_hoodEncoder.SetPositionConversionFactor(8);
 
       m_hoodPIDController.Reset();
       m_hoodPIDController.SetTolerance(0.1);
@@ -97,6 +97,7 @@ void ShooterSubsystem::stopTurning(){
 //I think we need to set hood angle and turret angle at end of functions
 //
 void ShooterSubsystem::adjustHoodAngle() {
+  /*
   rev::SparkMaxLimitSwitch m_hoodLimitSwitch0 = m_hoodMotor->GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
   rev::SparkMaxLimitSwitch m_hoodLimitSwitch180 = m_hoodMotor->GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
   double currentAngle = m_hoodEncoder.GetPosition();
@@ -117,7 +118,7 @@ void ShooterSubsystem::adjustHoodAngle() {
   if (output < -1.0) output = -1.0;
 
   m_hoodMotor->Set(output);
-
+*/
 }
 
 void ShooterSubsystem::adjustTurretAngle() {

@@ -52,8 +52,8 @@ enum JoystickButtonConstants {
 };
 
 enum JoystickAxesConstants {
-    leftJoystickVertical = 1,
     leftJoystickHorizontal = 0,
+    leftJoystickVertical = 1,
     rightJoystickVertical = 3,
     rightJoystickHorizontal = 2
 };

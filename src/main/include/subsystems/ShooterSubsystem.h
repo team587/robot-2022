@@ -13,6 +13,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <rev/CANSparkMax.h>
 #include <frc/controller/PIDController.h>
+#include <frc/AnalogInput.h>
 
 class ShooterSubsystem : public frc2::SubsystemBase {
  public: 
@@ -55,7 +56,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   rev::CANSparkMax *m_turningMotor;
 
   rev::SparkMaxRelativeEncoder m_turretEncoder;
-  rev::SparkMaxRelativeEncoder m_hoodEncoder;
+  frc::AnalogInput m_hoodAnalogInput;
 
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};
   frc2::PIDController m_turretPIDController{turretP, turretI, turretD};

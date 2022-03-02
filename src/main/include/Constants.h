@@ -28,9 +28,9 @@
  */
 
 enum JoystickButtonConstants {
+    buttonX = 1,
     buttonA = 2,
     buttonB = 3,
-    buttonX = 1,
     buttonY = 4,
     buttonStart = 10,
     buttonBack = 9,

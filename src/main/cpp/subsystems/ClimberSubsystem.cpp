@@ -39,7 +39,7 @@ void ClimberSubsystem::Periodic() {
     startClimb = true;
   }
   if (startClimb) {
-    double climb = m_coDriverController.GetRawAxis(rightJoystickVertical);
+    double climb = m_coDriverController.GetRawAxis(leftJoystickVertical);
     m_climberMotor->Set(climb); 
   }
 }

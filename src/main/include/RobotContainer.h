@@ -34,7 +34,6 @@
 #include <frc/AddressableLED.h>
 
 //Comment out the below line if deploying code for mini-bot.
-//#define COMPETITIONBOT
 
 
 /**
@@ -62,22 +61,40 @@ class RobotContainer {
   frc::AddressableLED m_led{0};
 
     
-#ifdef COMPETITIONBOT
+#ifdef CLIMBER_SUBSYSTEM
     
     rev::CANSparkMax m_climberMotor;
     frc::DigitalInput m_extendedDigitalInput;
     frc::DigitalInput m_contractedDigitalInput;
     ClimberSubsystem m_climberSubsystem;
     
+#endif
+
+#ifdef INTAKE_SUBSYSTEM
+
     rev::CANSparkMax m_intakeMotor;//{canIDs::kIntakeMotor};
     frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
     IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
   
+#endif
+
+#ifdef SHOOTER_SUBSYSTEM
+
     rev::CANSparkMax m_shooterMotor1;
     rev::CANSparkMax m_shooterMotor2;
     rev::CANSparkMax m_hoodMotor;
+
+#ifdef SHOOTER_SUBSYSTEM_TURRET
+
     rev::CANSparkMax m_turningMotor;
+
+#endif
+
     ShooterSubsystem m_shooterSubsystem;
+
+#endif
+
+#ifdef HOPPER_SUBSYSTEM
 
     rev::CANSparkMax m_hopperMotor;
     HopperSubsystem m_hopperSubsystem;
@@ -107,15 +124,25 @@ class RobotContainer {
   frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); }, {&m_drive}};
   frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
 
-  #ifdef COMPETITIONBOT
+#ifdef INTAKE_SUBSYSTEM
+
   frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
+
+#endif
+
+#ifdef SHOOTER_SUBSYSTEM
+
   CycleHoodPositions m_hoodCycleUp{&m_shooterSubsystem, true};
   CycleHoodPositions m_hoodCycleDown{&m_shooterSubsystem, false};
 
+#ifdef SHOOTER_SUBSYSTEM_TURRET
+
   CycleTurretPositions m_turretCycleLeft{&m_shooterSubsystem, true};
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
-  #endif
+
+#endif
+#endif
 
   AutoDriving m_autoCommand1_0;
   AutoDriving m_autoCommand1_1;
@@ -137,14 +164,18 @@ class RobotContainer {
                           units::meters_per_second_t(0),
                           units::radians_per_second_t(0), false); }, {&m_drive}};
 
-  #ifdef COMPETITIONBOT
+#ifdef SHOOTER_SUBSYSTEM
 
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
   AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
+
+#ifdef SHOOTER_SUBSYSTEM_TURRET
+
   TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
 
-  #endif
+#endif
+#endif
 
   frc2::SequentialCommandGroup m_slotCommand1 {
     #ifdef COMPETITIONBOT

@@ -16,7 +16,16 @@
 
 #pragma once
 
+//#define COMPETITIONBOT
 //#define EXCLUDE_PATHPLANNER
+//#define CLIMBER_SUBSYSTEM
+//#define DRIVE_SUBSYSTEM
+//#define HOPPER_SUBSYSTEM
+//#define INTAKE_SUBSYSTEM
+//#define SHOOTER_SUBSYSTEM
+//#define SHOOTER_SUBSYSTEM_TURRET
+//#define SWERVE_SUBSYSTEM
+
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide

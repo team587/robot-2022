@@ -50,30 +50,59 @@ RobotContainer::RobotContainer():
     m_autoCommand4_2(&m_drive, 4, 2)
     
     
-#ifdef COMPETITIONBOT
+#ifdef CLIMBER_SUBSYSTEM
     ,   
         m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
         m_contractedDigitalInput {canIDs::kContractedDigitalInput},
         m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
         
+#endif
+
+#ifdef INTAKE_SUBSYSTEM
+
         m_intakeMotor {canIDs::kIntakeMotor},
         m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
         m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}, 
         
+#endif
+
+#ifdef SHOOTER_SUBSYSTEM
+
         m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
         m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+
+#ifdef SHOOTER_SUBSYSTEM_TURRET
+
         m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_turretEncoder {m_turningMotor.GetEncoder()},
         m_hoodEncoder {m_hoodMotor.GetEncoder()},
+
+#endif
+
         m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor},
+
+#endif
+
+#ifdef HOPPER_SUBSYSTEM
 
         m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_hopperSubsystem {&m_hopperMotor},
-        m_adjustHoodAngle{25, &m_shooterSubsystem},
-        m_turretAngle{90, &m_shooterSubsystem}
+
 #endif
+
+#ifdef SHOOTER_SUBSYSTEM
+
+        m_adjustHoodAngle{25, &m_shooterSubsystem},
+
+#ifdef SHOOTER_SUBSYSTEM_TURRET
+
+        m_turretAngle{90, &m_shooterSubsystem}
+
+#endif
+#endif
+
 {
 
     for (int i = 0; i < kLength; i++) {
@@ -106,7 +135,7 @@ RobotContainer::RobotContainer():
             units::radians_per_second_t(2.0*m_driverController.GetRawAxis(rightJoystickHorizontal)), true);
       },
       {&m_drive}));
-#ifdef COMPETITIONBOT
+#ifdef INTAKE_SUBSYSTEM
  m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
       [this] {
         m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(leftJoystickVertical));
@@ -126,7 +155,7 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenPressed(&m_setSpeedMid);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenReleased(&m_setSpeedHigh);
 
-#ifdef COMPETITIONBOT
+#ifdef INTAKE_SUBSYSTEM
 
 //These are also drive controllers
 
@@ -136,12 +165,25 @@ void RobotContainer::ConfigureButtonBindings() {
 //These are the co-driver controllers
     frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonX);}}.WhenPressed(&m_zeroIntakeDeploy);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_zeroIntakeRetreat);
+
+#endif
+
+#ifdef SHOOTER_SUBSYSTEM
+
     frc2::Button{[&] {return m_coDriverController.GetRawButton(rightBumper);}}.WhenPressed(&m_hoodCycleUp);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(leftBumper);}}.WhenPressed(&m_hoodCycleDown);
+
+#ifdef SHOOTER_SUBSYSTEM_TURRET
+
     frc2::Button{[&] {return m_coDriverController.GetRawButton(leftTrigger);}}.WhenPressed(&m_turretCycleLeft);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_turretCycleRight);
+
 #endif
+#endif
+
 }
+
+
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
    return m_chooser.GetSelected();

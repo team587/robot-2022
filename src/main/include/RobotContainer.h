@@ -167,7 +167,6 @@ class RobotContainer {
 #ifdef SHOOTER_SUBSYSTEM
 
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
-  frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
   AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
 
 #ifdef SHOOTER_SUBSYSTEM_TURRET
@@ -176,7 +175,9 @@ class RobotContainer {
 
 #endif
 #endif
-
+#ifdef INTAKE_SUBSYSTEM
+ frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
+#endif
   frc2::SequentialCommandGroup m_slotCommand1 {
     #ifdef COMPETITIONBOT
     m_shooterSpeed,

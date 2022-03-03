@@ -55,49 +55,49 @@ RobotContainer::RobotContainer():
         m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
         m_contractedDigitalInput {canIDs::kContractedDigitalInput},
-        m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
+        m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput}
         
 #endif
 
 #ifdef INTAKE_SUBSYSTEM
-
+    ,
         m_intakeMotor {canIDs::kIntakeMotor},
         m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
-        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}, 
+        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}
         
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-
+    ,
         m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
         m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless}
 
 #ifdef SHOOTER_SUBSYSTEM_TURRET
-
+    ,
         m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_turretEncoder {m_turningMotor.GetEncoder()},
-        m_hoodEncoder {m_hoodMotor.GetEncoder()},
+        m_hoodEncoder {m_hoodMotor.GetEncoder()}
 
 #endif
-
-        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor, &m_turningMotor},
+    ,
+        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor/*, &m_turningMotor*/}
 
 #endif
 
 #ifdef HOPPER_SUBSYSTEM
 
         m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hopperSubsystem {&m_hopperMotor},
+        m_hopperSubsystem {&m_hopperMotor}
 
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-
-        m_adjustHoodAngle{25, &m_shooterSubsystem},
+    ,
+        m_adjustHoodAngle{25, &m_shooterSubsystem}
 
 #ifdef SHOOTER_SUBSYSTEM_TURRET
-
+    ,
         m_turretAngle{90, &m_shooterSubsystem}
 
 #endif

@@ -20,8 +20,8 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   ShooterSubsystem( 
     rev::CANSparkMax *shooterMotor1,
     rev::CANSparkMax *shooterMotor2,
-    rev::CANSparkMax *hoodMotor,
-    rev::CANSparkMax *turningMotor);
+    rev::CANSparkMax *hoodMotor/*,
+    rev::CANSparkMax *turningMotor*/);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -53,9 +53,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   rev::CANSparkMax *m_shooterMotor1;
   rev::CANSparkMax *m_shooterMotor2;
   rev::CANSparkMax *m_hoodMotor;
-  rev::CANSparkMax *m_turningMotor;
+ // rev::CANSparkMax *m_turningMotor;
 
-  rev::SparkMaxRelativeEncoder m_turretEncoder;
+  //rev::SparkMaxRelativeEncoder m_turretEncoder;
   frc::AnalogInput m_hoodAnalogInput;
 
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};

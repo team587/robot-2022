@@ -69,13 +69,14 @@ void LockVisionTargetCommand::Execute() {
     }
 
     //Actualy calculates the distance
+    double dist = 0.0;
     if(goalresults.size()>2){
       double yaw_between = (abs(goalresults[1].GetYaw()-goalresults[0].GetYaw())+abs(goalresults[2].GetYaw()-goalresults[0].GetYaw()))/2.0;
-      double dist = atan(yaw_between)/Camerapos::tape_spacing.value();
+      double dist = sqrt(std::pow(atan(yaw_between)/Camerapos::tape_spacing.value()*12.0, 2)-std::pow(8.6,2));
     }
+    frc::SmartDashboard::PutNumber("Distance with tape spacing", dist);
 
     //Does other calculations
-    wpi::outs() << "dist estamate\n"; 
     photonlib::PhotonTrackedTarget target = result.GetBestTarget();
     wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
           Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
@@ -83,9 +84,20 @@ void LockVisionTargetCommand::Execute() {
     frc::SmartDashboard::PutNumber("Yaw", target.GetYaw());
     frc::SmartDashboard::PutNumber("Pitch", target.GetPitch());
     frc::SmartDashboard::PutNumber("Skew", target.GetSkew());
-    frc::SmartDashboard::PutNumber("Distance", photonlib::PhotonUtils::CalculateDistanceToTarget(
+    frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
           Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
           units::degree_t{result.GetBestTarget().GetPitch()}).value());
+    //command to find distance when we know the hood angle:
+    //frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
+    //      Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(m_shooter->getHoodAngle()),
+    //      units::degree_t{result.GetBestTarget().GetPitch()}).value());
+    //This cood should spin the shooter
+    //if(mean_yaw>3){
+    //  m_shooter->turnLeft();
+    //}
+    //if(mean_yaw<-3){
+    //  m_shooter->turnRight();
+    //}
   }
 }
 

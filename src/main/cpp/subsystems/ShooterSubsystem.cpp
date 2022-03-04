@@ -12,53 +12,44 @@
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
-ShooterSubsystem::ShooterSubsystem(
-    rev::CANSparkMax *shooterMotor1,
-    rev::CANSparkMax *shooterMotor2,
-    rev::CANSparkMax *hoodMotor/*,
-    rev::CANSparkMax *turningMotor*/) :
-      //m_turretEncoder(turningMotor->GetEncoder()),
+ShooterSubsystem::ShooterSubsystem() :
+      m_turretEncoder(m_turningMotor.GetEncoder()),
       m_hoodAnalogInput(0)
     {
-      m_hoodMotor = hoodMotor;
-      //m_turningMotor = turningMotor;
-      m_shooterMotor1 = shooterMotor1;
-      m_shooterMotor2 = shooterMotor2;
-
       shooterSpeed = .1;
       turningSpeed = .1;
       hoodAngle = 0;
       turretAngle = 0;
 
-      shooterMotor2->Follow(*m_shooterMotor1, true);
+      m_shooterMotor2.Follow(m_shooterMotor1, true);
       //shooterMotor2->SetInverted(true);
 
-      //m_turningMotor->RestoreFactoryDefaults();
-      //m_turningMotor->SetSmartCurrentLimit(30);
-      //m_turningMotor->SetSecondaryCurrentLimit(50);
-      //m_turningMotor->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-      //m_turningMotor->EnableVoltageCompensation(12);
+      m_turningMotor.RestoreFactoryDefaults();
+      m_turningMotor.SetSmartCurrentLimit(30);
+      m_turningMotor.SetSecondaryCurrentLimit(50);
+      m_turningMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+      m_turningMotor.EnableVoltageCompensation(12);
 
-      //rev::SparkMaxLimitSwitch m_turningLimitSwitch0 = m_turningMotor->GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
-      //rev::SparkMaxLimitSwitch m_turningLimitSwitch180 = m_turningMotor->GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
-      //m_turningLimitSwitch0.EnableLimitSwitch(true);
-      //m_turningLimitSwitch180.EnableLimitSwitch(true);
+      rev::SparkMaxLimitSwitch m_turningLimitSwitch0 = m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
+      rev::SparkMaxLimitSwitch m_turningLimitSwitch180 = m_turningMotor.GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
+      m_turningLimitSwitch0.EnableLimitSwitch(true);
+      m_turningLimitSwitch180.EnableLimitSwitch(true);
 
-      //m_turretEncoder.SetPositionConversionFactor(8);
+      m_turretEncoder.SetPositionConversionFactor(8);
 
       m_turretPIDController.Reset();
       m_turretPIDController.SetTolerance(0.1);
 
-      m_hoodMotor->RestoreFactoryDefaults();
-      m_hoodMotor->SetSmartCurrentLimit(30);
-      m_hoodMotor->SetSecondaryCurrentLimit(50);
-      m_hoodMotor->SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-      m_hoodMotor->EnableVoltageCompensation(12);
+      m_hoodMotor.RestoreFactoryDefaults();
+      m_hoodMotor.SetSmartCurrentLimit(30);
+      m_hoodMotor.SetSecondaryCurrentLimit(50);
+      m_hoodMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+      m_hoodMotor.EnableVoltageCompensation(12);
 
-      rev::SparkMaxLimitSwitch m_hoodLimitSwitch0 = m_hoodMotor->GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
-      rev::SparkMaxLimitSwitch m_hoodLimitSwitch180 = m_hoodMotor->GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
-      m_hoodLimitSwitch0.EnableLimitSwitch(true);
-      m_hoodLimitSwitch180.EnableLimitSwitch(true);
+      //rev::SparkMaxLimitSwitch m_hoodLimitSwitch0 = m_hoodMotor->GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
+      //rev::SparkMaxLimitSwitch m_hoodLimitSwitch180 = m_hoodMotor->GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
+      //m_hoodLimitSwitch0.EnableLimitSwitch(true);
+      //m_hoodLimitSwitch180.EnableLimitSwitch(true);
 
       //m_hoodEncoder.SetPositionConversionFactor(8);
 
@@ -75,13 +66,13 @@ void ShooterSubsystem::Periodic() {
 }
 
 void ShooterSubsystem::Start() {
-  m_shooterMotor1->Set(shooterSpeed);
-  m_shooterMotor2->Set(shooterSpeed);
+  m_shooterMotor1.Set(shooterSpeed);
+  m_shooterMotor2.Set(shooterSpeed);
 }
 
 void ShooterSubsystem::Stop() {
-  m_shooterMotor1->Set(0);
-  m_shooterMotor2->Set(0);
+  m_shooterMotor1.Set(0);
+  m_shooterMotor2.Set(0);
 }
 void ShooterSubsystem::turnRight(){
   //m_turningMotor->Set(turningSpeed);

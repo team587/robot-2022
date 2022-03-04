@@ -33,21 +33,7 @@
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer():
-    m_autoCommand1_0(&m_drive, 1, 0),
-    m_autoCommand1_1(&m_drive, 1, 1),
-    m_autoCommand1_2(&m_drive, 1, 2),
-    
-    m_autoCommand2_0(&m_drive, 2, 0),
-    m_autoCommand2_1(&m_drive, 2, 1),
-    m_autoCommand2_2(&m_drive, 2, 2),
-
-    m_autoCommand3_0(&m_drive, 3, 0),
-    m_autoCommand3_1(&m_drive, 3, 1),
-    m_autoCommand3_2(&m_drive, 3, 2),
-
-    m_autoCommand4_0(&m_drive, 4, 0),
-    m_autoCommand4_1(&m_drive, 4, 1),
-    m_autoCommand4_2(&m_drive, 4, 2)
+ 
     
     
 #ifdef CLIMBER_SUBSYSTEM
@@ -68,40 +54,43 @@ RobotContainer::RobotContainer():
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-    ,
-        m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
-        m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless}
-
-#ifdef SHOOTER_SUBSYSTEM_TURRET
-    ,
-        m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_turretEncoder {m_turningMotor.GetEncoder()},
-        m_hoodEncoder {m_hoodMotor.GetEncoder()}
-
-#endif
-    ,
-        m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor/*, &m_turningMotor*/}
+        //m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
+        //m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        //m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        //m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        //m_turretEncoder {m_turningMotor.GetEncoder()},
+        //m_hoodEncoder {m_hoodMotor.GetEncoder()},
+        //m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor/*, &m_turningMotor*/},
 
 #endif
 
 #ifdef HOPPER_SUBSYSTEM
 
         m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hopperSubsystem {&m_hopperMotor}
+        m_hopperSubsystem {&m_hopperMotor},
 
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-    ,
-        m_adjustHoodAngle{25, &m_shooterSubsystem}
-
-#ifdef SHOOTER_SUBSYSTEM_TURRET
-    ,
-        m_turretAngle{90, &m_shooterSubsystem}
-
+        m_adjustHoodAngle{25, &m_shooterSubsystem},
+        m_turretAngle{90, &m_shooterSubsystem},
 #endif
-#endif
+
+    m_autoCommand1_0(&m_drive, 1, 0),
+    m_autoCommand1_1(&m_drive, 1, 1),
+    m_autoCommand1_2(&m_drive, 1, 2),
+    
+    m_autoCommand2_0(&m_drive, 2, 0),
+    m_autoCommand2_1(&m_drive, 2, 1),
+    m_autoCommand2_2(&m_drive, 2, 2),
+
+    m_autoCommand3_0(&m_drive, 3, 0),
+    m_autoCommand3_1(&m_drive, 3, 1),
+    m_autoCommand3_2(&m_drive, 3, 2),
+
+    m_autoCommand4_0(&m_drive, 4, 0),
+    m_autoCommand4_1(&m_drive, 4, 1),
+    m_autoCommand4_2(&m_drive, 4, 2)
 
 {
 

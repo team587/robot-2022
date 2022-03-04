@@ -79,17 +79,6 @@ class RobotContainer {
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-
-    rev::CANSparkMax m_shooterMotor1;
-    rev::CANSparkMax m_shooterMotor2;
-    rev::CANSparkMax m_hoodMotor;
-
-#ifdef SHOOTER_SUBSYSTEM_TURRET
-
-    rev::CANSparkMax m_turningMotor;
-
-#endif
-
     ShooterSubsystem m_shooterSubsystem;
 
 #endif
@@ -135,13 +124,8 @@ class RobotContainer {
 
   CycleHoodPositions m_hoodCycleUp{&m_shooterSubsystem, true};
   CycleHoodPositions m_hoodCycleDown{&m_shooterSubsystem, false};
-
-#ifdef SHOOTER_SUBSYSTEM_TURRET
-
   CycleTurretPositions m_turretCycleLeft{&m_shooterSubsystem, true};
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
-
-#endif
 #endif
 
   AutoDriving m_autoCommand1_0;
@@ -168,13 +152,9 @@ class RobotContainer {
 
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
   AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
-
-#ifdef SHOOTER_SUBSYSTEM_TURRET
-
   TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
+#endif
 
-#endif
-#endif
 #ifdef INTAKE_SUBSYSTEM
  frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
 #endif

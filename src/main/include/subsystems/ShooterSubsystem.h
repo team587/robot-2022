@@ -14,14 +14,11 @@
 #include <rev/CANSparkMax.h>
 #include <frc/controller/PIDController.h>
 #include <frc/AnalogInput.h>
+#include "Constants.h"
 
 class ShooterSubsystem : public frc2::SubsystemBase {
  public: 
-  ShooterSubsystem( 
-    rev::CANSparkMax *shooterMotor1,
-    rev::CANSparkMax *shooterMotor2,
-    rev::CANSparkMax *hoodMotor/*,
-    rev::CANSparkMax *turningMotor*/);
+  ShooterSubsystem();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -50,12 +47,12 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   
  private:
   
-  rev::CANSparkMax *m_shooterMotor1;
-  rev::CANSparkMax *m_shooterMotor2;
-  rev::CANSparkMax *m_hoodMotor;
- // rev::CANSparkMax *m_turningMotor;
+  rev::CANSparkMax m_shooterMotor1{canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_shooterMotor2{canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_hoodMotor{canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_turningMotor{canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 
-  //rev::SparkMaxRelativeEncoder m_turretEncoder;
+  rev::SparkMaxRelativeEncoder m_turretEncoder;
   frc::AnalogInput m_hoodAnalogInput;
 
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};

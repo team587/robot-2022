@@ -13,6 +13,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <rev/CANSparkMax.h>
 #include <rev/ColorSensorV3.h>
+#include "Constants.h"
 
 class HopperSubsystem : public frc2::SubsystemBase {
  public:
@@ -40,13 +41,17 @@ class HopperSubsystem : public frc2::SubsystemBase {
    void HopperStart();
    void HopperStop();
    void HopperReverse();
+   void setLoadingSpeed(double speed);
 
 
   
  private:
+  rev::CANSparkMax m_loadShooterMotor{canIDs::kLoadShooterMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+
   rev::CANSparkMax *m_hopperMotor;
   rev::ColorSensorV3 m_colorSensor {frc::I2C::Port::kOnboard };
   double hopperSpeed;
   double tolerance;
+  double loadingSpeed;
   frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
 };

@@ -16,6 +16,7 @@
 #include <frc2/command/RunCommand.h>
 #include <rev/CANSparkMax.h>
 #include <frc/DigitalInput.h>
+#include <frc2/command/WaitCommand.h>
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
@@ -120,6 +121,12 @@ class RobotContainer {
 
 #endif
 
+#ifdef HOPPER_SUBSYSTEM 
+
+  frc2::InstantCommand m_fireShooter{[this] {m_hopperSubsystem.setLoadingSpeed(1.0); }, {&m_hopperSubsystem}};
+
+#endif
+
 #ifdef SHOOTER_SUBSYSTEM
 
   CycleHoodPositions m_hoodCycleUp{&m_shooterSubsystem, true};
@@ -168,6 +175,11 @@ class RobotContainer {
     #endif
     m_autoCommand1_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand1_1,
     m_autoCommand1_2,
     m_stopDriving
@@ -183,6 +195,11 @@ class RobotContainer {
     #endif
     m_autoCommand2_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand2_1,
     m_autoCommand2_2, 
     m_stopDriving
@@ -198,6 +215,11 @@ class RobotContainer {
     #endif
     m_autoCommand3_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand3_1,
     m_autoCommand3_2,
     m_stopDriving
@@ -213,6 +235,11 @@ class RobotContainer {
     #endif
     m_autoCommand4_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand4_1,
     m_autoCommand4_2,
     m_stopDriving

@@ -42,8 +42,14 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double getTurretAngle() {
     return turretAngle;
   };
+  double getCurrentTurretAngle();
+  double getCurrentHoodAngle();
   void adjustHoodAngle();
   void adjustTurretAngle();
+  void setShooterSpeed(double ShooterSpeed) {
+    shooterSpeed = ShooterSpeed;
+    m_shooterMotor1.Set(shooterSpeed);
+  }
   
  private:
   
@@ -61,15 +67,16 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double shooterSpeed;
   double turningSpeed;
   double hoodAngle;
+  double hoodVoltageOffset;
   double turretAngle;
 
-  double hoodP = 0;
+  double hoodP = 2.25;
   double hoodI = 0;
-  double hoodD = 0;
+  double hoodD = 0.01;
 
-  double turretP = 0;
-  double turretI = 0;
-  double turretD = 0;
+  double turretP = 4.0;
+  double turretI = 0.4;
+  double turretD = 0.1;
 
   
 

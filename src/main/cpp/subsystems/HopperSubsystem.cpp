@@ -21,7 +21,7 @@
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax * hopperMotor) {
   m_hopperMotor = hopperMotor;
   hopperSpeed = 1;
-
+  setLoadingSpeed(0);
 } 
 void HopperSubsystem::HopperStart(){
   m_hopperMotor->Set(hopperSpeed);
@@ -42,6 +42,7 @@ void HopperSubsystem::Periodic() {
     m_hopperMotor->Set(0);
   } else {
     m_hopperMotor->Set(hopperSpeed);
+    setLoadingSpeed(0);
   }
   frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
 }
@@ -80,6 +81,11 @@ std::string HopperSubsystem::ConvertColor(int colorIndex){
   } else {
     return "Unknown";
   }
+}
+
+void HopperSubsystem::setLoadingSpeed(double speed) {
+  loadingSpeed = speed;
+  m_loadShooterMotor.Set(loadingSpeed);
 }
 
 

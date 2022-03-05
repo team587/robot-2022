@@ -36,20 +36,18 @@ RobotContainer::RobotContainer():
  
     
     
-#ifdef CLIMBER_SUBSYSTEM
-    ,   
+#ifdef CLIMBER_SUBSYSTEM  
         m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
         m_contractedDigitalInput {canIDs::kContractedDigitalInput},
-        m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput}
+        m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
         
 #endif
 
 #ifdef INTAKE_SUBSYSTEM
-    ,
-        m_intakeMotor {canIDs::kIntakeMotor},
+        m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
         m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
-        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid}
+        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid},
         
 #endif
 
@@ -157,17 +155,18 @@ void RobotContainer::ConfigureButtonBindings() {
 
 #endif
 
+#ifdef HOPPER_SUBSYSTEM
+
+    frc2::Button{[&] {return m_driverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);
+
+#endif
 #ifdef SHOOTER_SUBSYSTEM
 
     frc2::Button{[&] {return m_coDriverController.GetRawButton(rightBumper);}}.WhenPressed(&m_hoodCycleUp);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(leftBumper);}}.WhenPressed(&m_hoodCycleDown);
-
-#ifdef SHOOTER_SUBSYSTEM_TURRET
-
     frc2::Button{[&] {return m_coDriverController.GetRawButton(leftTrigger);}}.WhenPressed(&m_turretCycleLeft);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_turretCycleRight);
-
-#endif
 #endif
 
 }

@@ -14,16 +14,16 @@ CycleTurretPositions::CycleTurretPositions(ShooterSubsystem* shooter, bool cycle
   double turretAngle = shooter->getTurretAngle();
 
   if (cycleLeft) {
-    if (turretAngle < 0.0) {
+    if (turretAngle <= 90.0) {
       shooter->setTurretAngle(0.0);
-    } else if (turretAngle < 90.0) {
+    } else if (turretAngle <= 180.0) {
       shooter->setTurretAngle(90.0);
     }
   } else {
-    if (turretAngle > 0.0) {
-      shooter->setTurretAngle(0.0);
-    } else if (turretAngle > 180.0) {
+    if (turretAngle >= 90.0) {
       shooter->setTurretAngle(180.0);
+    } else if (turretAngle >= 0.0) {
+      shooter->setTurretAngle(90.0);
     }
   }
 }

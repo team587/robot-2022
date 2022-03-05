@@ -88,15 +88,22 @@ void LockVisionTargetCommand::Execute() {
           Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
           units::degree_t{result.GetBestTarget().GetPitch()}).value());
     //command to find distance when we know the hood angle:
-    //frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
-    //      Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(m_shooter->getHoodAngle()),
-    //      units::degree_t{result.GetBestTarget().GetPitch()}).value());
-    //This cood should spin the shooter
-    //if(mean_yaw>3){
-    //  m_shooter->turnLeft();
+    frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
+          Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(m_shooter->getHoodAngle()),
+          units::degree_t(result.GetBestTarget().GetPitch())).value());
+    ////This code should spin the shooter
+    //double newangle = 0;
+    //if(target.GetYaw()>1.0 || target.GetYaw()<-1.0){
+    //  newangle = target.GetYaw()+m_shooter->getTurretAngle();
     //}
-    //if(mean_yaw<-3){
-    //  m_shooter->turnRight();
+    //if(newangle>180.0){
+    //  m_shooter->setTurretAngle(180.0);
+    //}
+    //else if(newangle<0.0){
+    //  m_shooter->setTurretAngle(0.0);
+    //}
+    //else{
+    //  m_shooter->setTurretAngle(newangle);
     //}
   }
 }

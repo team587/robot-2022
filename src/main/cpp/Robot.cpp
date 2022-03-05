@@ -22,10 +22,27 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
    frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
+
+  int ballColor = m_container.GetHopperSubsystem()->GetColor();
+  for (int i = 0; i < kBallStatusLength; i++) {
+        //Set the value
+        if(ballColor == 1) {
+          m_ballStatusLedBuffer[i].SetRGB(0,0,255);
+        } else if(ballColor == 0) {
+          m_ballStatusLedBuffer[i].SetRGB(255,0,0);
+        } else {
+          m_ballStatusLedBuffer[i].SetRGB(0,0,0);
+        }
+  }
+
    photonlib::PhotonPipelineResult result = camera.GetLatestResult();
   wpi::outs() << "Camera is connected";
   frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
   if(result.HasTargets()){
+    for (int i = 0; i < kBallStatusLength; i += 2) {
+       //Set the value
+        m_ballStatusLedBuffer[i].SetRGB(255,255,0);
+    }
     photonlib::PhotonTrackedTarget target = result.GetBestTarget();
     wpi::outs() << "dist estamate"; 
     wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
@@ -38,6 +55,11 @@ void Robot::RobotPeriodic() {
           Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
           units::degree_t{result.GetBestTarget().GetPitch()}).value());
   }
+
+    m_ballStatusLed.SetLength(kBallStatusLength);
+    m_ballStatusLed.SetData(m_ballStatusLedBuffer);
+    m_ballStatusLed.Start();
+
 }
 
 /**

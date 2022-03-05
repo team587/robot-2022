@@ -50,6 +50,8 @@ class RobotContainer {
 
   DriveSubsystem *GetDriveSubsystem() { return &m_drive; }
 
+  HopperSubsystem *GetHopperSubsystem() { return &m_hopperSubsystem; }
+
 
 
   frc2::Command* GetAutonomousCommand();
@@ -60,7 +62,6 @@ class RobotContainer {
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
   // Must be a PWM header, not MXP or DIO
   frc::AddressableLED m_led{0};
-
     
 #ifdef CLIMBER_SUBSYSTEM
     

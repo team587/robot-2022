@@ -29,5 +29,10 @@ class Robot : public frc::TimedRobot {
   frc2::Command* m_autonomousCommand = nullptr;
   photonlib::PhotonCamera camera{"mmal_service_16.1"};
 
+  static constexpr int kBallStatusLength = 12; // number of leds in rings
+  std::array<frc::AddressableLED::LEDData, kBallStatusLength> m_ballStatusLedBuffer;
+  // Must be a PWM header, not MXP or DIO
+  frc::AddressableLED m_ballStatusLed{1};
+
   RobotContainer m_container;
 };

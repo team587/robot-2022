@@ -71,9 +71,10 @@ RobotContainer::RobotContainer():
 
 #ifdef SHOOTER_SUBSYSTEM
         m_adjustHoodAngle{25, &m_shooterSubsystem},
-        m_turretAngle{90, &m_shooterSubsystem},
+        m_turretAngle{90, &m_shooterSubsystem}//,
 #endif
 
+#ifdef SWERVE_SUBSYSTEM
     m_autoCommand1_0(&m_drive, 1, 0),
     m_autoCommand1_1(&m_drive, 1, 1),
     m_autoCommand1_2(&m_drive, 1, 2),
@@ -89,7 +90,7 @@ RobotContainer::RobotContainer():
     m_autoCommand4_0(&m_drive, 4, 0),
     m_autoCommand4_1(&m_drive, 4, 1),
     m_autoCommand4_2(&m_drive, 4, 2)
-
+#endif
 {
 
     for (int i = 0; i < kLength; i++) {
@@ -100,10 +101,12 @@ RobotContainer::RobotContainer():
     m_led.SetData(m_ledBuffer);
     m_led.Start();
 
+#ifdef SWERVE_SUBSYSTEM
     m_chooser.SetDefaultOption("Slot 2", &m_slotCommand2);
     m_chooser.AddOption("Slot 1", &m_slotCommand1);
     m_chooser.AddOption("Slot 3", &m_slotCommand3);
     m_chooser.AddOption("Slot 4", &m_slotCommand4);
+#endif
 
     frc::SmartDashboard::PutData(&m_chooser);
   // Initialize all of your commands and subsystems here
@@ -114,6 +117,7 @@ RobotContainer::RobotContainer():
   // Set up default drive command
   // The left stick controls translation of the robot.
   // Turning is controlled by the X axis of the right stick.
+  #ifdef SWERVE_SUBSYSTEM
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
         m_drive.Drive(
@@ -122,6 +126,8 @@ RobotContainer::RobotContainer():
             units::radians_per_second_t(2.0*m_driverController.GetRawAxis(rightJoystickHorizontal)), true);
       },
       {&m_drive}));
+  #endif
+
 #ifdef INTAKE_SUBSYSTEM
  m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
       [this] {
@@ -135,12 +141,13 @@ RobotContainer::RobotContainer():
 void RobotContainer::ConfigureButtonBindings() {
 
 //These are the drive controllers
-
+#ifdef SWERVE_SUBSYSTEM
     frc2::Button{[&] {return m_driverController.GetRawButton(buttonStart);}}.WhenPressed(&m_ZeroHeading);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_setSpeedLow);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenReleased(&m_setSpeedHigh);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenPressed(&m_setSpeedMid);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenReleased(&m_setSpeedHigh);
+#endif
 
 #ifdef INTAKE_SUBSYSTEM
 

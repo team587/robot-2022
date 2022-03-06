@@ -47,11 +47,13 @@
 class RobotContainer {
  public:
   RobotContainer();
-
+#ifdef SWERVE_SUBSYSTEM
   DriveSubsystem *GetDriveSubsystem() { return &m_drive; }
+#endif
 
+#ifdef HOPPER_SUBSYSTEM
   HopperSubsystem *GetHopperSubsystem() { return &m_hopperSubsystem; }
-
+#endif
 
 
   frc2::Command* GetAutonomousCommand();
@@ -102,18 +104,21 @@ class RobotContainer {
   // The robot's subsystems and commands are defined here..
   
   // The robot's subsystems
+  #ifdef SWERVE_SUBSYSTEM
   DriveSubsystem m_drive;
+  #endif
 
   // The chooser for the autonomous routines
   frc::SendableChooser<frc2::Command*> m_chooser;
 
   void ConfigureButtonBindings();
 
-
+#ifdef SWERVE_SUBSYSTEM
   frc2::InstantCommand m_ZeroHeading{[this] {m_drive.ZeroHeading(); }, {&m_drive}};
   frc2::InstantCommand m_setSpeedLow{[this] {m_drive.SetSpeedController(4.0); }, {&m_drive}};
   frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); }, {&m_drive}};
   frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
+#endif
 
 #ifdef INTAKE_SUBSYSTEM
 
@@ -136,6 +141,7 @@ class RobotContainer {
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
 #endif
 
+#ifdef SWERVE_SUBSYSTEM
   AutoDriving m_autoCommand1_0;
   AutoDriving m_autoCommand1_1;
   AutoDriving m_autoCommand1_2;
@@ -155,6 +161,7 @@ class RobotContainer {
   frc2::InstantCommand m_stopDriving{[this] {m_drive.Drive(units::meters_per_second_t(0),
                           units::meters_per_second_t(0),
                           units::radians_per_second_t(0), false); }, {&m_drive}};
+#endif
 
 #ifdef SHOOTER_SUBSYSTEM
 
@@ -166,6 +173,7 @@ class RobotContainer {
 #ifdef INTAKE_SUBSYSTEM
  frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
 #endif
+#ifdef SWERVE_SUBSYSTEM
   frc2::SequentialCommandGroup m_slotCommand1 {
     #ifdef COMPETITIONBOT
     m_shooterSpeed,
@@ -245,4 +253,5 @@ class RobotContainer {
     m_autoCommand4_2,
     m_stopDriving
   };
+  #endif
 };

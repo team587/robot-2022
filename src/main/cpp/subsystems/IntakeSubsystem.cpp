@@ -8,12 +8,11 @@
 //#include <frc/Joystick.h>
 //#include <frc/Relay.h>
 #include <Constants.h>
-
 #include "subsystems/IntakeSubsystem.h"
 
 
 IntakeSubsystem::IntakeSubsystem(
-  WPI_TalonSRX *intakeMotor,
+  rev::CANSparkMax *intakeMotor,
   frc::Solenoid *intakeSolenoid) {
 
     m_intakeMotor = intakeMotor;

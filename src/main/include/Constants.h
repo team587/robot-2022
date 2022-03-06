@@ -16,7 +16,15 @@
 
 #pragma once
 
+#define COMPETITIONBOT
 //#define EXCLUDE_PATHPLANNER
+#define CLIMBER_SUBSYSTEM
+#define DRIVE_SUBSYSTEM
+#define HOPPER_SUBSYSTEM
+#define INTAKE_SUBSYSTEM
+#define SHOOTER_SUBSYSTEM
+#define SWERVE_SUBSYSTEM
+
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
@@ -28,9 +36,9 @@
  */
 
 enum JoystickButtonConstants {
+    buttonX = 1,
     buttonA = 2,
     buttonB = 3,
-    buttonX = 1,
     buttonY = 4,
     buttonStart = 10,
     buttonBack = 9,
@@ -43,8 +51,8 @@ enum JoystickButtonConstants {
 };
 
 enum JoystickAxesConstants {
-    leftJoystickVertical = 1,
     leftJoystickHorizontal = 0,
+    leftJoystickVertical = 1,
     rightJoystickVertical = 3,
     rightJoystickHorizontal = 2
 };
@@ -132,7 +140,7 @@ extern const frc::TrapezoidProfile<units::radians>::Constraints
 
 namespace OIConstants {
 constexpr int kDriverControllerPort = 0;
-constexpr int kCoDriverControllerPort = 0;
+constexpr int kCoDriverControllerPort = 1;
 }  // namespace OIConstants
 
 enum solenoidIDs {
@@ -148,7 +156,8 @@ enum canIDs {
     kShooterMotor2 = 14,
     kHoodMotor = 15,
     kTurningMotor = 16,
-    kHopperMotor = 17
+    kHopperMotor = 17,
+    kLoadShooterMotor =18
 };
 namespace Camerapos { //All of these save goal height are completly made up.
 constexpr auto cam_height_meters = units::meter_t(.3937); // We will have to calculate this dynamicly, but this will be the base hight when the camera is at its lowest position. It is also possible that the camera is close enough to the center of the hood rotation such that it does not matter.

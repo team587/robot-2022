@@ -13,14 +13,12 @@
 #include <frc2/command/CommandHelper.h>
 #include <rev/CANSparkMax.h>
 #include <frc/controller/PIDController.h>
+#include <frc/AnalogInput.h>
+#include "Constants.h"
 
 class ShooterSubsystem : public frc2::SubsystemBase {
  public: 
-  ShooterSubsystem( 
-    rev::CANSparkMax *shooterMotor1,
-    rev::CANSparkMax *shooterMotor2,
-    rev::CANSparkMax *hoodMotor,
-    rev::CANSparkMax *turningMotor);
+  ShooterSubsystem();
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -44,35 +42,42 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double getTurretAngle() {
     return turretAngle;
   };
+  double getCurrentTurretAngle();
+  double getCurrentHoodAngle();
   void adjustHoodAngle();
   void adjustTurretAngle();
+  void setShooterSpeed(double ShooterSpeed) {
+    shooterSpeed = ShooterSpeed;
+    m_shooterMotor1.Set(shooterSpeed);
+  }
   
  private:
   
-  rev::CANSparkMax *m_shooterMotor1;
-  rev::CANSparkMax *m_shooterMotor2;
-  rev::CANSparkMax *m_hoodMotor;
-  rev::CANSparkMax *m_turningMotor;
+  rev::CANSparkMax m_shooterMotor1{canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_shooterMotor2{canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_hoodMotor{canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_turningMotor{canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 
-  //rev::SparkMaxLimitSwitch m_turningLimitSwitch0;
-  //rev::SparkMaxLimitSwitch m_turningLimitSwitch180;
-
-  double shooterSpeed;
-  double turningSpeed;
-  double hoodAngle;
-  double turretAngle;
-
-  double hoodP = 0;
-  double hoodI = 0;
-  double hoodD = 0;
-
-  double turretP = 0;
-  double turretI = 0;
-  double turretD = 0;
+  rev::SparkMaxRelativeEncoder m_turretEncoder;
+  frc::AnalogInput m_hoodAnalogInput;
 
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};
   frc2::PIDController m_turretPIDController{turretP, turretI, turretD};
 
-  rev::SparkMaxRelativeEncoder m_turret_encoder;
-  rev::SparkMaxRelativeEncoder m_hood_encoder;
+  double shooterSpeed;
+  double turningSpeed;
+  double hoodAngle;
+  double hoodVoltageOffset;
+  double turretAngle;
+
+  double hoodP = 2.25;
+  double hoodI = 0;
+  double hoodD = 0.01;
+
+  double turretP = 4.0;
+  double turretI = 0.4;
+  double turretD = 0.1;
+
+  
+
 };

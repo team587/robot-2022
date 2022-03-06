@@ -21,10 +21,27 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-   frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
-}
+  frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
+  
+  int ballColor = m_container.GetHopperSubsystem()->GetColor();
+  for (int i = 0; i < kBallStatusLength; i++) {
+        //Set the value
+        if(ballColor == 1) {
+          m_ballStatusLedBuffer[i].SetRGB(0,0,255);
+        } else if(ballColor == 0) {
+          m_ballStatusLedBuffer[i].SetRGB(255,0,0);
+        } else {
+          m_ballStatusLedBuffer[i].SetRGB(0,0,0);
+        }
+  }
 
-/**
+
+  m_ballStatusLed.SetLength(kBallStatusLength);
+  m_ballStatusLed.SetData(m_ballStatusLedBuffer);
+  m_ballStatusLed.Start();
+
+}
+/*
  * This function is called once each time the robot enters Disabled mode. You
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.

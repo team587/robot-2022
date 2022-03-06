@@ -16,6 +16,7 @@
 #include <frc2/command/RunCommand.h>
 #include <rev/CANSparkMax.h>
 #include <frc/DigitalInput.h>
+#include <frc2/command/WaitCommand.h>
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
@@ -36,7 +37,6 @@
 #include "commands/LockVisionTargetCommand.h"
 
 //Comment out the below line if deploying code for mini-bot.
-//#define COMPETITIONBOT
 
 
 /**
@@ -52,6 +52,8 @@ class RobotContainer {
 
   DriveSubsystem *GetDriveSubsystem() { return &m_drive; }
 
+  HopperSubsystem *GetHopperSubsystem() { return &m_hopperSubsystem; }
+
 
 
   frc2::Command* GetAutonomousCommand();
@@ -63,24 +65,30 @@ class RobotContainer {
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
   // Must be a PWM header, not MXP or DIO
   frc::AddressableLED m_led{0};
-
     
-#ifdef COMPETITIONBOT
+#ifdef CLIMBER_SUBSYSTEM
     
     rev::CANSparkMax m_climberMotor;
     frc::DigitalInput m_extendedDigitalInput;
     frc::DigitalInput m_contractedDigitalInput;
     ClimberSubsystem m_climberSubsystem;
     
-    WPI_TalonSRX m_intakeMotor;//{canIDs::kIntakeMotor};
+#endif
+
+#ifdef INTAKE_SUBSYSTEM
+
+    rev::CANSparkMax m_intakeMotor;//{canIDs::kIntakeMotor};
     frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
     IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
   
-    rev::CANSparkMax m_shooterMotor1;
-    rev::CANSparkMax m_shooterMotor2;
-    rev::CANSparkMax m_hoodMotor;
-    rev::CANSparkMax m_turningMotor;
+#endif
+
+#ifdef SHOOTER_SUBSYSTEM
     ShooterSubsystem m_shooterSubsystem;
+
+#endif
+
+#ifdef HOPPER_SUBSYSTEM
 
     rev::CANSparkMax m_hopperMotor;
     HopperSubsystem m_hopperSubsystem;
@@ -112,15 +120,26 @@ class RobotContainer {
 
   LockVisionTargetCommand m_LockVisionTargetCommand;
 
-  #ifdef COMPETITIONBOT
+#ifdef INTAKE_SUBSYSTEM
+
   frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
+
+#endif
+
+#ifdef HOPPER_SUBSYSTEM 
+
+  frc2::InstantCommand m_fireShooter{[this] {m_hopperSubsystem.setLoadingSpeed(1.0); }, {&m_hopperSubsystem}};
+
+#endif
+
+#ifdef SHOOTER_SUBSYSTEM
+
   CycleHoodPositions m_hoodCycleUp{&m_shooterSubsystem, true};
   CycleHoodPositions m_hoodCycleDown{&m_shooterSubsystem, false};
-
   CycleTurretPositions m_turretCycleLeft{&m_shooterSubsystem, true};
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
-  #endif
+#endif
 
   AutoDriving m_autoCommand1_0;
   AutoDriving m_autoCommand1_1;
@@ -142,15 +161,16 @@ class RobotContainer {
                           units::meters_per_second_t(0),
                           units::radians_per_second_t(0), false); }, {&m_drive}};
 
-  #ifdef COMPETITIONBOT
+#ifdef SHOOTER_SUBSYSTEM
 
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
-  frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
   AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
   TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
+#endif
 
-  #endif
-
+#ifdef INTAKE_SUBSYSTEM
+ frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
+#endif
   frc2::SequentialCommandGroup m_slotCommand1 {
     #ifdef COMPETITIONBOT
     m_shooterSpeed,
@@ -161,6 +181,11 @@ class RobotContainer {
     #endif
     m_autoCommand1_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand1_1,
     m_autoCommand1_2,
     m_stopDriving
@@ -176,6 +201,11 @@ class RobotContainer {
     #endif
     m_autoCommand2_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand2_1,
     m_autoCommand2_2, 
     m_stopDriving
@@ -191,6 +221,11 @@ class RobotContainer {
     #endif
     m_autoCommand3_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand3_1,
     m_autoCommand3_2,
     m_stopDriving
@@ -206,6 +241,11 @@ class RobotContainer {
     #endif
     m_autoCommand4_0,
     m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+    m_fireShooter,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooter,
+    #endif
     m_autoCommand4_1,
     m_autoCommand4_2,
     m_stopDriving

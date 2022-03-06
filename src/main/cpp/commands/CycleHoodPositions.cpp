@@ -13,14 +13,14 @@ CycleHoodPositions::CycleHoodPositions(ShooterSubsystem* shooter, bool cycleUp) 
   double hoodAngle = shooter->getHoodAngle();
 
   if (cycleUp) {
-    if (hoodAngle < 25.0) {
-      shooter->setHoodAngle(25.0);
-    } else if (hoodAngle < 50.0) {
-      shooter->setHoodAngle(50.0);
+    if (hoodAngle < 15.0) {
+      shooter->setHoodAngle(15.0);
+    } else if (hoodAngle < 30.0) {
+      shooter->setHoodAngle(30.0);
     }
   } else {
-    if (hoodAngle > 25.0) {
-      shooter->setHoodAngle(25.0);
+    if (hoodAngle > 15.0) {
+      shooter->setHoodAngle(15.0);
     } else if (hoodAngle > 0.0) {
       shooter->setHoodAngle(0.0);
     }

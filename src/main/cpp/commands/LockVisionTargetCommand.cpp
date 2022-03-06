@@ -28,54 +28,6 @@ void LockVisionTargetCommand::Execute() {
   wpi::outs() << "Camera is connected\n";
   frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
   if(result.HasTargets()){
-    //Gets array of targets
-    wpi::span<const photonlib::PhotonTrackedTarget> targets = result.GetTargets();
-
-    //finds the ones likely to be of the goal
-    double meanPitch = result.GetBestTarget().GetPitch();
-    //These may return unit values, if it breaks, that is why
-
-    //This is meant to hold an array of pointers
-    wpi::span<photonlib::PhotonTrackedTarget> goalresults;
-    int y = 0;
-    for(int x = targets.size(); x>0; x--){
-      if(abs(targets[x].GetPitch()-meanPitch)>10.0){
-        goalresults[y] = targets[x];
-        y++;
-      }
-      if(y==5){
-        break;
-      }
-    };
-
-    //Distance 1 calculation, gets the distance based off of the spacing between tape peices
-    //finds the mean skew
-    double mean_yaw = 0;
-    for(int x = 0; x<goalresults.size(); x++){
-      mean_yaw+=goalresults[x].GetYaw();
-    }
-    mean_yaw/=goalresults.size();
-
-
-    //sorts by abs(yaw)
-    for(int x = 0; x<goalresults.size(); x++){
-      for(int i=0; i<goalresults.size()-1; i++){
-        if(abs(goalresults[x].GetYaw()-mean_yaw)>abs(goalresults[x+1].GetYaw()-mean_yaw)){
-          auto temp = goalresults[x+1];
-          goalresults[x+1] = goalresults[x];
-          goalresults[x] = temp;
-        }
-      }
-    }
-
-    //Actualy calculates the distance
-    double dist = 0.0;
-    if(goalresults.size()>2){
-      double yaw_between = (abs(goalresults[1].GetYaw()-goalresults[0].GetYaw())+abs(goalresults[2].GetYaw()-goalresults[0].GetYaw()))/2.0;
-      double dist = sqrt(std::pow(atan(yaw_between)/Camerapos::tape_spacing.value()*12.0, 2)-std::pow(8.6,2));
-    }
-    frc::SmartDashboard::PutNumber("Distance with tape spacing", dist);
-
     //Does other calculations
     photonlib::PhotonTrackedTarget target = result.GetBestTarget();
     wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(

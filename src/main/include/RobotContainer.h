@@ -76,8 +76,8 @@ class RobotContainer {
 
 #ifdef INTAKE_SUBSYSTEM
 
-    rev::CANSparkMax m_intakeMotor;//{canIDs::kIntakeMotor};
-    frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
+    //rev::CANSparkMax m_intakeMotor;//{canIDs::kIntakeMotor};
+    //frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
     IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
   
 #endif

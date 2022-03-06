@@ -11,25 +11,20 @@
 #include "subsystems/IntakeSubsystem.h"
 
 
-IntakeSubsystem::IntakeSubsystem(
-  rev::CANSparkMax *intakeMotor,
-  frc::Solenoid *intakeSolenoid) {
-
-    m_intakeMotor = intakeMotor;
-    m_intakeSolenoid = intakeSolenoid;
+IntakeSubsystem::IntakeSubsystem() {
 }
 
 void IntakeSubsystem::Periodic() {
 
 }
 void IntakeSubsystem::Deploy(){
-  m_intakeSolenoid->Set(true);
+  m_intakeSolenoid.Set(true);
 }
 
 void IntakeSubsystem::Retreat(){
-  m_intakeSolenoid->Set(false);
+  m_intakeSolenoid.Set(false);
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){
-  m_intakeMotor->Set(IntakeSpeed);
+  m_intakeMotor.Set(IntakeSpeed);
 }

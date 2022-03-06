@@ -45,9 +45,9 @@ RobotContainer::RobotContainer():
 #endif
 
 #ifdef INTAKE_SUBSYSTEM
-        m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
-        m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid},
+        //m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        //m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
+        //m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid},
         
 #endif
 

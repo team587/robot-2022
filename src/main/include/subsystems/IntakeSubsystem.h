@@ -14,12 +14,11 @@
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
 #include <rev/CANSparkMax.h>
+#include "Constants.h"
 
 class IntakeSubsystem : public frc2::SubsystemBase {
  public:
-IntakeSubsystem(
-  rev::CANSparkMax *intakeMotor,
-  frc::Solenoid *intakeSolenoid);
+IntakeSubsystem();
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -30,8 +29,8 @@ IntakeSubsystem(
   
  private:
   
-  rev::CANSparkMax *m_intakeMotor;
-  frc::Solenoid *m_intakeSolenoid;
+  rev::CANSparkMax m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  frc::Solenoid m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
   
 
 };

@@ -21,9 +21,15 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-  frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
-  
+
+  #ifdef SWERVE_SUBSYSTEM
+   frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
+  #endif
+  #ifdef HOPPER_SUBSYSTEM
   int ballColor = m_container.GetHopperSubsystem()->GetColor();
+  #else 
+  int ballColor = 0;
+  #endif
   for (int i = 0; i < kBallStatusLength; i++) {
         //Set the value
         if(ballColor == 1) {

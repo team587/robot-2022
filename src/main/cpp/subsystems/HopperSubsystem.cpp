@@ -20,7 +20,7 @@
 
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax * hopperMotor) {
   m_hopperMotor = hopperMotor;
-  hopperSpeed = 1;
+  hopperSpeed = -0.3;
   setLoadingSpeed(0);
 } 
 void HopperSubsystem::HopperStart(){
@@ -85,7 +85,7 @@ std::string HopperSubsystem::ConvertColor(int colorIndex){
 
 void HopperSubsystem::setLoadingSpeed(double speed) {
   loadingSpeed = speed;
-  m_loadShooterMotor.Set(loadingSpeed);
+  m_loadShooterMotor.Set(-loadingSpeed);
 }
 
 

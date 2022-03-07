@@ -12,6 +12,7 @@
 #include <frc/trajectory/Trajectory.h>
 #include <frc/trajectory/TrajectoryGenerator.h>
 #include <frc2/command/InstantCommand.h>
+#include <frc2/command/PrintCommand.h>
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc2/command/SwerveControllerCommand.h>
 #include <frc2/command/button/JoystickButton.h>
@@ -33,6 +34,7 @@
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer():
+    m_camera{"mmal_service_16.1"},
  
     
     
@@ -71,7 +73,9 @@ RobotContainer::RobotContainer():
 
 #ifdef SHOOTER_SUBSYSTEM
         m_adjustHoodAngle{25, &m_shooterSubsystem},
-        m_turretAngle{90, &m_shooterSubsystem}//,
+        m_turretAngle{90, &m_shooterSubsystem},//,
+        m_LockVisionTargetCommand(&m_camera)
+
 #endif
 
 #ifdef SWERVE_SUBSYSTEM
@@ -89,6 +93,8 @@ RobotContainer::RobotContainer():
 
     m_autoCommand4_0(&m_drive, 4, 0),
     m_autoCommand4_1(&m_drive, 4, 1),
+
+
     m_autoCommand4_2(&m_drive, 4, 2)
 #endif
 {
@@ -148,6 +154,11 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenPressed(&m_setSpeedMid);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenReleased(&m_setSpeedHigh);
 #endif
+
+
+    frc2::JoystickButton(&m_driverController, buttonA).WhenPressed(m_LockVisionTargetCommand);
+    //frc2::JoystickButton(&m_driverController, buttonA).WhenPressed(frc2::PrintCommand("Testing"));
+
 
 #ifdef INTAKE_SUBSYSTEM
 

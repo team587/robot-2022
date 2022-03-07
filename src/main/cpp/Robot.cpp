@@ -41,34 +41,13 @@ void Robot::RobotPeriodic() {
         }
   }
 
-   photonlib::PhotonPipelineResult result = camera.GetLatestResult();
-  wpi::outs() << "Camera is connected";
-  frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
-  if(result.HasTargets()){
-    for (int i = 0; i < kBallStatusLength; i += 2) {
-       //Set the value
-        m_ballStatusLedBuffer[i].SetRGB(255,255,0);
-    }
-    photonlib::PhotonTrackedTarget target = result.GetBestTarget();
-    wpi::outs() << "dist estamate"; 
-    wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
-          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
-          units::degree_t{result.GetBestTarget().GetPitch()}).value());
-    frc::SmartDashboard::PutNumber("Yaw", target.GetYaw());
-    frc::SmartDashboard::PutNumber("Pitch", target.GetPitch());
-    frc::SmartDashboard::PutNumber("Skew", target.GetSkew());
-    frc::SmartDashboard::PutNumber("Distance", photonlib::PhotonUtils::CalculateDistanceToTarget(
-          Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
-          units::degree_t{result.GetBestTarget().GetPitch()}).value());
-  }
 
-    m_ballStatusLed.SetLength(kBallStatusLength);
-    m_ballStatusLed.SetData(m_ballStatusLedBuffer);
-    m_ballStatusLed.Start();
+  m_ballStatusLed.SetLength(kBallStatusLength);
+  m_ballStatusLed.SetData(m_ballStatusLedBuffer);
+  m_ballStatusLed.Start();
 
 }
-
-/**
+/*
  * This function is called once each time the robot enters Disabled mode. You
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.

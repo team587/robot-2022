@@ -33,6 +33,8 @@
 #include "commands/AdjustHoodAngle.h"
 #include "commands/TurretAngle.h"
 #include <frc/AddressableLED.h>
+#include <photonlib/PhotonCamera.h>
+#include "commands/LockVisionTargetCommand.h"
 
 //Comment out the below line if deploying code for mini-bot.
 
@@ -59,7 +61,8 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
-
+  photonlib::PhotonCamera m_camera;
+  
   static constexpr int kLength = 62; // number of leds in rings
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
   // Must be a PWM header, not MXP or DIO
@@ -119,6 +122,8 @@ class RobotContainer {
   frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); }, {&m_drive}};
   frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
 #endif
+
+  LockVisionTargetCommand m_LockVisionTargetCommand;
 
 #ifdef INTAKE_SUBSYSTEM
 

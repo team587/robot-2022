@@ -16,12 +16,17 @@
 #include <frc/smartdashboard/smartdashboard.h>
 #include <iostream>
 #include <string>
-
+#include <frc/shuffleboard/shuffleboard.h>
+#include <frc/shuffleboard/ShuffleboardTab.h>
 
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax * hopperMotor) {
   m_hopperMotor = hopperMotor;
   hopperSpeed = -0.3;
   setLoadingSpeed(0);
+
+  frc::Shuffleboard::GetTab("Hopper").Add ("speed", hopperSpeed);
+
+  frc::SmartDashboard::PutNumber("Hopper Speed", hopperSpeed);
 } 
 void HopperSubsystem::HopperStart(){
   m_hopperMotor->Set(hopperSpeed);
@@ -34,6 +39,8 @@ void HopperSubsystem::HopperStop(){
 }
 void HopperSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  hopperSpeed = frc::SmartDashboard::GetNumber("Hopper Speed", hopperSpeed);
+  //hopperSpeed = frc::Shuffleboard::GetTab("Hopper")
   int currentColor = GetColor();
   if (m_coDriverController.GetRawButton(leftJoystickButton)) {
     double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickHorizontal);

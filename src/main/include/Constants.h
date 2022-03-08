@@ -39,21 +39,21 @@ enum JoystickButtonConstants {
     buttonA = 2,
     buttonB = 3,
     buttonY = 4,
-    buttonStart = 10,
-    buttonBack = 9,
-    rightTrigger = 8,
-    leftTrigger = 7,
-    rightBumper = 6,
     leftBumper = 5,
-    rightJoystickButton = 12,
-    leftJoystickButton = 11
+    rightBumper = 6,
+    leftTrigger = 7,
+    rightTrigger = 8,
+    buttonBack = 9,
+    buttonStart = 10,
+    leftJoystickButton = 11,
+    rightJoystickButton = 12
 };
 
 enum JoystickAxesConstants {
     leftJoystickHorizontal = 0,
     leftJoystickVertical = 1,
-    rightJoystickVertical = 3,
-    rightJoystickHorizontal = 2
+    rightJoystickHorizontal = 2,
+    rightJoystickVertical = 3
 };
 
 namespace DriveConstants {

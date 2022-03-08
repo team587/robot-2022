@@ -30,7 +30,7 @@ class Robot : public frc::TimedRobot {
   static constexpr int kBallStatusLength = 12; // number of leds in rings
   std::array<frc::AddressableLED::LEDData, kBallStatusLength> m_ballStatusLedBuffer;
   // Must be a PWM header, not MXP or DIO
-  frc::AddressableLED m_ballStatusLed{1};
+  //frc::AddressableLED m_ballStatusLed{1};
 
   RobotContainer m_container;
 };

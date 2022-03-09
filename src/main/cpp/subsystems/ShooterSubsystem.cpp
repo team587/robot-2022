@@ -11,6 +11,8 @@
 
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/shuffleboard/shuffleboard.h>
+#include <frc/shuffleboard/ShuffleboardTab.h>
 
 ShooterSubsystem::ShooterSubsystem() :
       m_turningLimitSwitch0 (m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
@@ -24,7 +26,7 @@ ShooterSubsystem::ShooterSubsystem() :
       turretAngle = 0;
       hoodVoltageOffset = 0.8;
 
-      frc::SmartDashboard::PutNumber("Shooter Speed", shooterSpeed);
+      frc::Shuffleboard::GetTab("Shooter").Add ("speed", shooterSpeed);
 
       m_shooterMotor2.Follow(m_shooterMotor1, true);
       //shooterMotor2->SetInverted(true);

@@ -9,9 +9,12 @@
 //#include <frc/Relay.h>
 #include <Constants.h>
 #include "subsystems/IntakeSubsystem.h"
+#include <frc/shuffleboard/shuffleboard.h>
+#include <frc/shuffleboard/ShuffleboardTab.h>
 
 
 IntakeSubsystem::IntakeSubsystem() {
+  //frc::Shuffleboard::GetTab("Intake").Add ("speed", IntakeSpeed);
 }
 
 void IntakeSubsystem::Periodic() {

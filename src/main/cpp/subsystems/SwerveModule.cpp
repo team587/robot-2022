@@ -7,7 +7,8 @@
 #include <frc/geometry/Rotation2d.h>
 #include <wpi/numbers>
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include <frc/shuffleboard/shuffleboard.h>
+#include <frc/shuffleboard/ShuffleboardTab.h>
 #include "Constants.h"
 
 SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
@@ -53,6 +54,8 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     frc::SmartDashboard::PutNumber("PValue", turnP);
     frc::SmartDashboard::PutNumber("IValue", turnI);
     frc::SmartDashboard::PutNumber("DValue", turnD);
+
+
 
 
   // Set the distance per pulse for the drive encoder. We can simply use the
@@ -103,9 +106,13 @@ void SwerveModule::SetDesiredState(
   //auto turnOutput = m_turningPIDController.Calculate(
       //units::radian_t(m_turningEncoder.Get()), state.angle.Radians());
 
-  frc::SmartDashboard::PutNumber(m_name + " TurnAngle", state.angle.Radians().to<double>());
-  frc::SmartDashboard::PutNumber(m_name + " CurAngle", angle);
-  frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
+  frc::Shuffleboard::GetTab("Swerve").Add (m_name + " TurnAngle", state.angle.Radians().to<double>());
+  frc::Shuffleboard::GetTab("Swerve").Add (m_name + " CurAngle", angle);
+  frc::Shuffleboard::GetTab("Swerve").Add (m_name +" Speed", state.speed.to<double>());
+
+  //frc::SmartDashboard::PutNumber(m_name + " TurnAngle", state.angle.Radians().to<double>());
+  //frc::SmartDashboard::PutNumber(m_name + " CurAngle", angle);
+  //frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
   //double temp_p = frc::SmartDashboard::GetNumber("PValue", turnP);
   //double temp_i = frc::SmartDashboard::GetNumber("IValue", turnI);
   //double temp_d = frc::SmartDashboard::GetNumber("DValue", turnD);

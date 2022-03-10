@@ -8,8 +8,12 @@
 //#include <frc/Joystick.h>
 //#include <frc/Relay.h>
 #include <Constants.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/shuffleboard/shuffleboard.h>
+#include <frc/shuffleboard/ShuffleboardTab.h>
 
 #include "subsystems/ClimberSubsystem.h"
+
 ClimberSubsystem::ClimberSubsystem(
     rev::CANSparkMax *climberMotor,
     frc::DigitalInput *extendedDigitalInput,
@@ -20,6 +24,8 @@ ClimberSubsystem::ClimberSubsystem(
   
   speed = 1;
   startClimb = false;
+
+  frc::Shuffleboard::GetTab("Climber").Add ("Climber speed", speed);
 
   m_climberMotor->RestoreFactoryDefaults();
   m_climberMotor->SetSmartCurrentLimit(50);
@@ -35,8 +41,12 @@ ClimberSubsystem::ClimberSubsystem(
 
 void ClimberSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  if (m_coDriverController.GetRawButton(buttonStart)) {
+  speed = frc::SmartDashboard::GetNumber("Climber speed", speed);
+  //Toggles endgame mode
+  if (m_coDriverController.GetRawButton(buttonStart) && !startClimb) {
     startClimb = true;
+  } else if (m_coDriverController.GetRawButton(buttonStart) && startClimb) {
+    startClimb = false;
   }
   if (startClimb) {
     double climb = m_coDriverController.GetRawAxis(leftJoystickVertical);

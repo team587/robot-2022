@@ -27,7 +27,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
   void Start();
+  void AutoAim();
   void Stop();
+  void SpeedCycle();
   void turnRight();
   void turnLeft();
   void stopTurning();
@@ -59,6 +61,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   rev::CANSparkMax m_hoodMotor{canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   rev::CANSparkMax m_turningMotor{canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 
+  rev::SparkMaxLimitSwitch m_turningLimitSwitch0;
+  rev::SparkMaxLimitSwitch m_turningLimitSwitch180;
+
   rev::SparkMaxRelativeEncoder m_turretEncoder;
   frc::AnalogInput m_hoodAnalogInput;
 
@@ -68,10 +73,18 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   VisionContainer m_visionContainer;
 
   double shooterSpeed;
+  double shooterSpeedH;
+  double shooterSpeedM;
+  double shooterSpeedL;
   double turningSpeed;
   double hoodAngle;
   double hoodVoltageOffset;
   double turretAngle;
+  bool isRunning = false;
+  bool hSpeed;
+  bool mSpeed;
+  bool lSpeed;
+  bool noSpeed;
 
   double hoodP = 2.25;
   double hoodI = 0;

@@ -42,9 +42,9 @@ void Robot::RobotPeriodic() {
   }
 
 
-  m_ballStatusLed.SetLength(kBallStatusLength);
-  m_ballStatusLed.SetData(m_ballStatusLedBuffer);
-  m_ballStatusLed.Start();
+    //m_ballStatusLed.SetLength(kBallStatusLength);
+    //m_ballStatusLed.SetData(m_ballStatusLedBuffer);
+    //m_ballStatusLed.Start();
 
 }
 /*

@@ -11,16 +11,25 @@
 
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/shuffleboard/shuffleboard.h>
+#include <frc/shuffleboard/ShuffleboardTab.h>
 
 ShooterSubsystem::ShooterSubsystem() :
+      m_turningLimitSwitch0 (m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
+      m_turningLimitSwitch180 (m_turningMotor.GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
       m_turretEncoder(m_turningMotor.GetEncoder()),
       m_hoodAnalogInput(0)
     {
-      shooterSpeed = .1;
+      shooterSpeed = .6;
+      shooterSpeedH = shooterSpeed;
+      shooterSpeedM = shooterSpeed - 0.1;
+      shooterSpeedL = shooterSpeed - 0.2;
       turningSpeed = .1;
       hoodAngle = 0;
       turretAngle = 0;
       hoodVoltageOffset = 0.8;
+
+      frc::Shuffleboard::GetTab("Shooter").Add ("speed", shooterSpeed);
 
       m_shooterMotor2.Follow(m_shooterMotor1, true);
       //shooterMotor2->SetInverted(true);
@@ -31,8 +40,6 @@ ShooterSubsystem::ShooterSubsystem() :
       m_turningMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
       m_turningMotor.EnableVoltageCompensation(12);
 
-      rev::SparkMaxLimitSwitch m_turningLimitSwitch0 = m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
-      rev::SparkMaxLimitSwitch m_turningLimitSwitch180 = m_turningMotor.GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
       m_turningLimitSwitch0.EnableLimitSwitch(true);
       m_turningLimitSwitch180.EnableLimitSwitch(true);
 
@@ -68,18 +75,33 @@ ShooterSubsystem::ShooterSubsystem() :
 
 void ShooterSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
+  shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
+
   frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
+
+  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
+  if (m_driverController.GetRawButton(leftBumper)) {
+   AutoAim();
+  }
+
   adjustHoodAngle();
   adjustTurretAngle();
+
 }
 
 void ShooterSubsystem::Start() {
   m_shooterMotor1.Set(shooterSpeed);
+  isRunning = true;
+  hSpeed = true;
   //m_shooterMotor2.Set(shooterSpeed);
+}
+void ShooterSubsystem::AutoAim(){
+
 }
 
 void ShooterSubsystem::Stop() {
   m_shooterMotor1.Set(0);
+  noSpeed = true;
   //m_shooterMotor2.Set(0);
 }
 void ShooterSubsystem::turnRight(){
@@ -117,20 +139,19 @@ void ShooterSubsystem::adjustHoodAngle() {
 }
 
 void ShooterSubsystem::adjustTurretAngle() {
-  rev::SparkMaxLimitSwitch m_turningLimitSwitch0 = m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
-  rev::SparkMaxLimitSwitch m_turningLimitSwitch180 = m_turningMotor.GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen);
+  
   double currentAngle = m_turretEncoder.GetPosition();
 
   if(m_turningLimitSwitch0.Get()){
     currentAngle = 0;
-    m_turretEncoder.SetPosition(0);
+    m_turretEncoder.SetPosition(currentAngle);
   }
 
   if(m_turningLimitSwitch180.Get()){
     currentAngle = 0.5588;
-    m_turretEncoder.SetPosition(0.5588);
+    m_turretEncoder.SetPosition(currentAngle);
   }
-
+  
   double metersToDegrees = 0.5588 / 180;
 
   frc::SmartDashboard::PutNumber("Turret Cur Ang", currentAngle / metersToDegrees);
@@ -162,4 +183,24 @@ double ShooterSubsystem::getCurrentHoodAngle() {
   double angleToVoltage = 90.0 / 5.0;
   
   return currentAngle * angleToVoltage;
+}
+
+void ShooterSubsystem::SpeedCycle() {
+  if(noSpeed) {
+    noSpeed = false;
+    hSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedH);
+  } else if(hSpeed) {
+    hSpeed = false;
+    mSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedM);
+  } else if(mSpeed) {
+    mSpeed = false;
+    lSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedL);
+  } else if(lSpeed) {
+    lSpeed = false;
+    hSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedH);
+  }
 }

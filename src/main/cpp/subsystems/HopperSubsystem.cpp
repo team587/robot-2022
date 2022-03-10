@@ -18,6 +18,8 @@
 #include <string>
 #include <frc/shuffleboard/shuffleboard.h>
 #include <frc/shuffleboard/ShuffleboardTab.h>
+#include "subsystems/ShooterSubsystem.h"
+
 
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax * hopperMotor) {
   m_hopperMotor = hopperMotor;
@@ -43,9 +45,10 @@ void HopperSubsystem::Periodic() {
   //hopperSpeed = frc::Shuffleboard::GetTab("Hopper")
   int currentColor = GetColor();
   if (m_coDriverController.GetRawButton(leftJoystickButton)) {
-    double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickHorizontal);
+    double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
     m_hopperMotor->Set(joystickAxis);
   } else if (currentColor == 0 || currentColor == 1) {
+    
     m_hopperMotor->Set(0);
   } else {
     m_hopperMotor->Set(hopperSpeed);

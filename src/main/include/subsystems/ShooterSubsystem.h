@@ -28,7 +28,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void Start();
   void AutoAim();
   void Stop();
-  void SpeedToggle();
+  void SpeedCycle();
   void turnRight();
   void turnLeft();
   void stopTurning();
@@ -70,11 +70,18 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   frc2::PIDController m_turretPIDController{turretP, turretI, turretD};
 
   double shooterSpeed;
+  double shooterSpeedH;
+  double shooterSpeedM;
+  double shooterSpeedL;
   double turningSpeed;
   double hoodAngle;
   double hoodVoltageOffset;
   double turretAngle;
   bool isRunning = false;
+  bool hSpeed;
+  bool mSpeed;
+  bool lSpeed;
+  bool noSpeed;
 
   double hoodP = 2.25;
   double hoodI = 0;

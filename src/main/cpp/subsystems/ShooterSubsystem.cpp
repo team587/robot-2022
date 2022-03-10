@@ -21,6 +21,9 @@ ShooterSubsystem::ShooterSubsystem() :
       m_hoodAnalogInput(0)
     {
       shooterSpeed = .6;
+      shooterSpeedH = shooterSpeed;
+      shooterSpeedM = shooterSpeed - 0.1;
+      shooterSpeedL = shooterSpeed - 0.2;
       turningSpeed = .1;
       hoodAngle = 0;
       turretAngle = 0;
@@ -88,6 +91,7 @@ void ShooterSubsystem::Periodic() {
 void ShooterSubsystem::Start() {
   m_shooterMotor1.Set(shooterSpeed);
   isRunning = true;
+  hSpeed = true;
   //m_shooterMotor2.Set(shooterSpeed);
 }
 void ShooterSubsystem::AutoAim(){
@@ -96,7 +100,7 @@ void ShooterSubsystem::AutoAim(){
 
 void ShooterSubsystem::Stop() {
   m_shooterMotor1.Set(0);
-  isRunning = false;
+  noSpeed = true;
   //m_shooterMotor2.Set(0);
 }
 void ShooterSubsystem::turnRight(){
@@ -180,10 +184,22 @@ double ShooterSubsystem::getCurrentHoodAngle() {
   return currentAngle * angleToVoltage;
 }
 
-void ShooterSubsystem::SpeedToggle() {
-  if(isRunning) {
-    Stop();
-  } else {
-    Start();
+void ShooterSubsystem::SpeedCycle() {
+  if(noSpeed) {
+    noSpeed = false;
+    hSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedH);
+  } else if(hSpeed) {
+    hSpeed = false;
+    mSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedM);
+  } else if(mSpeed) {
+    mSpeed = false;
+    lSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedL);
+  } else if(lSpeed) {
+    lSpeed = false;
+    hSpeed = true;
+    m_shooterMotor1.Set(shooterSpeedH);
   }
 }

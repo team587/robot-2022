@@ -7,26 +7,34 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-CycleTurretPositions::CycleTurretPositions(ShooterSubsystem* shooter, bool cycleLeft) {
+CycleTurretPositions::CycleTurretPositions(ShooterSubsystem* shooter, bool turretLeft) {
   // Use addRequirements() here to declare subsystem dependencies.
   //0, 90, 180
 
-  double turretAngle = shooter->getTurretAngle();
+  m_shooterSubsystem = shooter;
 
-  if (cycleLeft) {
-    if (turretAngle <= 90.0) {
-      shooter->setTurretAngle(0.0);
-    } else if (turretAngle <= 180.0) {
-      shooter->setTurretAngle(90.0);
-    }
-  } else {
-    if (turretAngle >= 90.0) {
-      shooter->setTurretAngle(180.0);
-    } else if (turretAngle >= 0.0) {
-      shooter->setTurretAngle(90.0);
-    }
-  }
+  cycleLeft = turretLeft;
+
+
 }
 
 // Called when the command is initially scheduled.
-void CycleTurretPositions::Initialize() {}
+void CycleTurretPositions::Initialize() {
+
+   double turretAngle = m_shooterSubsystem->getTurretAngle();
+
+  if (cycleLeft) {
+    if (turretAngle <= 90.0) {
+      m_shooterSubsystem->setTurretAngle(0.0);
+    } else if (turretAngle <= 180.0) {
+      m_shooterSubsystem->setTurretAngle(90.0);
+    }
+  } else {
+    if (turretAngle >= 90.0) {
+      m_shooterSubsystem->setTurretAngle(180.0);
+    } else if (turretAngle >= 0.0) {
+      m_shooterSubsystem->setTurretAngle(90.0);
+    }
+  }
+
+}

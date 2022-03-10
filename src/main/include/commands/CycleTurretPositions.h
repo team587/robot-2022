@@ -12,7 +12,11 @@ class CycleTurretPositions
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  CycleTurretPositions> {
  public:
-  CycleTurretPositions(ShooterSubsystem* shooter, bool cycleLeft);
+  CycleTurretPositions(ShooterSubsystem* shooter, bool turretLeft);
 
   void Initialize() override;
+
+  ShooterSubsystem *m_shooterSubsystem;
+
+  bool cycleLeft;
 };

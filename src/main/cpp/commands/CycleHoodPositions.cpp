@@ -3,32 +3,37 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/CycleHoodPositions.h"
-
+#include "Constants.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/CommandBase.h>
+#include <iostream>
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-CycleHoodPositions::CycleHoodPositions(ShooterSubsystem* shooter, bool cycleUp) {
+CycleHoodPositions::CycleHoodPositions(ShooterSubsystem* shooter, bool hoodUp) {
   // Use addRequirements() here to declare subsystem dependencies.
 
-  double hoodAngle = shooter->getHoodAngle();
+  m_shooterSubsystem = shooter;
 
-  if (cycleUp) {
-    if (hoodAngle < 15.0) {
-      shooter->setHoodAngle(15.0);
-    } else if (hoodAngle < 30.0) {
-      shooter->setHoodAngle(30.0);
-    }
-  } else {
-    if (hoodAngle > 15.0) {
-      shooter->setHoodAngle(15.0);
-    } else if (hoodAngle > 0.0) {
-      shooter->setHoodAngle(0.0);
-    }
-  }
+  cycleUp = hoodUp;
 
 }
 
 // Called when the command is initially scheduled.
 void CycleHoodPositions::Initialize() {
+    double hoodAngle = m_shooterSubsystem->getHoodAngle();
 
+  if (cycleUp) {
+    if (hoodAngle < 15.0) {
+      m_shooterSubsystem->setHoodAngle(15.0);
+    } else if (hoodAngle < 30.0) {
+      m_shooterSubsystem->setHoodAngle(30.0);
+    }
+  } else {
+    if (hoodAngle > 15.0) {
+      m_shooterSubsystem->setHoodAngle(15.0);
+    } else if (hoodAngle > 0.0) {
+      m_shooterSubsystem->setHoodAngle(0.0);
+    }
+  }
 }

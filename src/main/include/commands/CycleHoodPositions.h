@@ -12,7 +12,11 @@ class CycleHoodPositions
     : public frc2::CommandHelper<frc2::InstantCommand,
                                  CycleHoodPositions> {
  public:
-  CycleHoodPositions(ShooterSubsystem* shooter, bool cycleUp);
+  CycleHoodPositions(ShooterSubsystem* shooter, bool hoodUp);
 
   void Initialize() override;
+
+  ShooterSubsystem *m_shooterSubsystem;
+
+  bool cycleUp;
 };

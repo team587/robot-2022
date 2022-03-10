@@ -13,6 +13,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <rev/CANSparkMax.h>
 #include <rev/ColorSensorV3.h>
+#include <frc/DigitalInput.h>
 #include "Constants.h"
 
 class HopperSubsystem : public frc2::SubsystemBase {
@@ -49,9 +50,12 @@ class HopperSubsystem : public frc2::SubsystemBase {
   rev::CANSparkMax m_loadShooterMotor{canIDs::kLoadShooterMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 
   rev::CANSparkMax *m_hopperMotor;
-  rev::ColorSensorV3 m_colorSensor {frc::I2C::Port::kOnboard };
+  rev::ColorSensorV3 m_colorSensor {frc::I2C::Port::kOnboard};
+
   double hopperSpeed;
   double tolerance;
   double loadingSpeed;
+  
+  frc::DigitalInput m_detectBall{0};
   frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
 };

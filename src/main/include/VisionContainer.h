@@ -16,7 +16,8 @@
 #include <thread>
 #include <photonlib/PhotonUtils.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include "robot.h"
+#include "VisionDistance.h"
+//#include "robot.h"
 
 #ifndef EXCLUDE_PATHPLANNER
 
@@ -31,28 +32,9 @@
  */
 class VisionContainer
 {
-  class VisionDistance {
-    public:
-    VisionDistance();
-    VisionDistance(double minDistance, double maxDistance, double hoodAngle,  double shooterSpeed){
-      m_minDistance = minDistance;
-      m_maxDistance = maxDistance;
-      m_hoodAngle = hoodAngle;
-      m_shooterSpeed = shooterSpeed;
-    };
-    double m_minDistance;
-    double m_maxDistance;
-    double m_hoodAngle;
-    double m_shooterSpeed;
-    bool isDistance(double distance){
-      if(distance >= m_minDistance && distance < m_maxDistance){
-         return true;
-      }
-      return false;
-    }
-  };
 
-public:
+  public:
+
   VisionContainer() {
     int count = 0;
 
@@ -69,9 +51,14 @@ public:
 
   };
 
+  volatile double yaw;
+  volatile double pitch;
+  const static int MAXDISTANCES = 10;
+  VisionDistance visionDistances[MAXDISTANCES];
+
   void start()
   {
-    std::thread m_thread(VisionThread);
+    std::thread m_thread(&VisionContainer::VisionThread, this);
     m_thread.detach();
   };
 
@@ -99,7 +86,7 @@ public:
         units::degree_t(pitch)).value();
   }
   VisionDistance* getVisionDistance(double distance){
-    for(int x = 0; x<sizeof(visionDistances)/sizeof(visionDistances[0]); x++){
+    for(unsigned int x = 0; x < sizeof(visionDistances)/sizeof(visionDistances[0]); x++){
       if(visionDistances[x].isDistance(distance)){
         return &visionDistances[x];
       }
@@ -108,7 +95,7 @@ public:
   }
   double getHoodAngle(double currentAngle)
   {
-    double newangle = currentAngle;
+    //double newangle = currentAngle;
     double distance = getDistance(currentAngle);
     VisionDistance* visionDistance = getVisionDistance(distance);
     return visionDistance->m_hoodAngle;
@@ -120,12 +107,8 @@ public:
   }
 
 private:
-  volatile static double yaw;
-  volatile static double pitch;
-  static const int MAXDISTANCES = 10;
-  VisionContainer::VisionDistance visionDistances[MAXDISTANCES];
 
-  static void VisionThread()
+  void VisionThread()
   {
     photonlib::PhotonCamera m_camera{"mmal_service_16.1"};
     while (true)
@@ -159,3 +142,6 @@ private:
     }
   };
 };
+
+//double VisionContainer::yaw = 0;
+//double VisionContainer::pitch = 0;

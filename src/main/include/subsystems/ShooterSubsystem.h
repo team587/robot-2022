@@ -15,6 +15,7 @@
 #include <frc/controller/PIDController.h>
 #include <frc/AnalogInput.h>
 #include "Constants.h"
+#include "VisionContainer.h"
 
 class ShooterSubsystem : public frc2::SubsystemBase {
  public: 
@@ -32,6 +33,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void turnRight();
   void turnLeft();
   void stopTurning();
+  void SetSpeed(double speed);
   void setHoodAngle(double angle) {
     hoodAngle = angle;
   };
@@ -68,6 +70,8 @@ class ShooterSubsystem : public frc2::SubsystemBase {
 
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};
   frc2::PIDController m_turretPIDController{turretP, turretI, turretD};
+
+  VisionContainer m_visionContainer;
 
   double shooterSpeed;
   double shooterSpeedH;

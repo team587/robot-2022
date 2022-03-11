@@ -67,18 +67,17 @@ RobotContainer::RobotContainer():
 #ifdef HOPPER_SUBSYSTEM
 
         m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hopperSubsystem {&m_hopperMotor},
+        m_hopperSubsystem {&m_hopperMotor, &m_shooterSubsystem},
 
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
         m_adjustHoodAngle{25, &m_shooterSubsystem},
-        m_turretAngle{90, &m_shooterSubsystem},//,
-        m_LockVisionTargetCommand(&m_camera)
-
+        m_turretAngle{90, &m_shooterSubsystem} 
 #endif
 
 #ifdef SWERVE_SUBSYSTEM
+    ,
     m_autoCommand1_0(&m_drive, 1, 0),
     m_autoCommand1_1(&m_drive, 1, 1),
     m_autoCommand1_2(&m_drive, 1, 2),
@@ -156,7 +155,7 @@ void RobotContainer::ConfigureButtonBindings() {
 #endif
 
 
-    frc2::JoystickButton(&m_driverController, buttonA).WhenPressed(m_LockVisionTargetCommand);
+    //frc2::JoystickButton(&m_driverController, buttonA).WhenPressed(m_LockVisionTargetCommand);
     //frc2::JoystickButton(&m_driverController, buttonA).WhenPressed(frc2::PrintCommand("Testing"));
 
 

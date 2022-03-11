@@ -72,6 +72,7 @@ ShooterSubsystem::ShooterSubsystem() :
       m_hoodPIDController.Reset();
       m_hoodPIDController.SetTolerance(0.1);
 
+      m_visionContainer.start();
 }
 
 void ShooterSubsystem::Periodic() {

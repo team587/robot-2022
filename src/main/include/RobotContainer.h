@@ -34,7 +34,6 @@
 #include "commands/TurretAngle.h"
 #include <frc/AddressableLED.h>
 #include <photonlib/PhotonCamera.h>
-#include "commands/LockVisionTargetCommand.h"
 
 //Comment out the below line if deploying code for mini-bot.
 
@@ -67,7 +66,7 @@ class RobotContainer {
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;
   // Must be a PWM header, not MXP or DIO
   frc::AddressableLED m_led{0};
-    
+
 #ifdef CLIMBER_SUBSYSTEM
     
     rev::CANSparkMax m_climberMotor;
@@ -123,7 +122,6 @@ class RobotContainer {
   frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
 #endif
 
-  LockVisionTargetCommand m_LockVisionTargetCommand;
 
 #ifdef INTAKE_SUBSYSTEM
 

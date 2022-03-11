@@ -13,6 +13,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/shuffleboard/shuffleboard.h>
 #include <frc/shuffleboard/ShuffleboardTab.h>
+#include <subsystems/HopperSubsystem.h>
+#include <frc/DriverStation.h>
 
 ShooterSubsystem::ShooterSubsystem() :
       m_turningLimitSwitch0 (m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
@@ -86,6 +88,10 @@ void ShooterSubsystem::Periodic() {
   adjustHoodAngle();
   adjustTurretAngle();
 
+}
+
+void ShooterSubsystem::SetSpeed(double speed) {
+  m_shooterMotor1.Set(speed);
 }
 
 void ShooterSubsystem::Start() {

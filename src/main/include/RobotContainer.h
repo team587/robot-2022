@@ -135,7 +135,6 @@ class RobotContainer {
 #ifdef HOPPER_SUBSYSTEM 
 
   frc2::InstantCommand m_fireShooter{[this] {m_hopperSubsystem.setLoadingSpeed(1.0); m_hopperSubsystem.HopperStart(); }, {&m_hopperSubsystem}};
-  frc2::InstantCommand m_pop_command{[this] {m_hopperSubsystem.setLoadingSpeed(0.5); }, {&m_hopperSubsystem}};
 
 #endif
 

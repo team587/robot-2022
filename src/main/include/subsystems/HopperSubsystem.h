@@ -15,11 +15,13 @@
 #include <rev/ColorSensorV3.h>
 #include <frc/DigitalInput.h>
 #include "Constants.h"
+#include <subsystems/ShooterSubsystem.h>
 
 class HopperSubsystem : public frc2::SubsystemBase {
  public:
   HopperSubsystem(
-    rev::CANSparkMax *hopperMotor);
+    rev::CANSparkMax *hopperMotor,
+    ShooterSubsystem *shooterSub);
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -48,6 +50,7 @@ class HopperSubsystem : public frc2::SubsystemBase {
   
  private:
   rev::CANSparkMax m_loadShooterMotor{canIDs::kLoadShooterMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  ShooterSubsystem *m_shooterSub;
 
   rev::CANSparkMax *m_hopperMotor;
   rev::ColorSensorV3 m_colorSensor {frc::I2C::Port::kOnboard};

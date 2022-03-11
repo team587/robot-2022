@@ -67,7 +67,7 @@ RobotContainer::RobotContainer():
 #ifdef HOPPER_SUBSYSTEM
 
         m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hopperSubsystem {&m_hopperMotor},
+        m_hopperSubsystem {&m_hopperMotor, &m_shooterSubsystem},
 
 #endif
 

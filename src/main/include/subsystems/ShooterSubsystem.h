@@ -32,6 +32,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void turnRight();
   void turnLeft();
   void stopTurning();
+  void SetSpeed(double speed);
   void setHoodAngle(double angle) {
     hoodAngle = angle;
   };

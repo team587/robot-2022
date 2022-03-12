@@ -16,7 +16,7 @@
 
 #pragma once
 
-//#define COMPETITIONBOT
+#define COMPETITIONBOT
 //#define EXCLUDE_PATHPLANNER
 #define CLIMBER_SUBSYSTEM
 #define HOPPER_SUBSYSTEM
@@ -58,20 +58,20 @@ enum JoystickAxesConstants {
 };
 
 namespace DriveConstants {
-constexpr int kFrontLeftDriveMotorPort = 1;
-constexpr int kRearLeftDriveMotorPort = 6;
+constexpr int kFrontLeftDriveMotorPort = 6;
+constexpr int kRearLeftDriveMotorPort = 8;
 constexpr int kFrontRightDriveMotorPort = 3;
-constexpr int kRearRightDriveMotorPort = 8;
+constexpr int kRearRightDriveMotorPort = 1;
 
-constexpr int kFrontLeftTurningMotorPort = 2;
-constexpr int kRearLeftTurningMotorPort = 5;
+constexpr int kFrontLeftTurningMotorPort = 5;
+constexpr int kRearLeftTurningMotorPort = 7;
 constexpr int kFrontRightTurningMotorPort = 4;
-constexpr int kRearRightTurningMotorPort = 7;
+constexpr int kRearRightTurningMotorPort = 2;
 
-constexpr int kFrontLeftAbsoluteEncoderPort = 21;
+constexpr int kFrontLeftAbsoluteEncoderPort = 23;
 constexpr int kFrontRightAbsoluteEncoderPort = 22;
-constexpr int kRearLeftAbsoluteEncoderPort = 23;
-constexpr int kRearRightAbsoluteEncoderPort = 24;
+constexpr int kRearLeftAbsoluteEncoderPort = 24;
+constexpr int kRearRightAbsoluteEncoderPort = 21;
 
 
 constexpr bool kFrontLeftTurningEncoderReversed = true;
@@ -80,9 +80,9 @@ constexpr bool kFrontRightTurningEncoderReversed = true;
 constexpr bool kRearRightTurningEncoderReversed = true;
 
 
-constexpr bool kFrontLeftDriveEncoderReversed = true;
-constexpr bool kRearLeftDriveEncoderReversed = true;
-constexpr bool kFrontRightDriveEncoderReversed = true;
+constexpr bool kFrontLeftDriveEncoderReversed = false;
+constexpr bool kRearLeftDriveEncoderReversed = false;
+constexpr bool kFrontRightDriveEncoderReversed = false;
 constexpr bool kRearRightDriveEncoderReversed = true;
 
 // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
@@ -144,11 +144,12 @@ constexpr int kCoDriverControllerPort = 1;
 }  // namespace OIConstants
 
 enum solenoidIDs {
-    kIntakeSolenoid = 1
+    kIntakeSolenoid = 0,
+    kIntakeSolenoid1 = 1
 };
 
 enum canIDs {
-    kIntakeMotor = 9,
+    kIntakeMotor = 17,
     kClimberMotorPort = 10,
     kExtendedDigitalInput = 11,
     kContractedDigitalInput = 12,
@@ -156,7 +157,7 @@ enum canIDs {
     kShooterMotor2 = 14,
     kHoodMotor = 15,
     kTurningMotor = 16,
-    kHopperMotor = 17,
+    kHopperMotor = 9,
     kLoadShooterMotor =18
 };
 namespace Camerapos { //All of these save goal height are completly made up.

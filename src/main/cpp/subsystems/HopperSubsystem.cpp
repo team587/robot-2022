@@ -27,6 +27,7 @@ HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
   m_hopperMotor = hopperMotor;
   m_shooterSub = shooterSub;
   hopperSpeed = -0.3;
+  //hopperSpeed = 0;
   setLoadingSpeed(0);
 
   frc::Shuffleboard::GetTab("Hopper").Add ("speed", hopperSpeed);

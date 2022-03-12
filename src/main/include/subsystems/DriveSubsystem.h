@@ -91,9 +91,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
   void ResetOdometry(frc::Pose2d pose);
 
   units::meter_t kTrackWidth =
-      0.27_m;  // Distance between centers of right and left wheels on robot
+      0.8128_m;  // Distance between centers of right and left wheels on robot
   units::meter_t kWheelBase =
-      0.27_m;  // Distance between centers of front and back wheels on robot
+      0.6858_m;  // Distance between centers of front and back wheels on robot
 
   frc::SwerveDriveKinematics<4> kDriveKinematics{
       frc::Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -113,8 +113,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   double m_speedController;
 
   // The gyro sensor
-  //AHRS m_NavX{frc::SPI::Port::kMXP};
-  AHRS m_NavX{frc::SerialPort::Port::kUSB1};
+  AHRS m_NavX{frc::SPI::Port::kMXP};
+  //AHRS m_NavX{frc::SerialPort::Port::kUSB1};
   // Odometry class for tracking robot pose
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;

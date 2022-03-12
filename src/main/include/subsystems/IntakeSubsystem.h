@@ -13,6 +13,7 @@
 #include <frc2/command/CommandHelper.h>
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
+#include <frc/DoubleSolenoid.h>
 #include <rev/CANSparkMax.h>
 #include "Constants.h"
 
@@ -30,7 +31,7 @@ IntakeSubsystem();
  private:
   
   rev::CANSparkMax m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
-  //frc::Solenoid m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
+  frc::DoubleSolenoid m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid, solenoidIDs::kIntakeSolenoid1};
   
 
 };

@@ -42,10 +42,11 @@ ShooterSubsystem::ShooterSubsystem() :
       turretAngle = 0;
       hoodVoltageOffset = 0.8;
 
-      frc::Shuffleboard::GetTab("Shooter").Add("speed", shooterSpeed);
-
+      //frc::Shuffleboard::GetTab("Shooter").Add("speed", shooterSpeed);
+    
+      //m_shooterMotor1.SetInverted(true);
       m_shooterMotor2.Follow(m_shooterMotor1, true);
-      //shooterMotor2->SetInverted(true);
+      Stop();
 
 #ifdef TURRET_SUBSYSTEM
       m_turningMotor.RestoreFactoryDefaults();
@@ -91,6 +92,10 @@ void ShooterSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
   shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
 
+  frc::SmartDashboard::PutNumber("m_shooterMotor1", m_shooterMotor1.Get());
+  frc::SmartDashboard::PutNumber("m_shooterMotor2", m_shooterMotor2.Get());
+
+  //frc::Shuffleboard::GetTab("Shooter").("speed", shooterSpeed);
   frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
 
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
@@ -224,7 +229,7 @@ double ShooterSubsystem::getCurrentHoodAngle() {
 
 void ShooterSubsystem::SpeedCycle() {
   if (dumpSpeed) {
-    speed = .2;
+    m_shooterMotor1.Set(.3);
   } else {
     speedIndex++;
     speedIndex = speedIndex % 4;

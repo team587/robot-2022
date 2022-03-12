@@ -26,7 +26,7 @@ ShooterSubsystem::ShooterSubsystem() :
 
       m_hoodAnalogInput(0)
     {
-      shooterSpeed = .6;
+      shooterSpeed = .75;
       //shooterSpeedH = shooterSpeed;
       //shooterSpeedM = shooterSpeed - 0.1;
       //shooterSpeedL = shooterSpeed - 0.2;

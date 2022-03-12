@@ -21,11 +21,11 @@ void IntakeSubsystem::Periodic() {
 
 }
 void IntakeSubsystem::Deploy(){
-  //m_intakeSolenoid.Set(true);
+  m_intakeSolenoid.Set(frc::DoubleSolenoid::kForward);
 }
 
 void IntakeSubsystem::Retreat(){
-  //m_intakeSolenoid.Set(false);
+  m_intakeSolenoid.Set(frc::DoubleSolenoid::kReverse);
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){

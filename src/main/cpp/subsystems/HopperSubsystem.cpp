@@ -27,6 +27,7 @@ HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
   m_hopperMotor = hopperMotor;
   m_shooterSub = shooterSub;
   hopperSpeed = -0.3;
+  //hopperSpeed = 0;
   setLoadingSpeed(0);
 
   frc::Shuffleboard::GetTab("Hopper").Add ("speed", hopperSpeed);
@@ -51,9 +52,9 @@ void HopperSubsystem::Periodic() {
   frc::DriverStation::Alliance alliance = frc::DriverStation::GetAlliance();
 
   if (frc::DriverStation::Alliance::kBlue == alliance && currentColor == 0) {
-    m_shooterSub->SetSpeed(0.1);
+    m_shooterSub->SetSpeed(0.3);
   } else if (frc::DriverStation::Alliance::kRed == alliance && currentColor == 1) {
-    m_shooterSub->SetSpeed(0.1);
+    m_shooterSub->SetSpeed(0.3);
   }
 
   if (m_coDriverController.GetRawButton(leftJoystickButton)) {

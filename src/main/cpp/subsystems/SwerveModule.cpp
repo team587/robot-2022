@@ -31,6 +31,7 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_driveMotor.SetSmartCurrentLimit(50);
     m_driveMotor.SetSecondaryCurrentLimit(80);
     m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    //m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
     m_driveMotor.EnableVoltageCompensation(12);
     //m_drive_encoder = &m_driveMotor.GetEncoder();
 
@@ -106,13 +107,13 @@ void SwerveModule::SetDesiredState(
   //auto turnOutput = m_turningPIDController.Calculate(
       //units::radian_t(m_turningEncoder.Get()), state.angle.Radians());
 
-  frc::Shuffleboard::GetTab("Swerve").Add (m_name + " TurnAngle", state.angle.Radians().to<double>());
-  frc::Shuffleboard::GetTab("Swerve").Add (m_name + " CurAngle", angle);
-  frc::Shuffleboard::GetTab("Swerve").Add (m_name +" Speed", state.speed.to<double>());
+  //frc::Shuffleboard::GetTab("Swerve").Add (m_name + " TurnAngle", state.angle.Radians().to<double>());
+  //frc::Shuffleboard::GetTab("Swerve").Add (m_name + " CurAngle", angle);
+  //frc::Shuffleboard::GetTab("Swerve").Add (m_name +" Speed", state.speed.to<double>());
 
-  //frc::SmartDashboard::PutNumber(m_name + " TurnAngle", state.angle.Radians().to<double>());
-  //frc::SmartDashboard::PutNumber(m_name + " CurAngle", angle);
-  //frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
+  frc::SmartDashboard::PutNumber(m_name + " TurnAngle", state.angle.Radians().to<double>());
+  frc::SmartDashboard::PutNumber(m_name + " CurAngle", angle);
+  frc::SmartDashboard::PutNumber(m_name + " Speed", state.speed.to<double>());
   //double temp_p = frc::SmartDashboard::GetNumber("PValue", turnP);
   //double temp_i = frc::SmartDashboard::GetNumber("IValue", turnI);
   //double temp_d = frc::SmartDashboard::GetNumber("DValue", turnD);

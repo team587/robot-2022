@@ -18,7 +18,7 @@
 
 ShooterSubsystem::ShooterSubsystem() :
 
-#ifdef TURRET_SUBSYSTEMP
+#ifdef TURRET_SUBSYSTEM
       m_turningLimitSwitch0 (m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
       m_turningLimitSwitch180 (m_turningMotor.GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
       m_turretEncoder(m_turningMotor.GetEncoder()),
@@ -33,7 +33,7 @@ ShooterSubsystem::ShooterSubsystem() :
       shooterSpeeds[0] = 0;
       shooterSpeeds[1] = shooterSpeed;
       shooterSpeeds[2] = shooterSpeed - 0.1;
-      shooterSpeed[3] = shooterSpeed - 0.2;
+      shooterSpeeds[3] = shooterSpeed - 0.2;
       speedIndex = 0;
       dumpSpeed = false;
 
@@ -44,7 +44,7 @@ ShooterSubsystem::ShooterSubsystem() :
 
       //frc::Shuffleboard::GetTab("Shooter").Add("speed", shooterSpeed);
     
-      //m_shooterMotor1.SetInverted(true);
+      m_shooterMotor1.SetInverted(true);
       m_shooterMotor2.Follow(m_shooterMotor1, true);
       Stop();
 
@@ -90,7 +90,7 @@ ShooterSubsystem::ShooterSubsystem() :
 
 void ShooterSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
+  //shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
 
   frc::SmartDashboard::PutNumber("m_shooterMotor1", m_shooterMotor1.Get());
   frc::SmartDashboard::PutNumber("m_shooterMotor2", m_shooterMotor2.Get());
@@ -105,6 +105,11 @@ void ShooterSubsystem::Periodic() {
 
   adjustHoodAngle();
 
+  if (dumpSpeed && speedIndex > 0) {
+    m_shooterMotor1.Set(.3);
+  } else {
+    m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  }
 #ifdef TURRET_SUBSYSTEM
   adjustTurretAngle();
 #endif
@@ -139,7 +144,7 @@ void ShooterSubsystem::AutoAim(){
 }
 
 void ShooterSubsystem::Stop() {
-  speedIndex = 0
+  speedIndex = 0;
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   //noSpeed = true;
   //m_shooterMotor2.Set(0);
@@ -227,14 +232,15 @@ double ShooterSubsystem::getCurrentHoodAngle() {
   return currentAngle * angleToVoltage;
 }
 
-void ShooterSubsystem::SpeedCycle() {
-  if (dumpSpeed) {
-    m_shooterMotor1.Set(.3);
-  } else {
-    speedIndex++;
-    speedIndex = speedIndex % 4;
-    m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+void ShooterSubsystem::SetDumpMode(bool dump) { 
+    frc::SmartDashboard::PutBoolean("Dump  Mode", dump);
+    dumpSpeed = dump; 
   }
+
+void ShooterSubsystem::SpeedCycle() {
+  speedIndex++;
+  speedIndex = speedIndex % 4;
+  //m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   
   
   /*if(noSpeed) {

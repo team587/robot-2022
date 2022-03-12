@@ -52,23 +52,27 @@ void HopperSubsystem::Periodic() {
   frc::DriverStation::Alliance alliance = frc::DriverStation::GetAlliance();
 
   if (frc::DriverStation::Alliance::kBlue == alliance && currentColor == 0) {
-    m_shooterSub->sertDumpMode(true);
+    m_shooterSub->SetDumpMode(true);
   } else if (frc::DriverStation::Alliance::kRed == alliance && currentColor == 1) {
-    m_shooterSub->sertDumpMode(true);
+    m_shooterSub->SetDumpMode(true);
   } else {
-    m_shooterSub->sertDumpMode(false);
+    m_shooterSub->SetDumpMode(false);
   }
 
+  if (m_DriverController.GetRawButton(buttonB) || m_coDriverController.GetRawButton(buttonB)) {
+    setLoadingSpeed(1.0);
+  } else {
+    setLoadingSpeed(0);
+  }
+  
   if (m_coDriverController.GetRawButton(leftJoystickButton)) {
     double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
     m_hopperMotor->Set(joystickAxis);
-    
   } else if ((currentColor == 0 || currentColor == 1) && detectBall == true) {
     m_hopperMotor->Set(0);
-
   } else {
     m_hopperMotor->Set(hopperSpeed);
-    setLoadingSpeed(0);
+    //setLoadingSpeed(0);
   }
   frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
 }

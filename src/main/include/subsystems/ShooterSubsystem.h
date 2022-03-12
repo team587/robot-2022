@@ -41,7 +41,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
     return hoodAngle;
   };
 
-  void sertDumpMode(bool dump) { dumpSpeed = dump; }
+  void SetDumpMode(bool dump);
 
 #ifdef TURRET_SUBSYSTEM
   void setTurretAngle(double TurretAngle) {
@@ -90,7 +90,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   //double shooterSpeedH;
   //double shooterSpeedM;
   //double shooterSpeedL;
-  double shooterSpeeds[3];
+  double shooterSpeeds[4];
   int speedIndex;
   
   double turningSpeed;

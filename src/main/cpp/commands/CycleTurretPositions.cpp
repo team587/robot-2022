@@ -21,6 +21,7 @@ CycleTurretPositions::CycleTurretPositions(ShooterSubsystem* shooter, bool turre
 // Called when the command is initially scheduled.
 void CycleTurretPositions::Initialize() {
 
+#ifdef TURRET_SUBSYSTEM
    double turretAngle = m_shooterSubsystem->getTurretAngle();
 
   if (cycleLeft) {
@@ -36,5 +37,5 @@ void CycleTurretPositions::Initialize() {
       m_shooterSubsystem->setTurretAngle(90.0);
     }
   }
-
+#endif
 }

@@ -51,9 +51,11 @@ void HopperSubsystem::Periodic() {
   frc::DriverStation::Alliance alliance = frc::DriverStation::GetAlliance();
 
   if (frc::DriverStation::Alliance::kBlue == alliance && currentColor == 0) {
-    m_shooterSub->SetSpeed(0.1);
+    m_shooterSub->sertDumpMode(true);
   } else if (frc::DriverStation::Alliance::kRed == alliance && currentColor == 1) {
-    m_shooterSub->SetSpeed(0.1);
+    m_shooterSub->sertDumpMode(true);
+  } else {
+    m_shooterSub->sertDumpMode(false);
   }
 
   if (m_coDriverController.GetRawButton(leftJoystickButton)) {

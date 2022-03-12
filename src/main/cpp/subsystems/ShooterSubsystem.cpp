@@ -17,25 +17,37 @@
 #include <frc/DriverStation.h>
 
 ShooterSubsystem::ShooterSubsystem() :
+
+#ifdef TURRET_SUBSYSTEMP
       m_turningLimitSwitch0 (m_turningMotor.GetForwardLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
       m_turningLimitSwitch180 (m_turningMotor.GetReverseLimitSwitch(rev::SparkMaxLimitSwitch::Type::kNormallyOpen)),
       m_turretEncoder(m_turningMotor.GetEncoder()),
+#endif
+
       m_hoodAnalogInput(0)
     {
       shooterSpeed = .6;
-      shooterSpeedH = shooterSpeed;
-      shooterSpeedM = shooterSpeed - 0.1;
-      shooterSpeedL = shooterSpeed - 0.2;
+      //shooterSpeedH = shooterSpeed;
+      //shooterSpeedM = shooterSpeed - 0.1;
+      //shooterSpeedL = shooterSpeed - 0.2;
+      shooterSpeeds[0] = 0;
+      shooterSpeeds[1] = shooterSpeed;
+      shooterSpeeds[2] = shooterSpeed - 0.1;
+      shooterSpeed[3] = shooterSpeed - 0.2;
+      speedIndex = 0;
+      dumpSpeed = false;
+
       turningSpeed = .1;
       hoodAngle = 0;
       turretAngle = 0;
       hoodVoltageOffset = 0.8;
 
-      frc::Shuffleboard::GetTab("Shooter").Add ("speed", shooterSpeed);
+      frc::Shuffleboard::GetTab("Shooter").Add("speed", shooterSpeed);
 
       m_shooterMotor2.Follow(m_shooterMotor1, true);
       //shooterMotor2->SetInverted(true);
 
+#ifdef TURRET_SUBSYSTEM
       m_turningMotor.RestoreFactoryDefaults();
       m_turningMotor.SetSmartCurrentLimit(30);
       m_turningMotor.SetSecondaryCurrentLimit(50);
@@ -44,7 +56,6 @@ ShooterSubsystem::ShooterSubsystem() :
 
       m_turningLimitSwitch0.EnableLimitSwitch(true);
       m_turningLimitSwitch180.EnableLimitSwitch(true);
-
 
       //In meters
       //1.121156 is the perimeter of the turret gear.
@@ -55,6 +66,7 @@ ShooterSubsystem::ShooterSubsystem() :
 
       m_turretPIDController.Reset();
       m_turretPIDController.SetTolerance(0.1);
+#endif
 
       m_hoodMotor.RestoreFactoryDefaults();
       m_hoodMotor.SetSmartCurrentLimit(30);
@@ -87,18 +99,22 @@ void ShooterSubsystem::Periodic() {
   }
 
   adjustHoodAngle();
+
+#ifdef TURRET_SUBSYSTEM
   adjustTurretAngle();
+#endif
 
 }
 
-void ShooterSubsystem::SetSpeed(double speed) {
-  m_shooterMotor1.Set(speed);
-}
+//void ShooterSubsystem::SetSpeed(double speed) {
+//  m_shooterMotor1.Set(speed);
+//}
 
 void ShooterSubsystem::Start() {
-  m_shooterMotor1.Set(shooterSpeed);
-  isRunning = true;
-  hSpeed = true;
+  speedIndex = 1;
+  m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  //isRunning = true;
+  //hSpeed = true;
   //m_shooterMotor2.Set(shooterSpeed);
 }
 void ShooterSubsystem::AutoAim(){
@@ -109,15 +125,18 @@ void ShooterSubsystem::AutoAim(){
   double angle = currentAngle * angleToVoltage;
   hoodAngle = m_visionContainer.getHoodAngle(angle);
   // For Turret:
+#ifdef TURRET_SUBSYSTEM
   turretAngle = m_visionContainer.getTurretAngle(angle);
+#endif
   // For wheels
   shooterSpeed = m_visionContainer.getShooterSpeed(angle);
 
 }
 
 void ShooterSubsystem::Stop() {
-  m_shooterMotor1.Set(0);
-  noSpeed = true;
+  speedIndex = 0
+  m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  //noSpeed = true;
   //m_shooterMotor2.Set(0);
 }
 void ShooterSubsystem::turnRight(){
@@ -154,6 +173,7 @@ void ShooterSubsystem::adjustHoodAngle() {
   m_hoodMotor.Set(output);
 }
 
+#ifdef TURRET_SUBSYSTEM
 void ShooterSubsystem::adjustTurretAngle() {
   
   double currentAngle = m_turretEncoder.GetPosition();
@@ -189,6 +209,7 @@ double ShooterSubsystem::getCurrentTurretAngle() {
   return currentAngle / metersToDegrees;
 
 }
+#endif
 
 double ShooterSubsystem::getCurrentHoodAngle() {
 
@@ -202,7 +223,16 @@ double ShooterSubsystem::getCurrentHoodAngle() {
 }
 
 void ShooterSubsystem::SpeedCycle() {
-  if(noSpeed) {
+  if (dumpSpeed) {
+    speed = .2;
+  } else {
+    speedIndex++;
+    speedIndex = speedIndex % 4;
+    m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  }
+  
+  
+  /*if(noSpeed) {
     noSpeed = false;
     hSpeed = true;
     m_shooterMotor1.Set(shooterSpeedH);
@@ -218,5 +248,5 @@ void ShooterSubsystem::SpeedCycle() {
     lSpeed = false;
     hSpeed = true;
     m_shooterMotor1.Set(shooterSpeedH);
-  }
+  }*/
 }

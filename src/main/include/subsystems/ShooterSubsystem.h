@@ -33,13 +33,17 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void turnRight();
   void turnLeft();
   void stopTurning();
-  void SetSpeed(double speed);
+  //void SetSpeed(double speed);
   void setHoodAngle(double angle) {
     hoodAngle = angle;
   };
   double getHoodAngle() {
     return hoodAngle;
   };
+
+  void sertDumpMode(bool dump) { dumpSpeed = dump; }
+
+#ifdef TURRET_SUBSYSTEM
   void setTurretAngle(double TurretAngle) {
     turretAngle = TurretAngle;
   };
@@ -47,45 +51,58 @@ class ShooterSubsystem : public frc2::SubsystemBase {
     return turretAngle;
   };
   double getCurrentTurretAngle();
+  void adjustTurretAngle();
+#endif
+
   double getCurrentHoodAngle();
   void adjustHoodAngle();
-  void adjustTurretAngle();
-  void setShooterSpeed(double ShooterSpeed) {
-    shooterSpeed = ShooterSpeed;
-    m_shooterMotor1.Set(shooterSpeed);
-  }
+  //void setShooterSpeed(double ShooterSpeed) {
+  //  shooterSpeed = ShooterSpeed;
+  //  m_shooterMotor1.Set(shooterSpeed);
+  //}
   
  private:
   
   rev::CANSparkMax m_shooterMotor1{canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   rev::CANSparkMax m_shooterMotor2{canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   rev::CANSparkMax m_hoodMotor{canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+
+#ifdef TURRET_SUBSYSTEM
   rev::CANSparkMax m_turningMotor{canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 
   rev::SparkMaxLimitSwitch m_turningLimitSwitch0;
   rev::SparkMaxLimitSwitch m_turningLimitSwitch180;
 
   rev::SparkMaxRelativeEncoder m_turretEncoder;
+#endif
+
   frc::AnalogInput m_hoodAnalogInput;
 
   frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};
+
+#ifdef TURRET_SUBSYSTEM
   frc2::PIDController m_turretPIDController{turretP, turretI, turretD};
+#endif
 
   VisionContainer m_visionContainer;
 
   double shooterSpeed;
-  double shooterSpeedH;
-  double shooterSpeedM;
-  double shooterSpeedL;
+  //double shooterSpeedH;
+  //double shooterSpeedM;
+  //double shooterSpeedL;
+  double shooterSpeeds[3];
+  int speedIndex;
+  
   double turningSpeed;
   double hoodAngle;
   double hoodVoltageOffset;
   double turretAngle;
-  bool isRunning = false;
-  bool hSpeed;
-  bool mSpeed;
-  bool lSpeed;
-  bool noSpeed;
+  //bool isRunning = false;
+  //bool hSpeed;
+  //bool mSpeed;
+  //bool lSpeed;
+  //bool noSpeed;
+  bool dumpSpeed;
 
   double hoodP = 2.25;
   double hoodI = 0;

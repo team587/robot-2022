@@ -107,6 +107,16 @@ void ShooterSubsystem::Start() {
 }
 void ShooterSubsystem::AutoAim(){
 
+  double currentAngle = m_hoodAnalogInput.GetVoltage();
+  currentAngle -= hoodVoltageOffset;
+  double angleToVoltage = 90.0 / 5.0;
+  double angle = currentAngle * angleToVoltage;
+  hoodAngle = m_visionContainer.getHoodAngle(angle);
+  // For Turret:
+  turretAngle = m_visionContainer.getTurretAngle(angle);
+  // For wheels
+  shooterSpeed = m_visionContainer.getShooterSpeed(angle);
+
 }
 
 void ShooterSubsystem::Stop() {

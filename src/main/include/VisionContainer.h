@@ -62,7 +62,7 @@ class VisionContainer
     m_thread.detach();
   };
 
-  double getTargetAngle(double currentAngle)
+  double getTurretAngle(double currentAngle)
   {
     double newangle = currentAngle;
     if (yaw > 1.0 || yaw < -1.0)

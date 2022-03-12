@@ -64,8 +64,11 @@ ShooterSubsystem::ShooterSubsystem() :
       //30 is the number of teeth on the turret driving gear.
       //7 is the gear reduction of the vex planetary.
       m_turretEncoder.SetPositionConversionFactor(1.121156 / (281.0 / 30.0 * 7.0));
-
+      m_turretEncoder.SetPosition(0);
       m_turretPIDController.Reset();
+      m_turretPIDController.SetP(turretP);
+      m_turretPIDController.SetI(turretI);
+      m_turretPIDController.SetD(turretD);
       m_turretPIDController.SetTolerance(0.1);
 #endif
 
@@ -83,6 +86,9 @@ ShooterSubsystem::ShooterSubsystem() :
       //m_hoodEncoder.SetPositionConversionFactor(8);
 
       m_hoodPIDController.Reset();
+      m_hoodPIDController.SetP(hoodP);
+      m_hoodPIDController.SetI(hoodI);
+      m_hoodPIDController.SetD(hoodD);
       m_hoodPIDController.SetTolerance(0.1);
 
       m_visionContainer.start();
@@ -179,7 +185,7 @@ void ShooterSubsystem::adjustHoodAngle() {
   double output = m_hoodPIDController.Calculate(currentAngle, hoodAngle / angleToVoltage);
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
-
+  frc::SmartDashboard::PutNumber("Hood Des Output", output);
   m_hoodMotor.Set(output);
 }
 
@@ -208,7 +214,8 @@ void ShooterSubsystem::adjustTurretAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
 
-  m_turningMotor.Set(output);
+ // m_turningMotor.Set(output);
+ m_turningMotor.Set(0);
 }
 
 double ShooterSubsystem::getCurrentTurretAngle() {

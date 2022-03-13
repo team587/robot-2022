@@ -15,6 +15,9 @@
 
 IntakeSubsystem::IntakeSubsystem() {
   //frc::Shuffleboard::GetTab("Intake").Add ("speed", IntakeSpeed);
+
+  Retreat();
+
 }
 
 void IntakeSubsystem::Periodic() {
@@ -22,10 +25,12 @@ void IntakeSubsystem::Periodic() {
 }
 void IntakeSubsystem::Deploy(){
   m_intakeSolenoid.Set(frc::DoubleSolenoid::kForward);
+  m_deployed = true;
 }
 
 void IntakeSubsystem::Retreat(){
   m_intakeSolenoid.Set(frc::DoubleSolenoid::kReverse);
+  m_deployed = false;
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){

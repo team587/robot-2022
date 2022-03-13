@@ -53,7 +53,7 @@ void HopperSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
   hopperSpeed = frc::SmartDashboard::GetNumber("Hopper Speed", hopperSpeed);
   //hopperSpeed = frc::Shuffleboard::GetTab("Hopper")
-  bool detectBall = m_detectBall.Get();
+  //bool detectBall = m_detectBall.Get();
   int currentColor = GetColor();
   frc::DriverStation::Alliance alliance = frc::DriverStation::GetAlliance();
 

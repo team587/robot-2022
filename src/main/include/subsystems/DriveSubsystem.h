@@ -112,6 +112,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
   
   double m_speedController;
 
+  units::meters_per_second_t m_lastXSpeed;
+  units::meters_per_second_t m_lastYSpeed;
+  units::meters_per_second_t m_decelerate;
+
   // The gyro sensor
   AHRS m_NavX{frc::SPI::Port::kMXP};
   //AHRS m_NavX{frc::SerialPort::Port::kUSB1};

@@ -68,7 +68,7 @@ class HopperSubsystem : public frc2::SubsystemBase {
   double tolerance;
   double loadingSpeed;
   
-  frc::DigitalInput m_detectBall{0};
+  //frc::DigitalInput m_detectBall{0};
   frc::Joystick m_DriverController{OIConstants::kDriverControllerPort};
   frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
 };

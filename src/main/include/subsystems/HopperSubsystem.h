@@ -25,6 +25,9 @@ class HopperSubsystem : public frc2::SubsystemBase {
     ShooterSubsystem *shooterSub,
     IntakeSubsystem *intakeSub,
     frc::DigitalInput *hopperBallDetection);
+    bool Ball;
+    bool Index;
+    bool Deploy;
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.

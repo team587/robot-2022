@@ -27,11 +27,15 @@ IntakeSubsystem();
   void Deploy();
   void Retreat();
   void IntakeSpeed(double IntakeSpeed);
+  bool getDeployed() {
+    return m_deployed;
+  }
   
  private:
   
   rev::CANSparkMax m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   frc::DoubleSolenoid m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid, solenoidIDs::kIntakeSolenoid1};
-  
+  bool m_deployed;  
+
 
 };

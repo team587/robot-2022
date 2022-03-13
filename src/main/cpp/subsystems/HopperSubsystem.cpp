@@ -20,17 +20,23 @@
 #include <frc/shuffleboard/ShuffleboardTab.h>
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/DriverStation.h>
+#include <subsystems/IntakeSubsystem.h>
 
 
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
-    ShooterSubsystem *shooterSub) {
+    ShooterSubsystem *shooterSub, IntakeSubsystem *intakeSub,
+    frc::DigitalInput *hopperBallDetection) {
   m_hopperMotor = hopperMotor;
   m_shooterSub = shooterSub;
+  m_intakeSub = intakeSub;
+  m_hopperBallDetection = hopperBallDetection;
   hopperSpeed = -0.3;
+
+
   //hopperSpeed = 0;
   setLoadingSpeed(0);
 
-  frc::Shuffleboard::GetTab("Hopper").Add ("speed", hopperSpeed);
+  frc::Shuffleboard::GetTab("Hopper").Add ("Hopper speed", hopperSpeed);
 
   frc::SmartDashboard::PutNumber("Hopper Speed", hopperSpeed);
 } 
@@ -65,15 +71,28 @@ void HopperSubsystem::Periodic() {
     setLoadingSpeed(0);
   }
   
-  if (m_coDriverController.GetRawButton(leftJoystickButton)) {
-    double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
-    m_hopperMotor->Set(joystickAxis);
-  } else if ((currentColor == 0 || currentColor == 1) && detectBall == true) {
+  Ball = currentColor != -1;
+  Index = m_hopperBallDetection->Get();
+  Deploy = m_intakeSub->getDeployed();
+
+  if  
+  ((!Ball && !Index && !Deploy) ||
+  (Ball && !Index && !Deploy)  ||
+  (Ball && Index && !Deploy) ||
+  (Ball && Index && Deploy)) {
+    m_hopperMotor->Set(0);
+  } else {
+    m_hopperMotor->Set(1);
+  }
+  //if (m_coDriverController.GetRawButton(leftJoystickButton)) {
+  //  double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
+  //  m_hopperMotor->Set(joystickAxis);
+  /*} else if ((currentColor == 0 || currentColor == 1) && detectBall == true) {
     m_hopperMotor->Set(0);
   } else {
     m_hopperMotor->Set(hopperSpeed);
     //setLoadingSpeed(0);
-  }
+  }*/
   frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
 }
 

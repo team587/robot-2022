@@ -16,12 +16,18 @@
 #include <frc/DigitalInput.h>
 #include "Constants.h"
 #include <subsystems/ShooterSubsystem.h>
+#include <subsystems/IntakeSubsystem.h>
 
 class HopperSubsystem : public frc2::SubsystemBase {
  public:
   HopperSubsystem(
     rev::CANSparkMax *hopperMotor,
-    ShooterSubsystem *shooterSub);
+    ShooterSubsystem *shooterSub,
+    IntakeSubsystem *intakeSub,
+    frc::DigitalInput *hopperBallDetection);
+    bool Ball;
+    bool Index;
+    bool Deploy;
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -54,6 +60,9 @@ class HopperSubsystem : public frc2::SubsystemBase {
 
   rev::CANSparkMax *m_hopperMotor;
   rev::ColorSensorV3 m_colorSensor {frc::I2C::Port::kOnboard};
+
+  IntakeSubsystem *m_intakeSub;
+  frc::DigitalInput *m_hopperBallDetection;
 
   double hopperSpeed;
   double tolerance;

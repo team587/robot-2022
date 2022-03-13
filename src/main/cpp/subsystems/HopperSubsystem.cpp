@@ -65,15 +65,20 @@ void HopperSubsystem::Periodic() {
     setLoadingSpeed(0);
   }
   
-  if (m_coDriverController.GetRawButton(leftJoystickButton)) {
-    double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
-    m_hopperMotor->Set(joystickAxis);
-  } else if ((currentColor == 0 || currentColor == 1) && detectBall == true) {
+  if (currentColor == -1 && true /*calvin's stuff goes here*/) {
+    m_hopperMotor->Set(0);
+  } else {
+    m_hopperMotor->Set(hopperSpeed);
+  }
+  //if (m_coDriverController.GetRawButton(leftJoystickButton)) {
+  //  double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
+  //  m_hopperMotor->Set(joystickAxis);
+  /*} else if ((currentColor == 0 || currentColor == 1) && detectBall == true) {
     m_hopperMotor->Set(0);
   } else {
     m_hopperMotor->Set(hopperSpeed);
     //setLoadingSpeed(0);
-  }
+  }*/
   frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
 }
 

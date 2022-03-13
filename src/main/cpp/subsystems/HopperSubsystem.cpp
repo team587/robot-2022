@@ -20,17 +20,21 @@
 #include <frc/shuffleboard/ShuffleboardTab.h>
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/DriverStation.h>
+#include <subsystems/IntakeSubsystem.h>
 
 
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
-    ShooterSubsystem *shooterSub) {
+    ShooterSubsystem *shooterSub, IntakeSubsystem *intakeSub,
+    frc::DigitalInput *hopperBallDetection) {
   m_hopperMotor = hopperMotor;
   m_shooterSub = shooterSub;
+  m_intakeSub = intakeSub;
+  m_hopperBallDetection = hopperBallDetection;
   hopperSpeed = -0.3;
   //hopperSpeed = 0;
   setLoadingSpeed(0);
 
-  frc::Shuffleboard::GetTab("Hopper").Add ("speed", hopperSpeed);
+  frc::Shuffleboard::GetTab("Hopper").Add ("Hopper speed", hopperSpeed);
 
   frc::SmartDashboard::PutNumber("Hopper Speed", hopperSpeed);
 } 

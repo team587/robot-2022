@@ -34,6 +34,7 @@
 #include "commands/TurretAngle.h"
 #include <frc/AddressableLED.h>
 #include <photonlib/PhotonCamera.h>
+#include <frc/DigitalInput.h>
 
 //Comment out the below line if deploying code for mini-bot.
 
@@ -133,6 +134,7 @@ class RobotContainer {
 #ifdef HOPPER_SUBSYSTEM 
 
   //frc2::InstantCommand m_fireShooter{[this] {m_hopperSubsystem.setLoadingSpeed(1.0); m_hopperSubsystem.HopperStart(); }, {&m_hopperSubsystem}};
+  frc::DigitalInput m_hopperBallDetection;
 
 #endif
 

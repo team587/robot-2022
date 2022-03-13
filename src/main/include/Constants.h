@@ -35,6 +35,10 @@
  * they are needed.
  */
 
+enum DigitalInputs {
+    ballDetectionPort = 0
+};
+
 enum JoystickButtonConstants {
     buttonX = 1,
     buttonA = 2,

@@ -85,6 +85,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
 #endif
 
   VisionContainer m_visionContainer;
+  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
 
   double shooterSpeed;
   //double shooterSpeedH;

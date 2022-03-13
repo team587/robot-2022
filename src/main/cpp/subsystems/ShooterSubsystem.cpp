@@ -104,7 +104,6 @@ void ShooterSubsystem::Periodic() {
   //frc::Shuffleboard::GetTab("Shooter").("speed", shooterSpeed);
   frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
 
-  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   if (m_driverController.GetRawButton(leftBumper)) {
    AutoAim();
   }
@@ -143,9 +142,17 @@ void ShooterSubsystem::AutoAim(){
   // For Turret:
 #ifdef TURRET_SUBSYSTEM
   turretAngle = m_visionContainer.getTurretAngle(angle);
+    frc::Shuffleboard::GetTab("Vision").Add("Shooter mcGavin Speed", shooterSpeed);
 #endif
   // For wheels
   shooterSpeed = m_visionContainer.getShooterSpeed(angle);
+  double distance = m_visionContainer.getDistance(angle);
+
+  frc::Shuffleboard::GetTab("Vision").Add("Distance", distance);
+  frc::Shuffleboard::GetTab("Vision").Add("Hood Angle", hoodAngle);
+  frc::Shuffleboard::GetTab("Vision").Add("Turret Angle", turretAngle);
+  frc::Shuffleboard::GetTab("Vision").Add("Current Angle", currentAngle);
+  frc::Shuffleboard::GetTab("Vision").Add("Enabled", m_driverController.GetRawButton(leftBumper));
 
 }
 

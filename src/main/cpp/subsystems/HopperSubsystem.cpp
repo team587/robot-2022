@@ -79,7 +79,7 @@ void HopperSubsystem::Periodic() {
   ((!Ball && !Index && !Deploy) || (Ball && !Index && !Deploy) || (Ball && Index && !Deploy) || (Ball && Index && Deploy)) {
     m_hopperMotor->Set(0);
   } else {
-    m_hopperMotor->Set(1);
+    m_hopperMotor->Set(hopperSpeed);
   }
   //if (m_coDriverController.GetRawButton(leftJoystickButton)) {
   //  double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);

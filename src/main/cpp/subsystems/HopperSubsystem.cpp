@@ -69,7 +69,7 @@ void HopperSubsystem::Periodic() {
     setLoadingSpeed(0);
   }
   
-  if (currentColor == -1 && true /*calvin's stuff goes here*/) {
+  if (currentColor == -1 && !m_hopperBallDetection->Get()) {
     m_hopperMotor->Set(0);
   } else {
     m_hopperMotor->Set(hopperSpeed);

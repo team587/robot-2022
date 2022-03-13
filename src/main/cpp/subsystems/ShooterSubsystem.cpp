@@ -26,7 +26,7 @@ ShooterSubsystem::ShooterSubsystem() :
 
       m_hoodAnalogInput(0)
     {
-      shooterSpeed = .75;
+      shooterSpeed = .7;
       //shooterSpeedH = shooterSpeed;
       //shooterSpeedM = shooterSpeed - 0.1;
       //shooterSpeedL = shooterSpeed - 0.2;
@@ -91,7 +91,7 @@ ShooterSubsystem::ShooterSubsystem() :
       m_hoodPIDController.SetD(hoodD);
       m_hoodPIDController.SetTolerance(0.1);
 
-      m_visionContainer.start();
+      //m_visionContainer.start();
 }
 
 void ShooterSubsystem::Periodic() {
@@ -105,10 +105,10 @@ void ShooterSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
 
   if (m_driverController.GetRawButton(leftBumper)) {
-   AutoAim();
+   //AutoAim();
   }
 
-  adjustHoodAngle();
+  //adjustHoodAngle();
 
   if (dumpSpeed && speedIndex > 0) {
     m_shooterMotor1.Set(.3);
@@ -193,7 +193,7 @@ void ShooterSubsystem::adjustHoodAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Hood Des Output", output);
-  m_hoodMotor.Set(output);
+ // m_hoodMotor.Set(output);
 }
 
 #ifdef TURRET_SUBSYSTEM
@@ -201,15 +201,15 @@ void ShooterSubsystem::adjustTurretAngle() {
   
   double currentAngle = m_turretEncoder.GetPosition();
 
-  if(m_turningLimitSwitch0.Get()){
-    currentAngle = 0;
-    m_turretEncoder.SetPosition(currentAngle);
-  }
+//  if(m_turningLimitSwitch0.Get()){
+//    currentAngle = 0;
+//    m_turretEncoder.SetPosition(currentAngle);
+//  }
 
-  if(m_turningLimitSwitch180.Get()){
-    currentAngle = 0.5588;
-    m_turretEncoder.SetPosition(currentAngle);
-  }
+//  if(m_turningLimitSwitch180.Get()){
+//    currentAngle = 0.5588;
+//    m_turretEncoder.SetPosition(currentAngle);
+//  }
   
   double metersToDegrees = 0.5588 / 180;
 
@@ -221,8 +221,8 @@ void ShooterSubsystem::adjustTurretAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
 
- // m_turningMotor.Set(output);
- m_turningMotor.Set(0);
+  m_turningMotor.Set(output);
+  //m_turningMotor.Set(0);
 }
 
 double ShooterSubsystem::getCurrentTurretAngle() {
@@ -254,6 +254,9 @@ void ShooterSubsystem::SetDumpMode(bool dump) {
 void ShooterSubsystem::SpeedCycle() {
   speedIndex++;
   speedIndex = speedIndex % 4;
+  //if(speedIndex == 3) {
+  //  speedIndex = 0;
+  //}
   //m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   
   

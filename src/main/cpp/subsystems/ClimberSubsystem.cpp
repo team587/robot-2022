@@ -25,7 +25,7 @@ ClimberSubsystem::ClimberSubsystem(
   speed = 1;
   startClimb = false;
 
-  frc::Shuffleboard::GetTab("Climber").Add ("Climber speed", speed);
+ // frc::Shuffleboard::GetTab("Climber").Add ("Climber speed", speed);
 
   m_climberMotor->RestoreFactoryDefaults();
   m_climberMotor->SetSmartCurrentLimit(50);
@@ -41,7 +41,7 @@ ClimberSubsystem::ClimberSubsystem(
 
 void ClimberSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  speed = frc::SmartDashboard::GetNumber("Climber speed", speed);
+ // speed = frc::SmartDashboard::GetNumber("Climber speed", speed);
   //Toggles endgame mode
   if (m_coDriverController.GetRawButton(buttonStart) && !startClimb) {
     startClimb = true;

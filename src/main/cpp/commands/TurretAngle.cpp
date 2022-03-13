@@ -6,14 +6,16 @@
 
 TurretAngle::TurretAngle(double setDegrees, ShooterSubsystem* shooter) {
   // Use addRequirements() here to declare subsystem dependencies.
-#ifdef TURRET_SUBSYSTEM
-  shooter->setTurretAngle(setDegrees);
-#endif
+
 
 }
 
 // Called when the command is initially scheduled.
-void TurretAngle::Initialize() {}
+void TurretAngle::Initialize() {
+#ifdef TURRET_SUBSYSTEM
+  //shooter->setTurretAngle(setDegrees);
+#endif
+}
 
 // Called repeatedly when this Command is scheduled to run
 void TurretAngle::Execute() {}

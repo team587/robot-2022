@@ -105,13 +105,13 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   //bool noSpeed;
   bool dumpSpeed;
 
-  double hoodP = 2.25;
+  double hoodP = 2.1;//2.25;
   double hoodI = 0;
-  double hoodD = 0.01;
+  double hoodD = 0;//.01;
 
-  double turretP = 4.0;
-  double turretI = 0.4;
-  double turretD = 0.1;
+  double turretP = 1.2;//4.0;
+  double turretI = 0;//.4;
+  double turretD = 0;//.1;
 
   
 

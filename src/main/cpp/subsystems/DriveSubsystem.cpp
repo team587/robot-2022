@@ -54,9 +54,9 @@ DriveSubsystem::DriveSubsystem()
       m_odometry{kDriveKinematics, m_NavX.GetRotation2d(), frc::Pose2d()} {
         m_lastXSpeed = (units::meters_per_second_t)0.0;
         m_lastYSpeed = (units::meters_per_second_t)0.0;
-        m_decelerate = (units::meters_per_second_t)0.01;
+        m_decelerate = (units::meters_per_second_t)0.1;
 
-        frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
+        //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }
 
 void DriveSubsystem::Periodic() {
@@ -79,19 +79,19 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     ySpeed = (units::meters_per_second_t)0.0;
   } 
 
-  m_decelerate = (units::meters_per_second_t)(frc::Shuffleboard::GetTab("Drive")
-    .Add("decelerate", (double)m_decelerate)
-    .GetEntry()
-    .GetDouble((double)m_decelerate));
+//  m_decelerate = (units::meters_per_second_t)(frc::Shuffleboard::GetTab("Drive")
+//    .Add("decelerate", (double)m_decelerate)
+//    .GetEntry()
+//    .GetDouble((double)m_decelerate));
 
-  if(xSpeed == (units::meters_per_second_t)0.0 && m_lastXSpeed != (units::meters_per_second_t)0.0) {
+/*  if(xSpeed == (units::meters_per_second_t)0.0 && m_lastXSpeed != (units::meters_per_second_t)0.0) {
     xSpeed = m_lastXSpeed > (units::meters_per_second_t)0.0 ? m_lastXSpeed - m_decelerate : m_lastXSpeed + m_decelerate;
   }
 
   if(ySpeed == (units::meters_per_second_t)0.0 && m_lastYSpeed != (units::meters_per_second_t)0.0) {
     ySpeed = m_lastYSpeed > (units::meters_per_second_t)0.0 ? m_lastYSpeed - m_decelerate : m_lastYSpeed + m_decelerate;
   }
-
+*/
   m_lastXSpeed = xSpeed;
   m_lastYSpeed = ySpeed;
 

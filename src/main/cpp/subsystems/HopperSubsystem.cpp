@@ -76,10 +76,7 @@ void HopperSubsystem::Periodic() {
   Deploy = m_intakeSub->getDeployed();
 
   if  
-  ((!Ball && !Index && !Deploy) ||
-  (Ball && !Index && !Deploy)  ||
-  (Ball && Index && !Deploy) ||
-  (Ball && Index && Deploy)) {
+  ((!Ball && !Index && !Deploy) || (Ball && !Index && !Deploy) || (Ball && Index && !Deploy) || (Ball && Index && Deploy)) {
     m_hopperMotor->Set(0);
   } else {
     m_hopperMotor->Set(1);

@@ -9,6 +9,9 @@
 #include <units/angular_velocity.h>
 #include <units/velocity.h>
 #include <iostream>
+#include <frc/smartdashboard/smartdashboard.h>
+#include <frc/shuffleboard/shuffleboard.h>
+#include <frc/shuffleboard/ShuffleboardTab.h>
 
 #include "Constants.h" 
 
@@ -48,7 +51,13 @@ DriveSubsystem::DriveSubsystem()
           "RR"},
       
       m_speedController(1.0),
-      m_odometry{kDriveKinematics, m_NavX.GetRotation2d(), frc::Pose2d()} {}
+      m_odometry{kDriveKinematics, m_NavX.GetRotation2d(), frc::Pose2d()} {
+        m_lastXSpeed = (units::meters_per_second_t)0.0;
+        m_lastYSpeed = (units::meters_per_second_t)0.0;
+        m_decelerate = (units::meters_per_second_t)0.01;
+
+        frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
+      }
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
@@ -69,6 +78,22 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   if (fabs((double)ySpeed) < 0.05) {
     ySpeed = (units::meters_per_second_t)0.0;
   } 
+
+  m_decelerate = (units::meters_per_second_t)(frc::Shuffleboard::GetTab("Drive")
+    .Add("decelerate", (double)m_decelerate)
+    .GetEntry()
+    .GetDouble((double)m_decelerate));
+
+  if(xSpeed == (units::meters_per_second_t)0.0 && m_lastXSpeed != (units::meters_per_second_t)0.0) {
+    xSpeed = m_lastXSpeed > (units::meters_per_second_t)0.0 ? m_lastXSpeed - m_decelerate : m_lastXSpeed + m_decelerate;
+  }
+
+  if(ySpeed == (units::meters_per_second_t)0.0 && m_lastYSpeed != (units::meters_per_second_t)0.0) {
+    ySpeed = m_lastYSpeed > (units::meters_per_second_t)0.0 ? m_lastYSpeed - m_decelerate : m_lastYSpeed + m_decelerate;
+  }
+
+  m_lastXSpeed = xSpeed;
+  m_lastYSpeed = ySpeed;
 
   xSpeed = xSpeed / m_speedController;
   ySpeed = ySpeed / m_speedController;

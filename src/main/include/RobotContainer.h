@@ -146,6 +146,15 @@ class RobotContainer {
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
 #endif
 
+#ifdef SHOOTER_SUBSYSTEM
+
+  frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
+  frc2::InstantCommand m_shooterOff{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
+  frc2::InstantCommand m_cycleShooterSpeed{[this] {m_shooterSubsystem.SpeedCycle(); }, {&m_shooterSubsystem}};
+  AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
+  TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
+#endif
+
 #ifdef SWERVE_SUBSYSTEM
   AutoDriving m_autoCommand1_0;
   AutoDriving m_autoCommand1_1;
@@ -168,14 +177,7 @@ class RobotContainer {
                           units::radians_per_second_t(0), false); }, {&m_drive}};
 #endif
 
-#ifdef SHOOTER_SUBSYSTEM
 
-  frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
-  frc2::InstantCommand m_shooterOff{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
-  frc2::InstantCommand m_cycleShooterSpeed{[this] {m_shooterSubsystem.SpeedCycle(); }, {&m_shooterSubsystem}};
-  AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
-  TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
-#endif
 
 #ifdef INTAKE_SUBSYSTEM
  frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};

@@ -31,6 +31,8 @@ HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
   m_intakeSub = intakeSub;
   m_hopperBallDetection = hopperBallDetection;
   hopperSpeed = -0.3;
+
+
   //hopperSpeed = 0;
   setLoadingSpeed(0);
 
@@ -69,10 +71,18 @@ void HopperSubsystem::Periodic() {
     setLoadingSpeed(0);
   }
   
-  if (currentColor == -1 && true /*calvin's stuff goes here*/) {
+  Ball = currentColor != -1;
+  Index = m_hopperBallDetection->Get();
+  Deploy = m_intakeSub->getDeployed();
+
+  if  
+  ((!Ball && !Index && !Deploy) ||
+  (Ball && !Index && !Deploy)  ||
+  (Ball && Index && !Deploy) ||
+  (Ball && Index && Deploy)) {
     m_hopperMotor->Set(0);
   } else {
-    m_hopperMotor->Set(hopperSpeed);
+    m_hopperMotor->Set(1);
   }
   //if (m_coDriverController.GetRawButton(leftJoystickButton)) {
   //  double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);

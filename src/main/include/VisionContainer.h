@@ -54,6 +54,7 @@ class VisionContainer
   volatile double yaw;
   volatile double pitch;
   const static int MAXDISTANCES = 10;
+  constexpr static double angle_var = 180.0-Camerapos::shooter_max-Camerapos::angle_offset;
   VisionDistance visionDistances[MAXDISTANCES];
 
   void start()
@@ -82,7 +83,7 @@ class VisionContainer
   }
   double getDistance(double currentAngle){
     return photonlib::PhotonUtils::CalculateDistanceToTarget(
-        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(currentAngle),
+        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(angle_var+currentAngle),
         units::degree_t(pitch)).value();
   }
   VisionDistance* getVisionDistance(double distance){

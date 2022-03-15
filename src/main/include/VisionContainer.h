@@ -17,6 +17,7 @@
 #include <photonlib/PhotonUtils.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "VisionDistance.h"
+#include <unistd.h>
 //#include "robot.h"
 
 #ifndef EXCLUDE_PATHPLANNER
@@ -139,6 +140,8 @@ private:
         // units::degree_t(result.GetBestTarget().GetPitch())).value());
         
       }
+      //thread::
+      sleep(100);
     }
   };
 };

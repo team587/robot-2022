@@ -193,7 +193,7 @@ void ShooterSubsystem::adjustHoodAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Hood Des Output", output);
- // m_hoodMotor.Set(output);
+  m_hoodMotor.Set(output);
 }
 
 #ifdef TURRET_SUBSYSTEM
@@ -220,7 +220,7 @@ void ShooterSubsystem::adjustTurretAngle() {
   double output = m_turretPIDController.Calculate(currentAngle, turretAngle * metersToDegrees);
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
-
+  frc::SmartDashboard::PutNumber("Turret Des output", output);
   m_turningMotor.Set(output);
   //m_turningMotor.Set(0);
 }

@@ -54,7 +54,7 @@ DriveSubsystem::DriveSubsystem()
       m_odometry{kDriveKinematics, m_NavX.GetRotation2d(), frc::Pose2d()} {
         m_lastXSpeed = (units::meters_per_second_t)0.0;
         m_lastYSpeed = (units::meters_per_second_t)0.0;
-        m_decelerate = (units::meters_per_second_t)0.1;
+        m_decelerate = (units::meters_per_second_t)0.03;
 
         //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }
@@ -71,6 +71,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::meters_per_second_t ySpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
+  
   if (fabs((double)xSpeed) < 0.05) {
     xSpeed = (units::meters_per_second_t)0.0;
   }
@@ -79,19 +80,33 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     ySpeed = (units::meters_per_second_t)0.0;
   } 
 
-//  m_decelerate = (units::meters_per_second_t)(frc::Shuffleboard::GetTab("Drive")
-//    .Add("decelerate", (double)m_decelerate)
-//    .GetEntry()
-//    .GetDouble((double)m_decelerate));
+  m_decelerate = (units::meters_per_second_t)(frc::Shuffleboard::GetTab("Drive")
+    .Add("decelerate", (double)m_decelerate)
+    .GetEntry()
+    .GetDouble((double)m_decelerate));
 
-/*  if(xSpeed == (units::meters_per_second_t)0.0 && m_lastXSpeed != (units::meters_per_second_t)0.0) {
-    xSpeed = m_lastXSpeed > (units::meters_per_second_t)0.0 ? m_lastXSpeed - m_decelerate : m_lastXSpeed + m_decelerate;
+  if(xSpeed == (units::meters_per_second_t)0.0 && m_lastXSpeed != (units::meters_per_second_t)0.0) {
+    xSpeed = m_lastXSpeed > (units::meters_per_second_t)0.0 ? 
+        m_lastXSpeed - m_decelerate < (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastXSpeed - m_decelerate 
+      : 
+        m_lastXSpeed + m_decelerate > (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastXSpeed + m_decelerate;
   }
 
   if(ySpeed == (units::meters_per_second_t)0.0 && m_lastYSpeed != (units::meters_per_second_t)0.0) {
-    ySpeed = m_lastYSpeed > (units::meters_per_second_t)0.0 ? m_lastYSpeed - m_decelerate : m_lastYSpeed + m_decelerate;
+    ySpeed = m_lastYSpeed > (units::meters_per_second_t)0.0 ? 
+        m_lastYSpeed - m_decelerate < (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastYSpeed - m_decelerate 
+      : 
+        m_lastYSpeed + m_decelerate > (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastYSpeed + m_decelerate; 
   }
-*/
+
+  if (fabs((double)xSpeed) < 0.05) {
+    xSpeed = (units::meters_per_second_t)0.0;
+  }
+  
+  if (fabs((double)ySpeed) < 0.05) {
+    ySpeed = (units::meters_per_second_t)0.0;
+  }
+
   m_lastXSpeed = xSpeed;
   m_lastYSpeed = ySpeed;
 

@@ -34,5 +34,5 @@ void IntakeSubsystem::Retreat(){
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){
-  m_intakeMotor.Set(IntakeSpeed / 2);
+  m_intakeMotor.Set(IntakeSpeed );
 }

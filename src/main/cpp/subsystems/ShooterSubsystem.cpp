@@ -108,7 +108,7 @@ void ShooterSubsystem::Periodic() {
    //AutoAim();
   }
 
-  //adjustHoodAngle();
+  adjustHoodAngle();
 
   if (dumpSpeed && speedIndex > 0) {
     m_shooterMotor1.Set(.3);
@@ -193,7 +193,7 @@ void ShooterSubsystem::adjustHoodAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Hood Des Output", output);
- // m_hoodMotor.Set(output);
+  m_hoodMotor.Set(output);
 }
 
 #ifdef TURRET_SUBSYSTEM

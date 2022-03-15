@@ -53,16 +53,7 @@ RobotContainer::RobotContainer():
         
 #endif
 
-#ifdef SHOOTER_SUBSYSTEM
-        //m_shooterMotor1 {canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless}, 
-        //m_shooterMotor2 {canIDs::kShooterMotor2, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        //m_hoodMotor {canIDs::kHoodMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        //m_turningMotor {canIDs::kTurningMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        //m_turretEncoder {m_turningMotor.GetEncoder()},
-        //m_hoodEncoder {m_hoodMotor.GetEncoder()},
-        //m_shooterSubsystem {&m_shooterMotor1, &m_shooterMotor2, &m_hoodMotor/*, &m_turningMotor*/},
 
-#endif
 
 #ifdef HOPPER_SUBSYSTEM
 
@@ -72,13 +63,8 @@ RobotContainer::RobotContainer():
 
 #endif
 
-#ifdef SHOOTER_SUBSYSTEM
-        m_adjustHoodAngle{25, &m_shooterSubsystem},
-        m_turretAngle{90, &m_shooterSubsystem} 
-#endif
 
 #ifdef SWERVE_SUBSYSTEM
-    ,
     m_autoCommand1_0(&m_drive, 1, 0),
     m_autoCommand1_1(&m_drive, 1, 1),
     m_autoCommand1_2(&m_drive, 1, 2),

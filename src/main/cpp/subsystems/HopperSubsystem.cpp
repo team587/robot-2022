@@ -30,7 +30,7 @@ HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
   m_shooterSub = shooterSub;
   m_intakeSub = intakeSub;
   m_hopperBallDetection = hopperBallDetection;
-  hopperSpeed = -0.2;
+  hopperSpeed = -0.3;
 
 
   //hopperSpeed = 0;

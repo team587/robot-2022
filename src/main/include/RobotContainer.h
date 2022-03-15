@@ -151,8 +151,9 @@ class RobotContainer {
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_shooterOff{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_cycleShooterSpeed{[this] {m_shooterSubsystem.SpeedCycle(); }, {&m_shooterSubsystem}};
-  AdjustHoodAngle m_adjustHoodAngle; //{25, &m_shooterSubsystem};
-  TurretAngle m_turretAngle; //{90, &m_shooterSubsystem};
+  frc2::InstantCommand m_adjustHoodAngle{[this] {m_shooterSubsystem.setHoodAngle(15); }, {&m_shooterSubsystem}}; 
+  frc2::InstantCommand m_adjustTurretAngle{[this] {m_shooterSubsystem.setTurretAngle(90); }, {&m_shooterSubsystem}};
+  
 #endif
 
 #ifdef SWERVE_SUBSYSTEM
@@ -189,7 +190,7 @@ class RobotContainer {
     m_zeroIntakeDeploy,
     m_intakeSpeed,
     m_adjustHoodAngle,
-    m_turretAngle,
+    m_adjustTurretAngle,
     #endif
     m_autoCommand1_0,
     m_stopDriving,
@@ -209,7 +210,7 @@ class RobotContainer {
     m_zeroIntakeDeploy,
     m_intakeSpeed,
     m_adjustHoodAngle,
-    m_turretAngle,
+    m_adjustTurretAngle,
     #endif
     m_autoCommand2_0,
     m_stopDriving,
@@ -229,7 +230,7 @@ class RobotContainer {
     m_zeroIntakeDeploy,
     m_intakeSpeed,
     m_adjustHoodAngle,
-    m_turretAngle,
+    m_adjustTurretAngle,
     #endif
     m_autoCommand3_0,
     m_stopDriving,
@@ -249,7 +250,7 @@ class RobotContainer {
     m_zeroIntakeDeploy,
     m_intakeSpeed,
     m_adjustHoodAngle,
-    m_turretAngle,
+    m_adjustTurretAngle,
     #endif
     m_autoCommand4_0,
     m_stopDriving,

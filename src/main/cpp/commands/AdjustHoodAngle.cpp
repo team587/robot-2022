@@ -7,7 +7,7 @@
 
 AdjustHoodAngle::AdjustHoodAngle(double setDegrees, ShooterSubsystem* shooter) {
   // Use addRequirements() here to declare subsystem dependencies.
-  shooter->setHoodAngle(setDegrees);
+  //shooter->setHoodAngle(setDegrees);
 }
 
 // Called when the command is initially scheduled.

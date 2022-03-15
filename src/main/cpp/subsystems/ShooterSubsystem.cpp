@@ -108,7 +108,7 @@ void ShooterSubsystem::Periodic() {
    //AutoAim();
   }
 
-  //adjustHoodAngle();
+  adjustHoodAngle();
 
   if (dumpSpeed && speedIndex > 0) {
     m_shooterMotor1.Set(.3);

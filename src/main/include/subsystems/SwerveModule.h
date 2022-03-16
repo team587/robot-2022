@@ -78,6 +78,6 @@ class SwerveModule {
 
   frc2::PIDController m_turningPIDController{turnP, turnI, turnD};
   frc2::PIDController m_drivePIDController{driveP, driveI, driveD};
-  rev::SparkMaxPIDController m_revDrivePIDController;
+  //rev::SparkMaxPIDController m_revDrivePIDController;
   frc::SimpleMotorFeedforward<units::meters> m_driveFeedForward{.086153_V, 2.4552_V / 1_mps};
 };

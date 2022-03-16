@@ -28,6 +28,7 @@ class HopperSubsystem : public frc2::SubsystemBase {
     bool Ball;
     bool Index;
     bool Deploy;
+    bool m_reversed;
 
   /**
    * Will be called periodically whenever the CommandScheduler runs.
@@ -35,9 +36,9 @@ class HopperSubsystem : public frc2::SubsystemBase {
 
   frc::Color kColorCodes[2] = {
     //Red
-    frc::Color(.42, .40, .18),
+    frc::Color(.40, .41, .19),
     //Blue
-    frc::Color(.20, .44, .36)
+    frc::Color(.22, .45, .32)
   };
 
 
@@ -46,11 +47,17 @@ class HopperSubsystem : public frc2::SubsystemBase {
   std::string ConvertColor(int colorIndex);
 
   void Periodic() override;
-
+    
+   void ToggleReverse() {
+     m_reversed = !m_reversed;
+   }
    void HopperStart();
    void HopperStop();
    void HopperReverse();
    void setLoadingSpeed(double speed);
+   void setOverride(bool Beck) {
+     autoOverride = Beck;
+   }
 
 
   
@@ -67,6 +74,7 @@ class HopperSubsystem : public frc2::SubsystemBase {
   double hopperSpeed;
   double tolerance;
   double loadingSpeed;
+  bool autoOverride;
   
   //frc::DigitalInput m_detectBall{0};
   frc::Joystick m_DriverController{OIConstants::kDriverControllerPort};

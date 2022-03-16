@@ -221,8 +221,8 @@ void ShooterSubsystem::adjustTurretAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Turret Des output", output);
-  //m_turningMotor.Set(output);
-  m_turningMotor.Set(0);
+  m_turningMotor.Set(output);
+  //m_turningMotor.Set(0);
 }
 
 double ShooterSubsystem::getCurrentTurretAngle() {

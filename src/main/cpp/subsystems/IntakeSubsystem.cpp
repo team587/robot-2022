@@ -17,12 +17,21 @@ IntakeSubsystem::IntakeSubsystem() {
   //frc::Shuffleboard::GetTab("Intake").Add ("speed", IntakeSpeed);
 
   Retreat();
+  m_autoOverride = false;
 
 }
 
 void IntakeSubsystem::Periodic() {
 
 }
+void IntakeSubsystem::Toggle() {
+  if (m_deployed) {
+    Retreat();
+  } else {
+    Deploy();
+  }
+
+} 
 void IntakeSubsystem::Deploy(){
   m_intakeSolenoid.Set(frc::DoubleSolenoid::kForward);
   m_deployed = true;
@@ -34,5 +43,5 @@ void IntakeSubsystem::Retreat(){
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){
-  m_intakeMotor.Set(IntakeSpeed );
+  m_intakeMotor.Set(m_autoOverride ? 1 : IntakeSpeed);
 }

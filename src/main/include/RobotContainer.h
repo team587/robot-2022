@@ -126,15 +126,18 @@ class RobotContainer {
 
 #ifdef INTAKE_SUBSYSTEM
 
-  frc2::InstantCommand m_zeroIntakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
-  frc2::InstantCommand m_zeroIntakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
+  frc2::InstantCommand m_intakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
+  frc2::InstantCommand m_intakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
+  frc2::InstantCommand m_intakeToggle{[this] {m_intakeSubsystem.Toggle(); }, {&m_intakeSubsystem}};
 
 #endif
 
 #ifdef HOPPER_SUBSYSTEM 
 
-  //frc2::InstantCommand m_fireShooter{[this] {m_hopperSubsystem.setLoadingSpeed(1.0); m_hopperSubsystem.HopperStart(); }, {&m_hopperSubsystem}};
+  frc2::InstantCommand m_fireShooterOn{[this] {m_hopperSubsystem.setOverride(true); }, {&m_hopperSubsystem}};
+  frc2::InstantCommand m_fireShooterOff{[this] {m_hopperSubsystem.setOverride(false); }, {&m_hopperSubsystem}};
   frc::DigitalInput m_hopperBallDetection;
+  frc2::InstantCommand m_reverseHopper{[this] {m_hopperSubsystem.ToggleReverse(); }, {&m_hopperSubsystem}};
 
 #endif
 
@@ -181,23 +184,26 @@ class RobotContainer {
 
 
 #ifdef INTAKE_SUBSYSTEM
- frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
+ //frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
+ frc2::InstantCommand m_intakeSpeedOn{[this] {m_intakeSubsystem.setOverride(true); }, {&m_intakeSubsystem}};
+ frc2::InstantCommand m_intakeSpeedOff{[this] {m_intakeSubsystem.setOverride(false); }, {&m_intakeSubsystem}};
 #endif
 #ifdef SWERVE_SUBSYSTEM
   frc2::SequentialCommandGroup m_slotCommand1 {
     #ifdef COMPETITIONBOT
     m_shooterSpeed,
-    m_zeroIntakeDeploy,
-    m_intakeSpeed,
+    m_intakeDeploy,
+    m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
     #endif
     m_autoCommand1_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
-    //m_fireShooter,
+    m_fireShooterOn,
     frc2::WaitCommand{units::second_t(1)},
-    //m_fireShooter,
+    m_intakeSpeedOff,
+    m_fireShooterOff,
     #endif
     //m_autoCommand1_1,
     //m_autoCommand1_2,
@@ -207,17 +213,18 @@ class RobotContainer {
   frc2::SequentialCommandGroup m_slotCommand2 {
     #ifdef COMPETITIONBOT
     m_shooterSpeed,
-    m_zeroIntakeDeploy,
-    m_intakeSpeed,
+    m_intakeDeploy,
+    m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
     #endif
     m_autoCommand2_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
-    //m_fireShooter,
+    m_fireShooterOn,
     frc2::WaitCommand{units::second_t(1)},
-    //m_fireShooter,
+    m_intakeSpeedOff,
+    m_fireShooterOff,
     #endif
     //m_autoCommand2_1,
     //m_autoCommand2_2, 
@@ -227,17 +234,18 @@ class RobotContainer {
   frc2::SequentialCommandGroup m_slotCommand3 {
     #ifdef COMPETITIONBOT
     m_shooterSpeed,
-    m_zeroIntakeDeploy,
-    m_intakeSpeed,
+    m_intakeDeploy,
+    m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
     #endif
     m_autoCommand3_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
-    //m_fireShooter,
+    m_fireShooterOn,
     frc2::WaitCommand{units::second_t(1)},
-    //m_fireShooter,
+    m_intakeSpeedOff,
+    m_fireShooterOff,
     #endif
     //m_autoCommand3_1,
     //m_autoCommand3_2,
@@ -247,17 +255,18 @@ class RobotContainer {
   frc2::SequentialCommandGroup m_slotCommand4 {
     #ifdef COMPETITIONBOT
     m_shooterSpeed,
-    m_zeroIntakeDeploy,
-    m_intakeSpeed,
+    m_intakeDeploy,
+    m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
     #endif
     m_autoCommand4_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
-    //m_fireShooter,
+    m_fireShooterOn,
     frc2::WaitCommand{units::second_t(1)},
-    //m_fireShooter,
+    m_intakeSpeedOff,
+    m_fireShooterOff,
     #endif
     //m_autoCommand4_1,
     //m_autoCommand4_2,

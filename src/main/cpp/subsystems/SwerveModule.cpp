@@ -22,8 +22,8 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
       m_absoluteEncoder(absoluteEncoderChannel),
       m_reverseDriveEncoder(driveEncoderReversed),
       m_reverseTurningEncoder(turningEncoderReversed),
-      m_drive_encoder(m_driveMotor.GetEncoder()), 
-      m_revDrivePIDController(m_driveMotor.GetPIDController())
+      m_drive_encoder(m_driveMotor.GetEncoder())//, 
+      //m_revDrivePIDController(m_driveMotor.GetPIDController())
   {
       
   m_absoluteEncoder.SetPositionToAbsolute();
@@ -32,21 +32,21 @@ SwerveModule::SwerveModule(int driveMotorChannel, int turningMotorChannel,
     m_driveMotor.SetInverted(m_reverseDriveEncoder);
     m_driveMotor.SetSmartCurrentLimit(50);
     m_driveMotor.SetSecondaryCurrentLimit(80);
-    //m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-    m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+    m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+    //m_driveMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
     m_driveMotor.EnableVoltageCompensation(12);
     //m_drive_encoder = &m_driveMotor.GetEncoder();
 
     m_drive_encoder.SetPositionConversionFactor(0.319 / 6.12);
     m_drive_encoder.SetVelocityConversionFactor((0.319 / 6.12)/60.0); // wheel circumfrence meters / gear reduction
-  
+  /*
     m_revDrivePIDController.SetOutputRange(-1.0, 1.0);
     m_revDrivePIDController.SetP(revDriveP);
     m_revDrivePIDController.SetI(revDriveI);
     m_revDrivePIDController.SetD(revDriveD);
     m_revDrivePIDController.SetIZone(revDriveIZ);
     m_revDrivePIDController.SetFF(revDriveFF);
-
+*/
     m_turningMotor.RestoreFactoryDefaults();
     m_turningMotor.SetInverted(m_reverseTurningEncoder);
     m_turningMotor.SetSmartCurrentLimit(50);

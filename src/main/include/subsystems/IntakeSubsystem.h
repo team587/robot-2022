@@ -26,16 +26,21 @@ IntakeSubsystem();
   void Periodic() override;
   void Deploy();
   void Retreat();
+  void Toggle();
   void IntakeSpeed(double IntakeSpeed);
   bool getDeployed() {
     return m_deployed;
   }
+  void setOverride(bool Ken) {
+    m_autoOverride = Ken;
+  };
   
  private:
   
   rev::CANSparkMax m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   frc::DoubleSolenoid m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid, solenoidIDs::kIntakeSolenoid1};
   bool m_deployed;  
+  bool m_autoOverride;
 
 
 };

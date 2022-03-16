@@ -31,6 +31,7 @@ HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
   m_intakeSub = intakeSub;
   m_hopperBallDetection = hopperBallDetection;
   hopperSpeed = -0.3;
+  autoOverride = false;
 
 
   //hopperSpeed = 0;
@@ -65,10 +66,14 @@ void HopperSubsystem::Periodic() {
     m_shooterSub->SetDumpMode(false);
   }
 
-  if (m_DriverController.GetRawButton(buttonB) || m_coDriverController.GetRawButton(buttonB)) {
-    setLoadingSpeed(1.0);
+  if(autoOverride) {
+    setLoadingSpeed(1);
   } else {
-    setLoadingSpeed(0);
+    if (m_DriverController.GetRawButton(buttonB) || m_coDriverController.GetRawButton(buttonB)) {
+      setLoadingSpeed(m_reversed ? -1.0 : 1.0);
+    } else {
+      setLoadingSpeed(m_reversed ? -1.0 : 0.0);
+    }
   }
   
   Ball = currentColor != -1;
@@ -77,9 +82,9 @@ void HopperSubsystem::Periodic() {
 
   if  
   ((!Ball && !Index && !Deploy) || (Ball && !Index && !Deploy) || (Ball && Index && !Deploy) || (Ball && Index && Deploy)) {
-    m_hopperMotor->Set(0);
+    m_hopperMotor->Set(m_reversed ? -1 * hopperSpeed : 0);
   } else {
-    m_hopperMotor->Set(hopperSpeed);
+    m_hopperMotor->Set(m_reversed ? -1 * hopperSpeed : hopperSpeed);
   }
   //if (m_coDriverController.GetRawButton(leftJoystickButton)) {
   //  double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
@@ -96,11 +101,11 @@ void HopperSubsystem::Periodic() {
 
 int HopperSubsystem::GetColor(){
   frc::Color detectedColor = m_colorSensor.GetColor();
-  //frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-  //frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-  //frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+  frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+  frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+  frc::SmartDashboard::PutNumber("Green", detectedColor.green);
   double tolerance = frc::SmartDashboard::GetNumber("Tolerance", .9);
-  //frc::SmartDashboard::PutNumber("Tolerance", tolerance);
+  frc::SmartDashboard::PutNumber("Tolerance", tolerance);
   rev::ColorMatch Matcher;
   for (int x = 0; x < 2; x++){
   Matcher.AddColorMatch(kColorCodes[x]);
@@ -129,6 +134,7 @@ std::string HopperSubsystem::ConvertColor(int colorIndex){
     return "Unknown";
   }
 }
+
 
 void HopperSubsystem::setLoadingSpeed(double speed) {
   loadingSpeed = speed;

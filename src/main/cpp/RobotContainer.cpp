@@ -150,16 +150,19 @@ void RobotContainer::ConfigureButtonBindings() {
 
 //These are also drive controllers
 
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonX);}}.WhenPressed(&m_zeroIntakeDeploy);
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_zeroIntakeRetreat);
+    frc2::Button{[&] {return m_driverController.GetRawButton(buttonX);}}.WhenPressed(&m_intakeToggle);
+   // frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_intakeRetreat);
 
 //These are the co-driver controllers
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonX);}}.WhenPressed(&m_zeroIntakeDeploy);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_zeroIntakeRetreat);
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonX);}}.WhenPressed(&m_intakeToggle);
+   // frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_intakeRetreat);
 
 #endif
 
 #ifdef HOPPER_SUBSYSTEM
+
+    frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
 
     //frc2::Button{[&] {return m_driverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);
     //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);

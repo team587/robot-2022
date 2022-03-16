@@ -54,7 +54,7 @@ DriveSubsystem::DriveSubsystem()
       m_odometry{kDriveKinematics, m_NavX.GetRotation2d(), frc::Pose2d()} {
         m_lastXSpeed = (units::meters_per_second_t)0.0;
         m_lastYSpeed = (units::meters_per_second_t)0.0;
-        m_decelerate = (units::meters_per_second_t)0.03;
+        m_decelerate = (units::meters_per_second_t)0.01;
 
         //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }

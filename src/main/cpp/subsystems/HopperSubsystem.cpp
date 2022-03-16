@@ -38,7 +38,7 @@ HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
 
   //frc::Shuffleboard::GetTab("Hopper").Add ("Hopper speed", hopperSpeed);
 
-  frc::SmartDashboard::PutNumber("Hopper Speed", hopperSpeed);
+  //frc::SmartDashboard::PutNumber("Hopper Speed", hopperSpeed);
 } 
 void HopperSubsystem::HopperStart(){
   m_hopperMotor->Set(hopperSpeed);
@@ -51,7 +51,7 @@ void HopperSubsystem::HopperStop(){
 }
 void HopperSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  hopperSpeed = frc::SmartDashboard::GetNumber("Hopper Speed", hopperSpeed);
+  //hopperSpeed = frc::SmartDashboard::GetNumber("Hopper Speed", hopperSpeed);
   //hopperSpeed = frc::Shuffleboard::GetTab("Hopper")
   //bool detectBall = m_detectBall.Get();
   int currentColor = GetColor();
@@ -96,11 +96,11 @@ void HopperSubsystem::Periodic() {
 
 int HopperSubsystem::GetColor(){
   frc::Color detectedColor = m_colorSensor.GetColor();
-  frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-  frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-  frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+  //frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+  //frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+  //frc::SmartDashboard::PutNumber("Green", detectedColor.green);
   double tolerance = frc::SmartDashboard::GetNumber("Tolerance", .9);
-  frc::SmartDashboard::PutNumber("Tolerance", tolerance);
+  //frc::SmartDashboard::PutNumber("Tolerance", tolerance);
   rev::ColorMatch Matcher;
   for (int x = 0; x < 2; x++){
   Matcher.AddColorMatch(kColorCodes[x]);
@@ -113,7 +113,7 @@ std::optional<frc::Color> matchedColor = Matcher.MatchColor(detectedColor);
   int colorIndex = -1;
   for (int color = 0; color < 2; color++) {
     if (matchedColor == kColorCodes[color]) {
-      frc::SmartDashboard::PutNumber("Color", color);
+      //frc::SmartDashboard::PutNumber("Color", color);
       colorIndex = color;
     }
   }

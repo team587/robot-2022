@@ -199,9 +199,9 @@ class RobotContainer {
     frc2::WaitCommand{units::second_t(1)},
     //m_fireShooter,
     #endif
-    m_autoCommand1_1,
-    m_autoCommand1_2,
-    m_stopDriving
+    //m_autoCommand1_1,
+    //m_autoCommand1_2,
+    //m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand2 {
@@ -219,9 +219,9 @@ class RobotContainer {
     frc2::WaitCommand{units::second_t(1)},
     //m_fireShooter,
     #endif
-    m_autoCommand2_1,
-    m_autoCommand2_2, 
-    m_stopDriving
+    //m_autoCommand2_1,
+    //m_autoCommand2_2, 
+    //m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand3 {
@@ -239,9 +239,9 @@ class RobotContainer {
     frc2::WaitCommand{units::second_t(1)},
     //m_fireShooter,
     #endif
-    m_autoCommand3_1,
-    m_autoCommand3_2,
-    m_stopDriving
+    //m_autoCommand3_1,
+    //m_autoCommand3_2,
+    //m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand4 {
@@ -259,9 +259,9 @@ class RobotContainer {
     frc2::WaitCommand{units::second_t(1)},
     //m_fireShooter,
     #endif
-    m_autoCommand4_1,
-    m_autoCommand4_2,
-    m_stopDriving
+    //m_autoCommand4_1,
+    //m_autoCommand4_2,
+    //m_stopDriving
   };
   #endif
 };

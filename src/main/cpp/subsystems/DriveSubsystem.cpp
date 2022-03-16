@@ -72,14 +72,8 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
   
-  if (fabs((double)xSpeed) < 0.05) {
-    xSpeed = (units::meters_per_second_t)0.0;
-  }
-  
-  if (fabs((double)ySpeed) < 0.05) {
-    ySpeed = (units::meters_per_second_t)0.0;
-  } 
 
+/*
   m_decelerate = (units::meters_per_second_t)(frc::Shuffleboard::GetTab("Drive")
     .Add("decelerate", (double)m_decelerate)
     .GetEntry()
@@ -98,7 +92,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
       : 
         m_lastYSpeed + m_decelerate > (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastYSpeed + m_decelerate; 
   }
-
+*/
   if (fabs((double)xSpeed) < 0.05) {
     xSpeed = (units::meters_per_second_t)0.0;
   }

@@ -161,8 +161,8 @@ void RobotContainer::ConfigureButtonBindings() {
 
 #ifdef HOPPER_SUBSYSTEM
 
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
+    //frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
+    //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
 
     //frc2::Button{[&] {return m_driverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);
     //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);
@@ -176,6 +176,7 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_coDriverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_turretCycleRight);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonA);}}.WhenPressed(&m_cycleShooterSpeed);
     //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonB);}}.WhenPressed(&m_shooterOff);
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_stopShooter);
 
 #endif
 

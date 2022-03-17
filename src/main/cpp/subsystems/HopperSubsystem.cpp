@@ -51,6 +51,9 @@ void HopperSubsystem::HopperStop(){
   m_hopperMotor->Set(0);
 }
 void HopperSubsystem::Periodic() {
+  
+  m_reversed = m_coDriverController.GetRawButton(buttonY);
+
   // Implementation of subsystem periodic method goes here.
   //hopperSpeed = frc::SmartDashboard::GetNumber("Hopper Speed", hopperSpeed);
   //hopperSpeed = frc::Shuffleboard::GetTab("Hopper")

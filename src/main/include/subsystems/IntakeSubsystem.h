@@ -39,6 +39,7 @@ IntakeSubsystem();
   
   rev::CANSparkMax m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   frc::DoubleSolenoid m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid, solenoidIDs::kIntakeSolenoid1};
+
   bool m_deployed;  
   bool m_autoOverride;
 

@@ -22,8 +22,9 @@ IntakeSubsystem::IntakeSubsystem() {
 }
 
 void IntakeSubsystem::Periodic() {
-
+  
 }
+
 void IntakeSubsystem::Toggle() {
   if (m_deployed) {
     Retreat();

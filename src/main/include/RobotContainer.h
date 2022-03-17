@@ -147,6 +147,8 @@ class RobotContainer {
   CycleHoodPositions m_hoodCycleDown{&m_shooterSubsystem, false};
   CycleTurretPositions m_turretCycleLeft{&m_shooterSubsystem, true};
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
+  frc2::InstantCommand m_stopShooter{[this] {m_shooterSubsystem.Stop(); }, {&m_shooterSubsystem}};
+
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM

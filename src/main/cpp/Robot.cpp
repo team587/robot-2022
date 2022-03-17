@@ -79,6 +79,14 @@ void Robot::TeleopInit() {
     m_autonomousCommand->Cancel();
     m_autonomousCommand = nullptr;
   }
+
+  #ifdef HOPPER_SUBSYSTEM
+  m_container.GetHopperSubsystem()->setOverride(false);
+  #endif
+
+  #ifdef INTAKE_SUBSYSTEM
+  m_container.GetIntakeSubsystem()->setOverride(false);
+  #endif
 }
 
 /**

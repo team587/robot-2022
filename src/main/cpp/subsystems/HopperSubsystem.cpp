@@ -72,7 +72,7 @@ void HopperSubsystem::Periodic() {
   if(autoOverride) {
     setLoadingSpeed(1);
   } else {
-    if (m_DriverController.GetRawButton(buttonB) || m_coDriverController.GetRawButton(buttonB)) {
+    if (m_DriverController.GetRawButton(buttonB)/* || m_coDriverController.GetRawButton(buttonB)*/) {
       setLoadingSpeed(m_reversed ? -1.0 : 1.0);
     } else {
       setLoadingSpeed(m_reversed ? -1.0 : 0.0);

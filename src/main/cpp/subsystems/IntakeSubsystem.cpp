@@ -18,11 +18,13 @@ IntakeSubsystem::IntakeSubsystem() {
 
   Retreat();
   m_autoOverride = false;
+  m_intakeSpeed = 1.0;
 
 }
 
 void IntakeSubsystem::Periodic() {
   
+  m_intakeMotor.Set(m_autoOverride ? -1 : m_intakeSpeed);
 }
 
 void IntakeSubsystem::Toggle() {
@@ -44,5 +46,5 @@ void IntakeSubsystem::Retreat(){
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){
-  m_intakeMotor.Set(m_autoOverride ? 1 : IntakeSpeed);
+  m_intakeSpeed = IntakeSpeed;
 }

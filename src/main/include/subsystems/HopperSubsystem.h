@@ -36,9 +36,9 @@ class HopperSubsystem : public frc2::SubsystemBase {
 
   frc::Color kColorCodes[2] = {
     //Red
-    frc::Color(.40, .41, .19),
+    frc::Color(.47, .37, .16),
     //Blue
-    frc::Color(.22, .45, .32)
+    frc::Color(.19, .42, .39)
   };
 
 

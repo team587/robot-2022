@@ -26,14 +26,25 @@ ShooterSubsystem::ShooterSubsystem() :
 
       m_hoodAnalogInput(0)
     {
-      shooterSpeed = .8;
+      //shooterSpeed = .8;
       //shooterSpeedH = shooterSpeed;
       //shooterSpeedM = shooterSpeed - 0.1;
       //shooterSpeedL = shooterSpeed - 0.2;
-      shooterSpeeds[0] = 0;
-      shooterSpeeds[1] = shooterSpeed;
-      shooterSpeeds[2] = shooterSpeed - 0.1;
-      shooterSpeeds[3] = shooterSpeed - 0.2;
+      
+      int count = 0;
+      shooterSpeeds[count++] = 0;
+      shooterSpeeds[count++] = 0.7;
+      shooterSpeeds[count++] = 0.7;
+      shooterSpeeds[count++] = 0.6;
+      shooterSpeeds[count++] = 0.6;
+      
+      count = 0;
+      shooterAngles[count++] = 0;
+      shooterAngles[count++] = 10;
+      shooterAngles[count++] = 20;
+      shooterAngles[count++] = 20;
+      shooterAngles[count++] = 30;
+
       speedIndex = 0;
       dumpSpeed = false;
 
@@ -253,7 +264,10 @@ void ShooterSubsystem::SetDumpMode(bool dump) {
 
 void ShooterSubsystem::SpeedCycle() {
   speedIndex++;
-  speedIndex = speedIndex % 4;
+  speedIndex = speedIndex % MAX_SETTINGS;
+  hoodAngle = shooterAngles[speedIndex];
+  frc::SmartDashboard::PutNumber("ShooterMode", speedIndex);
+  
   //if(speedIndex == 3) {
   //  speedIndex = 0;
   //}

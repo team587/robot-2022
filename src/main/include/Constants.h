@@ -36,7 +36,8 @@
  */
 
 enum DigitalInputs {
-    ballDetectionPort = 0
+    hopperBallDetectionPort = 0,
+    uptakeBallDetectionPort = 1,
 };
 
 enum JoystickButtonConstants {

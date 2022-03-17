@@ -24,7 +24,8 @@ class HopperSubsystem : public frc2::SubsystemBase {
     rev::CANSparkMax *hopperMotor,
     ShooterSubsystem *shooterSub,
     IntakeSubsystem *intakeSub,
-    frc::DigitalInput *hopperBallDetection);
+    frc::DigitalInput *hopperBallDetection,
+    frc::DigitalInput *uptakeBallDetection);
     bool Ball;
     bool Index;
     bool Deploy;
@@ -70,6 +71,7 @@ class HopperSubsystem : public frc2::SubsystemBase {
 
   IntakeSubsystem *m_intakeSub;
   frc::DigitalInput *m_hopperBallDetection;
+  frc::DigitalInput *m_uptakeBallDetection;
 
   double hopperSpeed;
   double tolerance;

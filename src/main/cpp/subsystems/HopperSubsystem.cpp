@@ -25,11 +25,13 @@
 
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
     ShooterSubsystem *shooterSub, IntakeSubsystem *intakeSub,
-    frc::DigitalInput *hopperBallDetection) {
+    frc::DigitalInput *hopperBallDetection,
+    frc::DigitalInput *uptakeBallDetection) {
   m_hopperMotor = hopperMotor;
   m_shooterSub = shooterSub;
   m_intakeSub = intakeSub;
   m_hopperBallDetection = hopperBallDetection;
+  m_uptakeBallDetection = uptakeBallDetection;
   hopperSpeed = -0.3;
   autoOverride = false;
 
@@ -79,7 +81,8 @@ void HopperSubsystem::Periodic() {
     }
   }
   
-  Ball = currentColor != -1;
+  //Ball = currentColor != -1;
+  Ball = !m_uptakeBallDetection->Get();
   Index = !m_hopperBallDetection->Get();
   Deploy = m_intakeSub->getDeployed();
 
@@ -99,7 +102,8 @@ void HopperSubsystem::Periodic() {
     //setLoadingSpeed(0);
   }*/
   frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
-  frc::SmartDashboard::PutBoolean("BallSwitch", Index);
+  frc::SmartDashboard::PutBoolean("HopperBall", Index);
+  frc::SmartDashboard::PutBoolean("UptakeBall", Ball);
 }
 
 int HopperSubsystem::GetColor(){

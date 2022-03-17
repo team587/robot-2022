@@ -140,6 +140,7 @@ class RobotContainer {
   frc2::InstantCommand m_fireShooterOn{[this] {m_hopperSubsystem.setOverride(true); }, {&m_hopperSubsystem}};
   frc2::InstantCommand m_fireShooterOff{[this] {m_hopperSubsystem.setOverride(false); }, {&m_hopperSubsystem}};
   frc::DigitalInput m_hopperBallDetection;
+  frc::DigitalInput m_uptakeBallDetection;
   frc2::InstantCommand m_reverseHopper{[this] {m_hopperSubsystem.ToggleReverse(); }, {&m_hopperSubsystem}};
 
 #endif

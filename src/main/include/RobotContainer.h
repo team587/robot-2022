@@ -160,7 +160,7 @@ class RobotContainer {
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_shooterOff{[this] {m_shooterSubsystem.Stop(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_cycleShooterSpeed{[this] {m_shooterSubsystem.SpeedCycle(); }, {&m_shooterSubsystem}};
-  frc2::InstantCommand m_adjustHoodAngle{[this] {m_shooterSubsystem.setHoodAngle(15); }, {&m_shooterSubsystem}}; 
+  frc2::InstantCommand m_adjustHoodAngle{[this] {m_shooterSubsystem.setHoodAngle(10); }, {&m_shooterSubsystem}}; 
   frc2::InstantCommand m_adjustTurretAngle{[this] {m_shooterSubsystem.setTurretAngle(90); }, {&m_shooterSubsystem}};
   
 #endif
@@ -207,7 +207,7 @@ class RobotContainer {
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
     m_fireShooterOn,
-    frc2::WaitCommand{units::second_t(2)},
+    frc2::WaitCommand{units::second_t(5)},
     m_intakeSpeedOff,
     m_fireShooterOff,
     m_shooterOff,

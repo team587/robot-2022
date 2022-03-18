@@ -29,7 +29,7 @@ AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot, int numPath) :
 void AutoDriving::Initialize() {
   std::cout << "Initialize\n";
 
-  m_driveSubsystem->ZeroHeading();
+ // m_driveSubsystem->ZeroHeading();
 
 #ifndef EXCLUDE_PATHPLANNER
 
@@ -61,13 +61,14 @@ void AutoDriving::Execute() {
   std::cout << (double)RobotPose.Y() << " robot y ";
   std::cout << (double)RobotPose.Rotation().Radians() << " robot rot "; 
   const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
+
   //frc::Rotation2d robotangle(m_driveSubsystem->GetHeading());
   //const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, robotangle);
   std::cout << (double)adjustedSpeeds.vx << " x ";
   std::cout << (double)adjustedSpeeds.vy << " y ";
   std::cout << (double)adjustedSpeeds.omega << " omega \n";
 
-  //m_container->GetDriveSubsystem()->Drive(adjustedSpeeds.vx/8.0, adjustedSpeeds.vy/8.0, adjustedSpeeds.omega, true);
+  //m_driveSubsystem->Drive(adjustedSpeeds.vx/8.0, adjustedSpeeds.vy/8.0, adjustedSpeeds.omega, true);
 
   //auto [fl, fr, bl, br] = m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds);
   m_driveSubsystem->SetModuleStates(m_driveSubsystem->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds));

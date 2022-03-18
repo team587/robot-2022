@@ -35,6 +35,8 @@ trajectories::trajectories() {
     slot4_1 = PathPlanner::loadPath("slot4.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
     slot4_2 = PathPlanner::loadPath("slot4.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
+    //PathPlanner::loadPath("New Path", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+
 #endif
 
    //slot_two_first = PathPlanner::loadPath("slot2 first", 4_mps, 4_mps_sq);

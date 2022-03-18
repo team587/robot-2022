@@ -128,12 +128,12 @@ void DriveSubsystem::SetModuleStates(
                                          AutoConstants::kMaxSpeed);
 
   //double maxspeed = (double)AutoConstants::kMaxSpeed;
-/*
-  desiredStates[0].speed = desiredStates[0].speed / maxspeed;
-  desiredStates[1].speed = desiredStates[1].speed / maxspeed; 
-  desiredStates[2].speed = desiredStates[2].speed / maxspeed; 
-  desiredStates[3].speed = desiredStates[3].speed / maxspeed; 
-*/
+
+  desiredStates[0].speed = -desiredStates[0].speed / 2.0;// / maxspeed;
+  desiredStates[1].speed = -desiredStates[1].speed / 2.0;// / maxspeed; 
+  desiredStates[2].speed = -desiredStates[2].speed / 2.0;// / maxspeed; 
+  desiredStates[3].speed = -desiredStates[3].speed / 2.0;// / maxspeed; 
+
   m_frontLeft.SetDesiredAutoState(desiredStates[0]);
   m_frontRight.SetDesiredAutoState(desiredStates[1]);
   m_rearLeft.SetDesiredAutoState(desiredStates[2]);

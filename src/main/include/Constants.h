@@ -24,6 +24,7 @@
 #define SHOOTER_SUBSYSTEM
 #define TURRET_SUBSYSTEM
 #define SWERVE_SUBSYSTEM
+#define CMBJ
 
 
 /**
@@ -55,11 +56,34 @@ enum JoystickButtonConstants {
     rightJoystickButton = 12
 };
 
+enum XBoxJoystickButtonConstants {
+    xButtonA = 1,
+    xButtonB = 2,
+    xButtonX = 3,
+    xButtonY = 4,
+    xLeftBumper = 5,
+    xRightBumper = 6,
+    xButtonView = 7,
+    xButtonMenu = 8,
+    xLeftJoystickButton = 9,
+    xRightJoystickButton = 10
+};
+
 enum JoystickAxesConstants {
     leftJoystickHorizontal = 0,
     leftJoystickVertical = 1,
     rightJoystickHorizontal = 2,
     rightJoystickVertical = 3
+};
+
+enum XboxJoystickAxesConstants {
+    xLeftJoystickHorizontal = 0,
+    xLeftJoystickVertical = 1,
+    xLeftTrigger = 2,
+    xRightTrigger = 3,
+    xRightJoystickHorizontal = 4,
+    xRightJoystickVertical = 5
+
 };
 
 namespace DriveConstants {

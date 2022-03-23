@@ -58,7 +58,8 @@ RobotContainer::RobotContainer():
 #ifdef HOPPER_SUBSYSTEM
 
         m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hopperSubsystem {&m_hopperMotor, &m_shooterSubsystem, &m_intakeSubsystem, &m_hopperBallDetection, &m_uptakeBallDetection},
+        m_uptakeMotor{canIDs::kLoadShooterMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+        m_hopperSubsystem {&m_hopperMotor, &m_uptakeMotor, &m_shooterSubsystem, &m_intakeSubsystem, &m_hopperBallDetection, &m_uptakeBallDetection},
         m_hopperBallDetection {hopperBallDetectionPort},
         m_uptakeBallDetection {uptakeBallDetectionPort},
 
@@ -126,12 +127,39 @@ RobotContainer::RobotContainer():
   #endif
 
 #ifdef INTAKE_SUBSYSTEM
- m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
-      [this] {
-       //m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(leftJoystickVertical));
-       m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(xLeftJoystickVertical));
-      },
-      {&m_intakeSubsystem}));
+    m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
+        [this] {
+        m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(xLeftJoystickVertical));
+        },
+        {&m_intakeSubsystem}
+    ));
+#endif
+
+#ifdef CLIMBER_SUBSYSTEM
+    m_climberSubsystem.SetDefaultCommand(frc2::RunCommand(
+        [this] {
+            if(m_climberSubsystem.GetClimberStart()) {
+                m_climberSubsystem.ClimberSpeed(m_coDriverController.GetRawAxis(rightJoystickVertical));
+            }
+        },
+        {&m_climberSubsystem}
+    ));
+#endif
+
+#ifdef HOPPER_SUBSYSTEM
+    m_hopperSubsystem.SetDefaultCommand(frc2::RunCommand(
+        [this] {
+            bool ball = !m_uptakeBallDetection.Get();
+            bool index = !m_hopperBallDetection.Get();
+            bool deploy = m_intakeSubsystem.getDeployed();
+            if((!ball && !index && !deploy) || (ball && index && !deploy) || (ball && index && deploy)) {
+                m_hopperSubsystem.SetHopperSpeed(m_hopperSubsystem.GetReversed() ? -1 * m_hopperSubsystem.GetHopperSpeed() : 0);
+            } else {
+                m_hopperSubsystem.SetHopperSpeed(m_hopperSubsystem.GetReversed() ? -1 * m_hopperSubsystem.GetHopperSpeed() :m_hopperSubsystem.GetHopperSpeed());
+            }
+        },
+        {&m_hopperSubsystem}
+    ));
 #endif
   
 }
@@ -153,6 +181,9 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_driverController.GetRawButton(xRightBumper);}}.WhenReleased(&m_setSpeedHigh);
 #endif
 
+#ifdef CLIMBER_SUBSYSTEM
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonStart);}}.WhenReleased(&m_toggleClimberStart);
+#endif
 
     //frc2::JoystickButton(&m_driverController, buttonA).WhenPressed(m_LockVisionTargetCommand);
     //frc2::JoystickButton(&m_driverController, buttonA).WhenPressed(frc2::PrintCommand("Testing"));
@@ -177,7 +208,7 @@ void RobotContainer::ConfigureButtonBindings() {
 #ifdef HOPPER_SUBSYSTEM
 
     //frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
-    //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
 
     //frc2::Button{[&] {return m_driverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);
     //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);

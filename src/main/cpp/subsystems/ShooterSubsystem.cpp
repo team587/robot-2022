@@ -26,32 +26,27 @@ ShooterSubsystem::ShooterSubsystem() :
 
       m_hoodAnalogInput(0)
     {
-      //shooterSpeed = .8;
-      //shooterSpeedH = shooterSpeed;
-      //shooterSpeedM = shooterSpeed - 0.1;
-      //shooterSpeedL = shooterSpeed - 0.2;
-      
       int count = 0;
-      shooterSpeeds[count++] = 0;
-      shooterSpeeds[count++] = 0.7;
-      shooterSpeeds[count++] = 0.7;
-      shooterSpeeds[count++] = 0.6;
-      shooterSpeeds[count++] = 0.6;
+      m_shooterSpeeds[count++] = 0;
+      m_shooterSpeeds[count++] = 0.7;
+      m_shooterSpeeds[count++] = 0.7;
+      m_shooterSpeeds[count++] = 0.6;
+      m_shooterSpeeds[count++] = 0.6;
       
       count = 0;
-      shooterAngles[count++] = 0;
-      shooterAngles[count++] = 10;
-      shooterAngles[count++] = 20;
-      shooterAngles[count++] = 20;
-      shooterAngles[count++] = 30;
+      m_shooterAngles[count++] = 0;
+      m_shooterAngles[count++] = 10;
+      m_shooterAngles[count++] = 20;
+      m_shooterAngles[count++] = 20;
+      m_shooterAngles[count++] = 30;
 
-      speedIndex = 0;
-      dumpSpeed = false;
+      m_speedIndex = 0;
+      //dumpSpeed = false;
 
-      turningSpeed = .1;
-      hoodAngle = 0;
-      turretAngle = 0;
-      hoodVoltageOffset = 0.8;
+      m_turningSpeed = .1;
+      m_hoodAngle = 0;
+      m_turretAngle = 0;
+      m_hoodVoltageOffset = 0.8;
 
       //frc::Shuffleboard::GetTab("Shooter").Add("speed", shooterSpeed);
     
@@ -77,9 +72,9 @@ ShooterSubsystem::ShooterSubsystem() :
       m_turretEncoder.SetPositionConversionFactor(1.121156 / (281.0 / 30.0 * 7.0));
       m_turretEncoder.SetPosition(0);
       m_turretPIDController.Reset();
-      m_turretPIDController.SetP(turretP);
-      m_turretPIDController.SetI(turretI);
-      m_turretPIDController.SetD(turretD);
+      m_turretPIDController.SetP(m_turretP);
+      m_turretPIDController.SetI(m_turretI);
+      m_turretPIDController.SetD(m_turretD);
       m_turretPIDController.SetTolerance(0.1);
 #endif
 
@@ -97,9 +92,9 @@ ShooterSubsystem::ShooterSubsystem() :
       //m_hoodEncoder.SetPositionConversionFactor(8);
 
       m_hoodPIDController.Reset();
-      m_hoodPIDController.SetP(hoodP);
-      m_hoodPIDController.SetI(hoodI);
-      m_hoodPIDController.SetD(hoodD);
+      m_hoodPIDController.SetP(m_hoodP);
+      m_hoodPIDController.SetI(m_hoodI);
+      m_hoodPIDController.SetD(m_hoodD);
       m_hoodPIDController.SetTolerance(0.1);
 
       //m_visionContainer.start();
@@ -109,25 +104,26 @@ void ShooterSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
   //shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
 
-  frc::SmartDashboard::PutNumber("m_shooterMotor1", m_shooterMotor1.Get());
-  frc::SmartDashboard::PutNumber("m_shooterMotor2", m_shooterMotor2.Get());
+  //frc::SmartDashboard::PutNumber("m_shooterMotor1", m_shooterMotor1.Get());
+  //frc::SmartDashboard::PutNumber("m_shooterMotor2", m_shooterMotor2.Get());
 
   //frc::Shuffleboard::GetTab("Shooter").("speed", shooterSpeed);
-  frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
+  //frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
 
-  if (m_driverController.GetRawButton(leftBumper)) {
+  //if (m_driverController.GetRawButton(leftBumper)) {
    //AutoAim();
-  }
+  //}
 
-  adjustHoodAngle();
+  
 
-  if (dumpSpeed && speedIndex > 0) {
+  /*if (dumpSpeed && speedIndex > 0) {
     m_shooterMotor1.Set(.3);
   } else {
     m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
-  }
+  }*/
+  AdjustHoodAngle();
 #ifdef TURRET_SUBSYSTEM
-  adjustTurretAngle();
+  AdjustTurretAngle();
 #endif
 
 }
@@ -136,13 +132,15 @@ void ShooterSubsystem::Periodic() {
 //  m_shooterMotor1.Set(speed);
 //}
 
+
 void ShooterSubsystem::Start() {
-  speedIndex = 1;
-  m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  m_speedIndex = 1;
+  m_shooterMotor1.Set(m_shooterSpeeds[m_speedIndex]);
   //isRunning = true;
   //hSpeed = true;
   //m_shooterMotor2.Set(shooterSpeed);
 }
+/*
 void ShooterSubsystem::AutoAim(){
 
   double currentAngle = m_hoodAnalogInput.GetVoltage();
@@ -153,26 +151,27 @@ void ShooterSubsystem::AutoAim(){
   // For Turret:
 #ifdef TURRET_SUBSYSTEM
   turretAngle = m_visionContainer.getTurretAngle(angle);
-    frc::Shuffleboard::GetTab("Vision").Add("Shooter mcGavin Speed", shooterSpeed);
+  //frc::Shuffleboard::GetTab("Vision").Add("Shooter mcGavin Speed", shooterSpeed);
 #endif
   // For wheels
   shooterSpeed = m_visionContainer.getShooterSpeed(angle);
   double distance = m_visionContainer.getDistance(angle);
 
-  frc::Shuffleboard::GetTab("Vision").Add("Distance", distance);
-  frc::Shuffleboard::GetTab("Vision").Add("Hood Angle", hoodAngle);
-  frc::Shuffleboard::GetTab("Vision").Add("Turret Angle", turretAngle);
-  frc::Shuffleboard::GetTab("Vision").Add("Current Angle", currentAngle);
-  frc::Shuffleboard::GetTab("Vision").Add("Enabled", m_driverController.GetRawButton(leftBumper));
+  //frc::Shuffleboard::GetTab("Vision").Add("Distance", distance);
+  //frc::Shuffleboard::GetTab("Vision").Add("Hood Angle", hoodAngle);
+  //frc::Shuffleboard::GetTab("Vision").Add("Turret Angle", turretAngle);
+  //frc::Shuffleboard::GetTab("Vision").Add("Current Angle", currentAngle);
+  //frc::Shuffleboard::GetTab("Vision").Add("Enabled", m_driverController.GetRawButton(leftBumper));
 
-}
+}*/
 
 void ShooterSubsystem::Stop() {
-  speedIndex = 0;
-  m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  m_speedIndex = 0;
+  m_shooterMotor1.Set(m_shooterSpeeds[m_speedIndex]);
   //noSpeed = true;
   //m_shooterMotor2.Set(0);
 }
+/*
 void ShooterSubsystem::turnRight(){
   //m_turningMotor->Set(turningSpeed);
 } 
@@ -184,23 +183,23 @@ void ShooterSubsystem::turnLeft(){
 void ShooterSubsystem::stopTurning(){
   //m_turningMotor->Set(0);
 }
-
+*/
 //
 //I think we need to set hood angle and turret angle at end of functions
 //
-void ShooterSubsystem::adjustHoodAngle() {
+void ShooterSubsystem::AdjustHoodAngle() {
   
   double currentAngle = m_hoodAnalogInput.GetVoltage();
-  currentAngle -= hoodVoltageOffset;
+  currentAngle -= m_hoodVoltageOffset;
 
   //90 is 360 divided by the gear reduction of the encoder (4)
   //5 is the voltage
   double angleToVoltage = 90.0 / 5.0;
   
   frc::SmartDashboard::PutNumber("Hood Cur Ang", currentAngle * angleToVoltage);
-  frc::SmartDashboard::PutNumber("Hood Des Ang", hoodAngle);
+  frc::SmartDashboard::PutNumber("Hood Des Ang", m_hoodAngle);
 
-  double output = m_hoodPIDController.Calculate(currentAngle, hoodAngle / angleToVoltage);
+  double output = m_hoodPIDController.Calculate(currentAngle, m_hoodAngle / angleToVoltage);
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Hood Des Output", output);
@@ -208,7 +207,7 @@ void ShooterSubsystem::adjustHoodAngle() {
 }
 
 #ifdef TURRET_SUBSYSTEM
-void ShooterSubsystem::adjustTurretAngle() {
+void ShooterSubsystem::AdjustTurretAngle() {
   
   double currentAngle = m_turretEncoder.GetPosition();
 
@@ -225,10 +224,10 @@ void ShooterSubsystem::adjustTurretAngle() {
   double metersToDegrees = 0.5588 / 180;
 
   frc::SmartDashboard::PutNumber("Turret Cur Ang", currentAngle / metersToDegrees);
-  frc::SmartDashboard::PutNumber("Turret Des Ang", turretAngle);
+  frc::SmartDashboard::PutNumber("Turret Des Ang", m_turretAngle);
 
 
-  double output = m_turretPIDController.Calculate(currentAngle, turretAngle * metersToDegrees);
+  double output = m_turretPIDController.Calculate(currentAngle, m_turretAngle * metersToDegrees);
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Turret Des output", output);
@@ -236,7 +235,7 @@ void ShooterSubsystem::adjustTurretAngle() {
   //m_turningMotor.Set(0);
 }
 
-double ShooterSubsystem::getCurrentTurretAngle() {
+double ShooterSubsystem::GetCurrentTurretAngle() {
 
   double currentAngle = m_turretEncoder.GetPosition();
   double metersToDegrees = 0.5588 / 180;
@@ -246,27 +245,27 @@ double ShooterSubsystem::getCurrentTurretAngle() {
 }
 #endif
 
-double ShooterSubsystem::getCurrentHoodAngle() {
+double ShooterSubsystem::GetCurrentHoodAngle() {
 
   double currentAngle = m_hoodAnalogInput.GetVoltage();
-  currentAngle -= hoodVoltageOffset;
+  currentAngle -= m_hoodVoltageOffset;
   //90 is 360 divided by the gear reduction of the encoder (4)
   //5 is the voltage
   double angleToVoltage = 90.0 / 5.0;
   
   return currentAngle * angleToVoltage;
 }
-
+/*
 void ShooterSubsystem::SetDumpMode(bool dump) { 
     frc::SmartDashboard::PutBoolean("Dump  Mode", dump);
     dumpSpeed = dump; 
   }
-
+*/
 void ShooterSubsystem::SpeedCycle() {
-  speedIndex++;
-  speedIndex = speedIndex % MAX_SETTINGS;
-  hoodAngle = shooterAngles[speedIndex];
-  frc::SmartDashboard::PutNumber("ShooterMode", speedIndex);
+  m_speedIndex++;
+  m_speedIndex = m_speedIndex % MAX_SETTINGS;
+  m_hoodAngle = m_shooterAngles[m_speedIndex];
+  frc::SmartDashboard::PutNumber("ShooterMode", m_speedIndex);
   
   //if(speedIndex == 3) {
   //  speedIndex = 0;

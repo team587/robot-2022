@@ -22,20 +22,21 @@ CycleTurretPositions::CycleTurretPositions(ShooterSubsystem* shooter, bool turre
 void CycleTurretPositions::Initialize() {
 
 #ifdef TURRET_SUBSYSTEM
-   double turretAngle = m_shooterSubsystem->getTurretAngle();
+   double turretAngle = m_shooterSubsystem->GetTurretAngle();
 
   if (cycleLeft) {
     if (turretAngle <= 90.0) {
-      m_shooterSubsystem->setTurretAngle(0.0);
+      m_shooterSubsystem->SetTurretAngle(0.0);
     } else if (turretAngle <= 180.0) {
-      m_shooterSubsystem->setTurretAngle(90.0);
+      m_shooterSubsystem->SetTurretAngle(90.0);
     }
   } else {
     if (turretAngle >= 90.0) {
-      m_shooterSubsystem->setTurretAngle(180.0);
+      m_shooterSubsystem->SetTurretAngle(180.0);
     } else if (turretAngle >= 0.0) {
-      m_shooterSubsystem->setTurretAngle(90.0);
+      m_shooterSubsystem->SetTurretAngle(90.0);
     }
   }
 #endif
 }
+

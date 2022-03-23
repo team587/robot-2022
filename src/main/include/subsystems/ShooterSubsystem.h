@@ -27,35 +27,27 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void Periodic() override;
 
   void Start();
-  void AutoAim();
+  //void AutoAim();
   void Stop();
   void SpeedCycle();
-  void turnRight();
-  void turnLeft();
-  void stopTurning();
+  //void turnRight();
+  //void turnLeft();
+  //void stopTurning();
   //void SetSpeed(double speed);
-  void setHoodAngle(double angle) {
-    hoodAngle = angle;
-  };
-  double getHoodAngle() {
-    return hoodAngle;
-  };
+  void SetHoodAngle(double angle) { m_hoodAngle = angle; };
+  double GetHoodAngle() { return m_hoodAngle; };
 
-  void SetDumpMode(bool dump);
+  //void SetDumpMode(bool dump);
 
 #ifdef TURRET_SUBSYSTEM
-  void setTurretAngle(double TurretAngle) {
-    turretAngle = TurretAngle;
-  };
-  double getTurretAngle() {
-    return turretAngle;
-  };
-  double getCurrentTurretAngle();
-  void adjustTurretAngle();
+  void SetTurretAngle(double TurretAngle) { m_turretAngle = TurretAngle; };
+  double GetTurretAngle() { return m_turretAngle; };
+  double GetCurrentTurretAngle();
+  void AdjustTurretAngle();
 #endif
 
-  double getCurrentHoodAngle();
-  void adjustHoodAngle();
+  double GetCurrentHoodAngle();
+  void AdjustHoodAngle();
   //void setShooterSpeed(double ShooterSpeed) {
   //  shooterSpeed = ShooterSpeed;
   //  m_shooterMotor1.Set(shooterSpeed);
@@ -78,44 +70,41 @@ class ShooterSubsystem : public frc2::SubsystemBase {
 
   frc::AnalogInput m_hoodAnalogInput;
 
-  frc2::PIDController m_hoodPIDController{hoodP, hoodI, hoodD};
+  frc2::PIDController m_hoodPIDController{ m_hoodP, m_hoodI, m_hoodD };
 
 #ifdef TURRET_SUBSYSTEM
-  frc2::PIDController m_turretPIDController{turretP, turretI, turretD};
+  frc2::PIDController m_turretPIDController{ m_turretP, m_turretI, m_turretD };
 #endif
 
   VisionContainer m_visionContainer;
-  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
+  //frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
 
-  double shooterSpeed;
+  //double shooterSpeed;
   //double shooterSpeedH;
   //double shooterSpeedM;
   //double shooterSpeedL;
   const static int MAX_SETTINGS = 5;
-  double shooterSpeeds[MAX_SETTINGS];
-  double shooterAngles[MAX_SETTINGS];
-  std::string shooterLabels[MAX_SETTINGS];
-  int speedIndex;
+  double m_shooterSpeeds[MAX_SETTINGS];
+  double m_shooterAngles[MAX_SETTINGS];
+  int m_speedIndex;
   
-  double turningSpeed;
-  double hoodAngle;
-  double hoodVoltageOffset;
-  double turretAngle;
+  double m_turningSpeed;
+  double m_hoodAngle;
+  double m_hoodVoltageOffset;
+  double m_turretAngle;
   //bool isRunning = false;
   //bool hSpeed;
   //bool mSpeed;
   //bool lSpeed;
   //bool noSpeed;
-  bool dumpSpeed;
+  //bool dumpSpeed;
 
-  double hoodP = 2.1;//2.25;
-  double hoodI = 0;
-  double hoodD = 0;//.01;
+  double m_hoodP = 2.1;//2.25;
+  double m_hoodI = 0;
+  double m_hoodD = 0;//.01;
 
-  double turretP = 1.2;//4.0;
-  double turretI = 0;//.4;
-  double turretD = 0;//.1;
-
-  
+  double m_turretP = 1.2;//4.0;
+  double m_turretI = 0;//.4;
+  double m_turretD = 0;//.1;
 
 };

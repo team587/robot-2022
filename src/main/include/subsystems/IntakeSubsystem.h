@@ -31,7 +31,7 @@ IntakeSubsystem();
   bool getDeployed() {
     return m_deployed;
   }
-  void setOverride(bool Ken) {
+  void SetOverride(bool Ken) {
     m_autoOverride = Ken;
   };
   

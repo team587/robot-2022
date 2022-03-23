@@ -21,19 +21,19 @@ CycleHoodPositions::CycleHoodPositions(ShooterSubsystem* shooter, bool hoodUp) {
 
 // Called when the command is initially scheduled.
 void CycleHoodPositions::Initialize() {
-    double hoodAngle = m_shooterSubsystem->getHoodAngle();
+    double hoodAngle = m_shooterSubsystem->GetHoodAngle();
 
   if (cycleUp) {
     if (hoodAngle < 15.0) {
-      m_shooterSubsystem->setHoodAngle(15.0);
+      m_shooterSubsystem->SetHoodAngle(15.0);
     } else if (hoodAngle < 30.0) {
-      m_shooterSubsystem->setHoodAngle(30.0);
+      m_shooterSubsystem->SetHoodAngle(30.0);
     }
   } else {
     if (hoodAngle > 15.0) {
-      m_shooterSubsystem->setHoodAngle(15.0);
+      m_shooterSubsystem->SetHoodAngle(15.0);
     } else if (hoodAngle > 0.0) {
-      m_shooterSubsystem->setHoodAngle(0.0);
+      m_shooterSubsystem->SetHoodAngle(0.0);
     }
   }
 }

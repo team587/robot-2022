@@ -27,20 +27,24 @@ class ClimberSubsystem : public frc2::SubsystemBase {
    */
   void Periodic() override;
 
-  void ClimberForward();
-  void ClimberBackward();
-  void ClimberStop();
+  //void ClimberForward();
+  //void ClimberBackward();
+  //void ClimberStop();
 
-  bool ClimberExtended();
-  bool ClimberContracted();
+  //bool ClimberExtended();
+  //bool ClimberContracted();
+
+  void ClimberSpeed(double speed);
   
+  void ToggleClimberStart() { m_startClimb = !m_startClimb; };
+  bool GetClimberStart() { return m_startClimb; };
   
  private:
   
     rev::CANSparkMax *m_climberMotor;
     frc::DigitalInput *m_extendedDigitalInput;
     frc::DigitalInput *m_contractedDigitalInput;
-    double speed;
-    bool startClimb;
-    frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
+    //double m_speed;
+    bool m_startClimb;
+    //frc::Joystick m_coDriverController{OIConstants::kCoDriverControllerPort};
 };

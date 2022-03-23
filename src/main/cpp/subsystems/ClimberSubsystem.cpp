@@ -22,8 +22,8 @@ ClimberSubsystem::ClimberSubsystem(
   m_extendedDigitalInput = extendedDigitalInput;
   m_contractedDigitalInput = contractedDigitalInput;
   
-  speed = 1;
-  startClimb = false;
+  //speed = 1;
+  m_startClimb = false;
 
  // frc::Shuffleboard::GetTab("Climber").Add ("Climber speed", speed);
 
@@ -43,18 +43,22 @@ void ClimberSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
  // speed = frc::SmartDashboard::GetNumber("Climber speed", speed);
   //Toggles endgame mode
-  if (m_coDriverController.GetRawButton(buttonStart) && !startClimb) {
-    startClimb = true;
-  } else if (m_coDriverController.GetRawButton(buttonStart) && startClimb) {
-    startClimb = false;
-  }
-  if (startClimb) {
-    double climb = m_coDriverController.GetRawAxis(rightJoystickVertical);
-    m_climberMotor->Set(-climb); 
-  }
+  //if (m_coDriverController.GetRawButton(buttonStart) && !startClimb) {
+    //startClimb = true;
+  //} else if (m_coDriverController.GetRawButton(buttonStart) && startClimb) {
+    //startClimb = false;
+  //}
+  //if (startClimb) {
+  //  double climb = m_coDriverController.GetRawAxis(rightJoystickVertical);
+  //  m_climberMotor->Set(-climb); 
+  //}
 }
 
-void ClimberSubsystem::ClimberForward() {
+void ClimberSubsystem::ClimberSpeed(double speed) {
+  m_climberMotor->Set(-speed);
+}
+
+/*void ClimberSubsystem::ClimberForward() {
   m_climberMotor->Set(speed);
 }
 
@@ -72,4 +76,4 @@ bool ClimberSubsystem::ClimberExtended() {
 
 bool ClimberSubsystem::ClimberContracted() {
   return m_contractedDigitalInput->Get();
-}
+}*/

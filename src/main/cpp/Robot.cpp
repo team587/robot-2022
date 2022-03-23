@@ -22,24 +22,24 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
 
-  #ifdef SWERVE_SUBSYSTEM
-   frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
-  #endif
-  #ifdef HOPPER_SUBSYSTEM
-  int ballColor = m_container.GetHopperSubsystem()->GetColor();
-  #else 
-  int ballColor = 0;
-  #endif
-  for (int i = 0; i < kBallStatusLength; i++) {
-        //Set the value
-        if(ballColor == 1) {
-          m_ballStatusLedBuffer[i].SetRGB(0,0,255);
-        } else if(ballColor == 0) {
-          m_ballStatusLedBuffer[i].SetRGB(255,0,0);
-        } else {
-          m_ballStatusLedBuffer[i].SetRGB(0,0,0);
-        }
-  }
+//  #ifdef SWERVE_SUBSYSTEM
+//   frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
+//  #endif
+//  #ifdef HOPPER_SUBSYSTEM
+//  int ballColor = m_container.GetHopperSubsystem()->GetColor();
+//  #else 
+//  int ballColor = 0;
+//  #endif
+//  for (int i = 0; i < kBallStatusLength; i++) {
+//        //Set the value
+//        if(ballColor == 1) {
+//          m_ballStatusLedBuffer[i].SetRGB(0,0,255);
+//        } else if(ballColor == 0) {
+//          m_ballStatusLedBuffer[i].SetRGB(255,0,0);
+//        } else {
+//          m_ballStatusLedBuffer[i].SetRGB(0,0,0);
+//        }
+//  }
 
 
     //m_ballStatusLed.SetLength(kBallStatusLength);
@@ -81,11 +81,11 @@ void Robot::TeleopInit() {
   }
 
   #ifdef HOPPER_SUBSYSTEM
-  m_container.GetHopperSubsystem()->setOverride(false);
+  m_container.GetHopperSubsystem()->SetOverride(false);
   #endif
 
   #ifdef INTAKE_SUBSYSTEM
-  m_container.GetIntakeSubsystem()->setOverride(false);
+  m_container.GetIntakeSubsystem()->SetOverride(false);
   #endif
 }
 

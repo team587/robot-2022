@@ -23,26 +23,31 @@
 #include <subsystems/IntakeSubsystem.h>
 
 
-HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,
-    ShooterSubsystem *shooterSub, IntakeSubsystem *intakeSub,
+HopperSubsystem::HopperSubsystem(
+    rev::CANSparkMax *hopperMotor,
+    rev::CANSparkMax *uptakeMotor,
+    ShooterSubsystem *shooterSub, 
+    IntakeSubsystem *intakeSub,
     frc::DigitalInput *hopperBallDetection,
     frc::DigitalInput *uptakeBallDetection) {
   m_hopperMotor = hopperMotor;
+  m_uptakeMotor = uptakeMotor;
   m_shooterSub = shooterSub;
   m_intakeSub = intakeSub;
   m_hopperBallDetection = hopperBallDetection;
   m_uptakeBallDetection = uptakeBallDetection;
-  hopperSpeed = -0.3;
-  autoOverride = false;
+  m_hopperSpeed = -0.3;
+  m_autoOverride = false;
 
 
   //hopperSpeed = 0;
-  setLoadingSpeed(0);
+  SetUptakeSpeed(0);
 
   //frc::Shuffleboard::GetTab("Hopper").Add ("Hopper speed", hopperSpeed);
 
   //frc::SmartDashboard::PutNumber("Hopper Speed", hopperSpeed);
 } 
+/*
 void HopperSubsystem::HopperStart(){
   m_hopperMotor->Set(hopperSpeed);
 }
@@ -51,16 +56,17 @@ void HopperSubsystem::HopperReverse(){
 }
 void HopperSubsystem::HopperStop(){
   m_hopperMotor->Set(0);
-}
+}*/
+
 void HopperSubsystem::Periodic() {
   
-  m_reversed = m_coDriverController.GetRawButton(buttonY);
+ // m_reversed = m_coDriverController.GetRawButton(buttonY);
 
   // Implementation of subsystem periodic method goes here.
   //hopperSpeed = frc::SmartDashboard::GetNumber("Hopper Speed", hopperSpeed);
   //hopperSpeed = frc::Shuffleboard::GetTab("Hopper")
   //bool detectBall = m_detectBall.Get();
-  int currentColor = GetColor();
+  /*int currentColor = GetColor();
   frc::DriverStation::Alliance alliance = frc::DriverStation::GetAlliance();
 
   if (frc::DriverStation::Alliance::kBlue == alliance && currentColor == 0) {
@@ -69,10 +75,12 @@ void HopperSubsystem::Periodic() {
     m_shooterSub->SetDumpMode(true);
   } else {
     m_shooterSub->SetDumpMode(false);
-  }
- 
- setLoadingSpeed(m_coDriverController.GetRawAxis(-1.0 * xLeftTrigger));
- setLoadingSpeed(m_coDriverController.GetRawAxis(xRightTrigger));
+  }*/
+ //
+ //turn these in button bindings...these don't seem right????
+ //
+ //setLoadingSpeed(m_coDriverController.GetRawAxis(-1.0 * xLeftTrigger));
+ //setLoadingSpeed(m_coDriverController.GetRawAxis(xRightTrigger));
 
   /*if(autoOverride) {
     setLoadingSpeed(1);
@@ -86,16 +94,16 @@ void HopperSubsystem::Periodic() {
   
   
   //Ball = currentColor != -1;
-  Ball = !m_uptakeBallDetection->Get();
-  Index = !m_hopperBallDetection->Get();
-  Deploy = m_intakeSub->getDeployed();
+  /*bool ball = !m_uptakeBallDetection->Get();
+  bool index = !m_hopperBallDetection->Get();
+  bool deploy = m_intakeSub->getDeployed();
 
   if  
-  ((!Ball && !Index && !Deploy) || (Ball && !Index && !Deploy) || (Ball && Index && !Deploy) || (Ball && Index && Deploy)) {
-    m_hopperMotor->Set(m_reversed ? -1 * hopperSpeed : 0);
+  ((!ball && !index && !deploy) || (ball && index && !deploy) || (ball && index && deploy)) {
+    m_hopperMotor->Set(m_reversed ? -1 * m_hopperSpeed : 0);
   } else {
-    m_hopperMotor->Set(m_reversed ? -1 * hopperSpeed : hopperSpeed);
-  }
+    m_hopperMotor->Set(m_reversed ? -1 * m_hopperSpeed : m_hopperSpeed);
+  }*/
   //if (m_coDriverController.GetRawButton(leftJoystickButton)) {
   //  double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);
   //  m_hopperMotor->Set(joystickAxis);
@@ -105,11 +113,11 @@ void HopperSubsystem::Periodic() {
     m_hopperMotor->Set(hopperSpeed);
     //setLoadingSpeed(0);
   }*/
-  frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
-  frc::SmartDashboard::PutBoolean("HopperBall", Index);
-  frc::SmartDashboard::PutBoolean("UptakeBall", Ball);
+  //frc::SmartDashboard::PutString("Detected Color", ConvertColor(currentColor));
+  //frc::SmartDashboard::PutBoolean("HopperBall", Index);
+  //frc::SmartDashboard::PutBoolean("UptakeBall", Ball);
 }
-
+/*
 int HopperSubsystem::GetColor(){
   frc::Color detectedColor = m_colorSensor.GetColor();
   frc::SmartDashboard::PutNumber("Red", detectedColor.red);
@@ -145,11 +153,14 @@ std::string HopperSubsystem::ConvertColor(int colorIndex){
     return "Unknown";
   }
 }
+*/
 
+void HopperSubsystem::SetHopperSpeed(double speed) {
+  m_hopperMotor->Set(speed);
+}
 
-void HopperSubsystem::setLoadingSpeed(double speed) {
-  loadingSpeed = speed;
-  m_loadShooterMotor.Set(-loadingSpeed);
+void HopperSubsystem::SetUptakeSpeed(double speed) {
+  m_uptakeMotor->Set(-speed);
 }
 
 

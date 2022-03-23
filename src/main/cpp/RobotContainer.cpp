@@ -207,8 +207,10 @@ void RobotContainer::ConfigureButtonBindings() {
 
 #ifdef HOPPER_SUBSYSTEM
 
-    //frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenReleased(&m_normalHopper);
+    //frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
+    //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
 
     //frc2::Button{[&] {return m_driverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);
     //frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonB);}}.WhenPressed(&m_fireShooter);

@@ -46,8 +46,8 @@ class HopperSubsystem : public frc2::SubsystemBase {
 
   void Periodic() override;
     
-  void ToggleReversed() {
-    m_reversed = !m_reversed;
+  void SetReversed(bool resverse) {
+    m_reversed = resverse;
   }
   bool GetReversed() { return m_reversed; }
    //void HopperStart();

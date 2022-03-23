@@ -42,6 +42,7 @@ HopperSubsystem::HopperSubsystem(
 
   //hopperSpeed = 0;
   SetUptakeSpeed(0);
+  SetHopperSpeed(0);
 
   //frc::Shuffleboard::GetTab("Hopper").Add ("Hopper speed", hopperSpeed);
 

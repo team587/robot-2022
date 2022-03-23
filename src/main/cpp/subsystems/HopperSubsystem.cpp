@@ -158,6 +158,7 @@ std::string HopperSubsystem::ConvertColor(int colorIndex){
 
 void HopperSubsystem::SetHopperSpeed(double speed) {
   m_hopperMotor->Set(speed);
+  //should we always run uptake and hopper at the same time???
 }
 
 void HopperSubsystem::SetUptakeSpeed(double speed) {

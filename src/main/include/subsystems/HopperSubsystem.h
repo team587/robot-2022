@@ -46,19 +46,16 @@ class HopperSubsystem : public frc2::SubsystemBase {
 
   void Periodic() override;
     
-  void SetReversed(bool resverse) {
-    m_reversed = resverse;
-  }
-  bool GetReversed() { return m_reversed; }
-   //void HopperStart();
-   //void HopperStop();
-   //void HopperReverse();
-   void SetHopperSpeed(double speed);
-   double GetHopperSpeed() { return m_hopperMotor->Get(); };
-   void SetUptakeSpeed(double speed);
-   void SetOverride(bool Beck) {
-     m_autoOverride = Beck;
-   }
+  void SetReversed(bool resverse) { m_reversed = resverse; };
+  bool GetReversed() { return m_reversed; };
+  //void HopperStart();
+  //void HopperStop();
+  //void HopperReverse();
+  void SetHopperSpeed(double speed);
+  double GetHopperSpeed() { return m_hopperMotor->Get(); };
+  void SetUptakeSpeed(double speed);
+  void SetOverride(bool Beck) { m_autoOverride = Beck; };
+  bool GetOverride() { return m_autoOverride; };
 
 
   

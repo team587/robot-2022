@@ -28,12 +28,11 @@ IntakeSubsystem();
   void Retreat();
   void Toggle();
   void IntakeSpeed(double IntakeSpeed);
-  bool getDeployed() {
+  bool GetDeployed() {
     return m_deployed;
   }
-  void SetOverride(bool Ken) {
-    m_autoOverride = Ken;
-  };
+  void SetOverride(bool Ken) { m_autoOverride = Ken; };
+  bool GetOverride() { return m_autoOverride; };
   
  private:
   

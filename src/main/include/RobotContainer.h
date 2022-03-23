@@ -74,34 +74,28 @@ class RobotContainer {
   frc::AddressableLED m_led{0};
 
 #ifdef CLIMBER_SUBSYSTEM
-    
     rev::CANSparkMax m_climberMotor;
     frc::DigitalInput m_extendedDigitalInput;
     frc::DigitalInput m_contractedDigitalInput;
     ClimberSubsystem m_climberSubsystem;
-    
 #endif
 
 #ifdef INTAKE_SUBSYSTEM
-
     //rev::CANSparkMax m_intakeMotor;//{canIDs::kIntakeMotor};
     //frc::Solenoid m_intakeSolenoid;//{frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid};
     IntakeSubsystem m_intakeSubsystem;//{&m_intakeMotor, &m_intakeSolenoid};
-  
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
     ShooterSubsystem m_shooterSubsystem;
-
 #endif
 
 #ifdef HOPPER_SUBSYSTEM
-
     rev::CANSparkMax m_hopperMotor;
     rev::CANSparkMax m_uptakeMotor;
     HopperSubsystem m_hopperSubsystem;
-
-    
+    frc::DigitalInput m_hopperBallDetection;
+    frc::DigitalInput m_uptakeBallDetection;
 #endif
 
 
@@ -134,45 +128,33 @@ class RobotContainer {
 #endif
 
 #ifdef INTAKE_SUBSYSTEM
-
   frc2::InstantCommand m_intakeDeploy{[this] {m_intakeSubsystem.Deploy(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_intakeRetreat{[this] {m_intakeSubsystem.Retreat(); }, {&m_intakeSubsystem}};
   frc2::InstantCommand m_intakeToggle{[this] {m_intakeSubsystem.Toggle(); }, {&m_intakeSubsystem}};
-
+  frc2::InstantCommand m_intakeSpeedOn{[this] {m_intakeSubsystem.SetOverride(true); }, {&m_intakeSubsystem}};
+  frc2::InstantCommand m_intakeSpeedOff{[this] {m_intakeSubsystem.SetOverride(false); }, {&m_intakeSubsystem}};
 #endif
 
 #ifdef HOPPER_SUBSYSTEM 
-
   frc2::InstantCommand m_fireShooterOn{[this] {m_hopperSubsystem.SetOverride(true); }, {&m_hopperSubsystem}};
   frc2::InstantCommand m_fireShooterOff{[this] {m_hopperSubsystem.SetOverride(false); }, {&m_hopperSubsystem}};
   frc2::InstantCommand m_reverseHopper{[this] {m_hopperSubsystem.SetReversed(true); }, {&m_hopperSubsystem}};
   frc2::InstantCommand m_normalHopper{[this] {m_hopperSubsystem.SetReversed(false); }, {&m_hopperSubsystem}};
   frc2::InstantCommand m_startUptake{[this] {m_hopperSubsystem.SetUptakeSpeed(1.0); }, {&m_hopperSubsystem}};
   frc2::InstantCommand m_stopUptake{[this] {m_hopperSubsystem.SetUptakeSpeed(0.0); }, {&m_hopperSubsystem}};
-  frc::DigitalInput m_hopperBallDetection;
-  frc::DigitalInput m_uptakeBallDetection;
-  
-
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-
   CycleHoodPositions m_hoodCycleUp{&m_shooterSubsystem, true};
   CycleHoodPositions m_hoodCycleDown{&m_shooterSubsystem, false};
   CycleTurretPositions m_turretCycleLeft{&m_shooterSubsystem, true};
   CycleTurretPositions m_turretCycleRight{&m_shooterSubsystem, false};
   frc2::InstantCommand m_stopShooter{[this] {m_shooterSubsystem.Stop(); }, {&m_shooterSubsystem}};
-
-#endif
-
-#ifdef SHOOTER_SUBSYSTEM
-
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_shooterOff{[this] {m_shooterSubsystem.Stop(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_cycleShooterSpeed{[this] {m_shooterSubsystem.SpeedCycle(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_adjustHoodAngle{[this] {m_shooterSubsystem.SetHoodAngle(10); }, {&m_shooterSubsystem}}; 
   frc2::InstantCommand m_adjustTurretAngle{[this] {m_shooterSubsystem.SetTurretAngle(90); }, {&m_shooterSubsystem}};
-  
 #endif
 
 #ifdef SWERVE_SUBSYSTEM
@@ -197,13 +179,6 @@ class RobotContainer {
                           units::radians_per_second_t(0), false); }, {&m_drive}};
 #endif
 
-
-
-#ifdef INTAKE_SUBSYSTEM
- //frc2::InstantCommand m_intakeSpeed{[this] {m_intakeSubsystem.IntakeSpeed(1); }, {&m_intakeSubsystem}};
- frc2::InstantCommand m_intakeSpeedOn{[this] {m_intakeSubsystem.SetOverride(true); }, {&m_intakeSubsystem}};
- frc2::InstantCommand m_intakeSpeedOff{[this] {m_intakeSubsystem.SetOverride(false); }, {&m_intakeSubsystem}};
-#endif
 #ifdef SWERVE_SUBSYSTEM
   frc2::SequentialCommandGroup m_slotCommand1 {
     #ifdef COMPETITIONBOT

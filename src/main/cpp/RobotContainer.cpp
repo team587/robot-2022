@@ -129,7 +129,7 @@ RobotContainer::RobotContainer():
 #ifdef INTAKE_SUBSYSTEM
     m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
         [this] {
-        m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(xLeftJoystickVertical));
+            m_intakeSubsystem.IntakeSpeed(m_intakeSubsystem.GetOverride() ? -1 : m_coDriverController.GetRawAxis(xLeftJoystickVertical));
         },
         {&m_intakeSubsystem}
     ));
@@ -159,6 +159,18 @@ RobotContainer::RobotContainer():
             }
         },
         {&m_hopperSubsystem}
+    ));
+#endif
+
+#ifdef SHOOTER_SUBSYSTEM
+    m_shooterSubsystem.SetDefaultCommand(frc2::RunCommand(
+        [this] {
+            m_shooterSubsystem.AdjustHoodAngle();
+            #ifdef TURRET_SUBSYSTEM
+                m_shooterSubsystem.AdjustTurretAngle();
+            #endif
+        },
+        {&m_shooterSubsystem}
     ));
 #endif
   

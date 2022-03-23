@@ -121,11 +121,11 @@ void ShooterSubsystem::Periodic() {
   } else {
     m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   }*/
-  AdjustHoodAngle();
+ /* AdjustHoodAngle();
 #ifdef TURRET_SUBSYSTEM
   AdjustTurretAngle();
 #endif
-
+*/
 }
 
 //void ShooterSubsystem::SetSpeed(double speed) {

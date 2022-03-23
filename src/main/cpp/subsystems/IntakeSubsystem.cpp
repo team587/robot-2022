@@ -24,7 +24,7 @@ IntakeSubsystem::IntakeSubsystem() {
 
 void IntakeSubsystem::Periodic() {
   
-  m_intakeMotor.Set(m_autoOverride ? -1 : m_intakeSpeed);
+  //m_intakeMotor.Set(m_autoOverride ? -1 : m_intakeSpeed);
 }
 
 void IntakeSubsystem::Toggle() {

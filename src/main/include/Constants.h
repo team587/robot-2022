@@ -112,7 +112,7 @@ constexpr bool kRearRightTurningEncoderReversed = true;
 constexpr bool kFrontLeftDriveEncoderReversed = false;
 constexpr bool kRearLeftDriveEncoderReversed = false;
 constexpr bool kFrontRightDriveEncoderReversed = false;
-constexpr bool kRearRightDriveEncoderReversed = true;
+constexpr bool kRearRightDriveEncoderReversed = false;
 
 // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
 // These characterization values MUST be determined either experimentally or

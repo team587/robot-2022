@@ -74,7 +74,7 @@ ShooterSubsystem::ShooterSubsystem() :
       //281 is the number of teeth on the turret gear.
       //30 is the number of teeth on the turret driving gear.
       //7 is the gear reduction of the vex planetary.
-      m_turretEncoder.SetPositionConversionFactor(1.121156 / (281.0 / 30.0 * 7.0));
+      m_turretEncoder.SetPositionConversionFactor(1.121156 / (281.0 / 30.0 * 28.0));
       m_turretEncoder.SetPosition(0);
       m_turretPIDController.Reset();
       m_turretPIDController.SetP(turretP);
@@ -221,7 +221,10 @@ void ShooterSubsystem::adjustTurretAngle() {
 //    currentAngle = 0.5588;
 //    m_turretEncoder.SetPosition(currentAngle);
 //  }
-  
+//double temp_p = frc::SmartDashboard::GetNumber("PValue", turretP);
+//double temp_i = frc::SmartDashboard::GetNumber("IValue", turretI);
+  //double temp_d = frc::SmartDashboard::GetNumber("DValue", turretD);
+  //m_turretPIDController.SetPID(temp_p,temp_i,temp_d);
   double metersToDegrees = 0.5588 / 180;
 
   frc::SmartDashboard::PutNumber("Turret Cur Ang", currentAngle / metersToDegrees);
@@ -232,7 +235,7 @@ void ShooterSubsystem::adjustTurretAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Turret Des output", output);
-  m_turningMotor.Set(output);
+ // m_turningMotor.Set(output);
   //m_turningMotor.Set(0);
 }
 

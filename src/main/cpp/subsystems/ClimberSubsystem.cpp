@@ -43,13 +43,13 @@ void ClimberSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
  // speed = frc::SmartDashboard::GetNumber("Climber speed", speed);
   //Toggles endgame mode
-  if (m_coDriverController.GetRawButton(buttonStart) && !startClimb) {
+  if (m_coDriverController.GetRawButton(xButtonMenu) && !startClimb) {
     startClimb = true;
-  } else if (m_coDriverController.GetRawButton(buttonStart) && startClimb) {
+  } else if (m_coDriverController.GetRawButton(xButtonMenu) && startClimb) {
     startClimb = false;
   }
   if (startClimb) {
-    double climb = m_coDriverController.GetRawAxis(rightJoystickVertical);
+    double climb = m_coDriverController.GetRawAxis(xRightJoystickVertical);
     m_climberMotor->Set(-climb); 
   }
 }

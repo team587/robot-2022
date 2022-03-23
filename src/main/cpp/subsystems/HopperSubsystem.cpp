@@ -71,18 +71,18 @@ void HopperSubsystem::Periodic() {
     m_shooterSub->SetDumpMode(false);
   }
  
- setLoadingSpeed(m_coDriverController.GetRawAxis(-1.0 * xLeftTrigger));
- setLoadingSpeed(m_coDriverController.GetRawAxis(xRightTrigger));
+ //setLoadingSpeed(m_coDriverController.GetRawAxis(-1.0 * xLeftTrigger));
+ //setLoadingSpeed(m_coDriverController.GetRawAxis(xRightTrigger));
 
-  /*if(autoOverride) {
+  if(autoOverride) {
     setLoadingSpeed(1);
   } else {
-    if (m_DriverController.GetRawButton(buttonB) *//*|| m_coDriverController.GetRawButton(buttonB)*///) {
-      /*setLoadingSpeed(m_reversed ? -1.0 : 1.0);
+    if (m_DriverController.GetRawButton(buttonB) /*|| m_coDriverController.GetRawButton(buttonB)*/) {
+      setLoadingSpeed(m_reversed ? -1.0 : 1.0);
     } else {
       setLoadingSpeed(m_reversed ? -1.0 : 0.0);
     }
-  }*/
+  }
   
   
   //Ball = currentColor != -1;

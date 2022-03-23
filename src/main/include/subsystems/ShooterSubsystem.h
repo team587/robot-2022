@@ -112,7 +112,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double hoodI = 0;
   double hoodD = 0;//.01;
 
-  double turretP = 1.2;//4.0;
+  double turretP = 2.4;//4.0;
   double turretI = 0;//.4;
   double turretD = 0;//.1;
 

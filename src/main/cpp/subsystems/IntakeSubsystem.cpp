@@ -36,12 +36,12 @@ void IntakeSubsystem::Toggle() {
 
 } 
 void IntakeSubsystem::Deploy(){
-  m_intakeSolenoid.Set(frc::DoubleSolenoid::kForward);
+  m_intakeSolenoid.Set(frc::DoubleSolenoid::kReverse);
   m_deployed = true;
 }
 
 void IntakeSubsystem::Retreat(){
-  m_intakeSolenoid.Set(frc::DoubleSolenoid::kReverse);
+  m_intakeSolenoid.Set(frc::DoubleSolenoid::kForward);
   m_deployed = false;
 
 }

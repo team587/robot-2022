@@ -75,9 +75,9 @@ class VisionContainer
       {
         newangle = 180.0;
       }
-      else if (newangle < 0.0)
+      else if (newangle < 45.0)
       {
-        newangle = 0.0;
+        newangle = 45.0;
       }
     }
     return newangle;

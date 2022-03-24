@@ -53,6 +53,8 @@ void HopperSubsystem::HopperStop(){
   m_hopperMotor->Set(0);
 }
 void HopperSubsystem::Periodic() {
+
+  
   
   m_reversed = m_coDriverController.GetRawButton(buttonY);
 
@@ -70,9 +72,8 @@ void HopperSubsystem::Periodic() {
   } else {
     m_shooterSub->SetDumpMode(false);
   }
- 
- //setLoadingSpeed(m_coDriverController.GetRawAxis(-1.0 * xLeftTrigger));
- //setLoadingSpeed(m_coDriverController.GetRawAxis(xRightTrigger));
+
+ //beck did this
 
   if(autoOverride) {
     setLoadingSpeed(1);
@@ -95,6 +96,12 @@ void HopperSubsystem::Periodic() {
     m_hopperMotor->Set(m_reversed ? -1 * hopperSpeed : 0);
   } else {
     m_hopperMotor->Set(m_reversed ? -1 * hopperSpeed : hopperSpeed);
+  }
+
+   if (m_coDriverController.GetRawAxis(xLeftTrigger) > 0.51) {
+    m_hopperMotor->Set(m_coDriverController.GetRawAxis(xLeftTrigger) / 3);
+  } else if (m_coDriverController.GetRawAxis(xRightTrigger) > 0.51) {
+    m_hopperMotor->Set(-m_coDriverController.GetRawAxis(xRightTrigger) / 3);
   }
   //if (m_coDriverController.GetRawButton(leftJoystickButton)) {
   //  double joystickAxis = m_coDriverController.GetRawAxis(leftJoystickVertical);

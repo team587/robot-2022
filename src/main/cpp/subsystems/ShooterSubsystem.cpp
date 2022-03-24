@@ -74,7 +74,7 @@ ShooterSubsystem::ShooterSubsystem() :
       //281 is the number of teeth on the turret gear.
       //30 is the number of teeth on the turret driving gear.
       //7 is the gear reduction of the vex planetary.
-      m_turretEncoder.SetPositionConversionFactor(1.121156 / (281.0 / 30.0 * 28.0));
+      m_turretEncoder.SetPositionConversionFactor(1.121156 / ((281.0 / 30.0) * 10.0));
       m_turretEncoder.SetPosition(0);
       m_turretPIDController.Reset();
       m_turretPIDController.SetP(turretP);
@@ -102,7 +102,7 @@ ShooterSubsystem::ShooterSubsystem() :
       m_hoodPIDController.SetD(hoodD);
       m_hoodPIDController.SetTolerance(0.1);
 
-      //m_visionContainer.start();
+      m_visionContainer.start();
 }
 
 void ShooterSubsystem::Periodic() {
@@ -116,7 +116,12 @@ void ShooterSubsystem::Periodic() {
   frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
 
   if (m_driverController.GetRawButton(leftBumper)) {
-   //AutoAim();
+   AutoAim();
+    frc::SmartDashboard::PutBoolean("V Enabled", true);
+    
+
+  }else  {
+     frc::SmartDashboard::PutBoolean("V Enabled", false);
   }
 
   adjustHoodAngle();
@@ -153,17 +158,13 @@ void ShooterSubsystem::AutoAim(){
   // For Turret:
 #ifdef TURRET_SUBSYSTEM
   turretAngle = m_visionContainer.getTurretAngle(angle);
-    frc::Shuffleboard::GetTab("Vision").Add("Shooter mcGavin Speed", shooterSpeed);
+    frc::SmartDashboard::PutNumber("auto shooter speed", shooterSpeed);
 #endif
   // For wheels
   shooterSpeed = m_visionContainer.getShooterSpeed(angle);
   double distance = m_visionContainer.getDistance(angle);
 
-  frc::Shuffleboard::GetTab("Vision").Add("Distance", distance);
-  frc::Shuffleboard::GetTab("Vision").Add("Hood Angle", hoodAngle);
-  frc::Shuffleboard::GetTab("Vision").Add("Turret Angle", turretAngle);
-  frc::Shuffleboard::GetTab("Vision").Add("Current Angle", currentAngle);
-  frc::Shuffleboard::GetTab("Vision").Add("Enabled", m_driverController.GetRawButton(leftBumper));
+  frc::SmartDashboard::PutNumber("V Distance", distance);
 
 }
 
@@ -221,8 +222,8 @@ void ShooterSubsystem::adjustTurretAngle() {
 //    currentAngle = 0.5588;
 //    m_turretEncoder.SetPosition(currentAngle);
 //  }
-//double temp_p = frc::SmartDashboard::GetNumber("PValue", turretP);
-//double temp_i = frc::SmartDashboard::GetNumber("IValue", turretI);
+  //double temp_p = frc::SmartDashboard::GetNumber("PValue", turretP);
+  //double temp_i = frc::SmartDashboard::GetNumber("IValue", turretI);
   //double temp_d = frc::SmartDashboard::GetNumber("DValue", turretD);
   //m_turretPIDController.SetPID(temp_p,temp_i,temp_d);
   double metersToDegrees = 0.5588 / 180;
@@ -235,7 +236,7 @@ void ShooterSubsystem::adjustTurretAngle() {
   if (output > 1.0) output = 1.0;
   if (output < -1.0) output = -1.0;
   frc::SmartDashboard::PutNumber("Turret Des output", output);
- // m_turningMotor.Set(output);
+  m_turningMotor.Set(output);
   //m_turningMotor.Set(0);
 }
 

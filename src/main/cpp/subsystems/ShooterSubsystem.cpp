@@ -265,6 +265,7 @@ void ShooterSubsystem::SpeedCycle() {
   m_speedIndex++;
   m_speedIndex = m_speedIndex % MAX_SETTINGS;
   m_hoodAngle = m_shooterAngles[m_speedIndex];
+  m_shooterMotor1.Set(m_shooterSpeeds[m_speedIndex]);
   frc::SmartDashboard::PutNumber("ShooterMode", m_speedIndex);
   
   //if(speedIndex == 3) {

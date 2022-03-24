@@ -142,7 +142,7 @@ void ShooterSubsystem::Periodic() {
 //}
 
 void ShooterSubsystem::Start() {
-  speedIndex = 1;
+  speedIndex = 2;
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   //isRunning = true;
   //hSpeed = true;

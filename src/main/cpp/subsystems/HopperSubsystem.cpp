@@ -52,9 +52,9 @@ void HopperSubsystem::HopperReverse(){
 void HopperSubsystem::HopperStop(){
   m_hopperMotor->Set(0);
 }
-void HopperSubsystem::Periodic() {
 
-  
+
+void HopperSubsystem::Periodic() {
   
   m_reversed = m_coDriverController.GetRawButton(buttonY);
 

@@ -239,19 +239,20 @@ class RobotContainer {
     m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
-    #endif
-    m_autoCommand2_0,
-    m_stopDriving,
-    #ifdef HOPPER_SUBSYSTEM
+    frc2::WaitCommand{units::second_t(2)},   
     m_fireShooterOn,
-    frc2::WaitCommand{units::second_t(2)},
-    m_intakeSpeedOff,
+    frc2::WaitCommand{units::second_t(1)},
+    m_adjustHoodAngle0,
+    m_autoCommand1_0,
+    m_stopDriving,
+    m_fireShooterOn,
+    frc2::WaitCommand{units::second_t(5)},
     m_fireShooterOff,
-    m_shooterOff,
+    m_shooterOff, 
+    m_intakeSpeedOff,
+    m_autoCommand1_1,
+    m_stopDriving,
     #endif
-    //m_autoCommand2_1,
-    //m_autoCommand2_2, 
-    //m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand3 {

@@ -33,17 +33,19 @@ ShooterSubsystem::ShooterSubsystem() :
       
       int count = 0;
       shooterSpeeds[count++] = 0;
-      shooterSpeeds[count++] = 0.7;
-      shooterSpeeds[count++] = 0.7;
+      //shooterSpeeds[count++] = 0.7;
+      //shooterSpeeds[count++] = 0.7;
+      //shooterSpeeds[count++] = 0.6;
       shooterSpeeds[count++] = 0.6;
-      shooterSpeeds[count++] = 0.6;
+      shooterSpeeds[count++] = 0.7; // auto speed
       
       count = 0;
       shooterAngles[count++] = 0;
-      shooterAngles[count++] = 10;
-      shooterAngles[count++] = 20;
-      shooterAngles[count++] = 20;
+      //shooterAngles[count++] = 10;
+      //shooterAngles[count++] = 20;
+      //shooterAngles[count++] = 20;
       shooterAngles[count++] = 30;
+      shooterAngles[count++] = 30; // not used but for auto
 
       speedIndex = 0;
       dumpSpeed = false;
@@ -123,7 +125,11 @@ void ShooterSubsystem::Periodic() {
   }else  {
      frc::SmartDashboard::PutBoolean("V Enabled", false);
   }
-
+  
+  // This is for characterization
+  //shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
+  //m_shooterMotor1.Set(shooterSpeed);
+  //hoodAngle = frc::SmartDashboard::GetNumber("Hood Des Angle", hoodAngle);
   adjustHoodAngle();
 
   if (dumpSpeed && speedIndex > 0) {
@@ -144,6 +150,7 @@ void ShooterSubsystem::Periodic() {
 void ShooterSubsystem::Start() {
   speedIndex = 2;
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  //m_shooterMotor1.Set(0.7);
   //isRunning = true;
   //hSpeed = true;
   //m_shooterMotor2.Set(shooterSpeed);
@@ -268,7 +275,7 @@ void ShooterSubsystem::SetDumpMode(bool dump) {
 
 void ShooterSubsystem::SpeedCycle() {
   speedIndex++;
-  speedIndex = speedIndex % MAX_SETTINGS;
+  speedIndex = speedIndex % 2; // slot 2 for auto i0 and 1  for teleop MAX_SETTINGS;
   hoodAngle = shooterAngles[speedIndex];
   frc::SmartDashboard::PutNumber("ShooterMode", speedIndex);
   

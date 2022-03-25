@@ -91,7 +91,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   //double shooterSpeedH;
   //double shooterSpeedM;
   //double shooterSpeedL;
-  const static int MAX_SETTINGS = 5;
+  const static int MAX_SETTINGS = 3;
   double shooterSpeeds[MAX_SETTINGS];
   double shooterAngles[MAX_SETTINGS];
   std::string shooterLabels[MAX_SETTINGS];

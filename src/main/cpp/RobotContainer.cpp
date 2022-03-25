@@ -95,8 +95,8 @@ RobotContainer::RobotContainer():
     m_led.Start();
 
 #ifdef SWERVE_SUBSYSTEM
-    m_chooser.SetDefaultOption("Slot 2", &m_slotCommand2);
-    m_chooser.AddOption("Slot 1", &m_slotCommand1);
+    m_chooser.SetDefaultOption("Slot 1", &m_slotCommand1);
+    m_chooser.AddOption("Slot 2", &m_slotCommand2);
     m_chooser.AddOption("Slot 3", &m_slotCommand3);
     m_chooser.AddOption("Slot 4", &m_slotCommand4);
 #endif

@@ -53,9 +53,10 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double getCurrentTurretAngle();
   void adjustTurretAngle();
 #endif
-
+  void start2();
   double getCurrentHoodAngle();
   void adjustHoodAngle();
+  void SetLowSpeed();
   //void setShooterSpeed(double ShooterSpeed) {
   //  shooterSpeed = ShooterSpeed;
   //  m_shooterMotor1.Set(shooterSpeed);
@@ -91,7 +92,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   //double shooterSpeedH;
   //double shooterSpeedM;
   //double shooterSpeedL;
-  const static int MAX_SETTINGS = 3;
+  const static int MAX_SETTINGS = 4;
   double shooterSpeeds[MAX_SETTINGS];
   double shooterAngles[MAX_SETTINGS];
   std::string shooterLabels[MAX_SETTINGS];

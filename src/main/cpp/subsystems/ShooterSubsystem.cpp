@@ -37,7 +37,8 @@ ShooterSubsystem::ShooterSubsystem() :
       //shooterSpeeds[count++] = 0.7;
       //shooterSpeeds[count++] = 0.6;
       shooterSpeeds[count++] = 0.6;
-      shooterSpeeds[count++] = 0.7; // auto speed
+      shooterSpeeds[count++] = 0.57; // auto speed
+      shooterSpeeds[count++] = 0.3; // lower port
       
       count = 0;
       shooterAngles[count++] = 0;
@@ -46,6 +47,7 @@ ShooterSubsystem::ShooterSubsystem() :
       //shooterAngles[count++] = 20;
       shooterAngles[count++] = 30;
       shooterAngles[count++] = 30; // not used but for auto
+      shooterAngles[count++] = 30; // lower port
 
       speedIndex = 0;
       dumpSpeed = false;
@@ -146,6 +148,11 @@ void ShooterSubsystem::Periodic() {
 //void ShooterSubsystem::SetSpeed(double speed) {
 //  m_shooterMotor1.Set(speed);
 //}
+void ShooterSubsystem::start2() {
+  speedIndex = 2;
+  shooterSpeeds[speedIndex] = 0.67;
+  m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+}
 
 void ShooterSubsystem::Start() {
   speedIndex = 2;
@@ -155,6 +162,12 @@ void ShooterSubsystem::Start() {
   //hSpeed = true;
   //m_shooterMotor2.Set(shooterSpeed);
 }
+
+void ShooterSubsystem::SetLowSpeed() {
+  speedIndex = 3;
+  m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+}
+
 void ShooterSubsystem::AutoAim(){
 
   double currentAngle = m_hoodAnalogInput.GetVoltage();

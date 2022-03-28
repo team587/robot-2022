@@ -6,9 +6,11 @@
 #include <photonlib/PhotonUtils.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
+#include <cameraserver/CameraServer.h>
 
 void Robot::RobotInit() {
   frc::SmartDashboard::PutNumber("auto_slot", 0);
+  frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
 }
 
 /**

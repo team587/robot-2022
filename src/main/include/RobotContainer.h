@@ -138,6 +138,8 @@ class RobotContainer {
 
 #endif
 
+  frc2::InstantCommand m_toggleClimb{[this] {m_climberSubsystem.ToggleClimb(); }, {&m_climberSubsystem}};
+
 #ifdef HOPPER_SUBSYSTEM 
 
   frc2::InstantCommand m_fireShooterOn{[this] {m_hopperSubsystem.setOverride(true); }, {&m_hopperSubsystem}};
@@ -161,11 +163,13 @@ class RobotContainer {
 #ifdef SHOOTER_SUBSYSTEM
 
   frc2::InstantCommand m_shooterSpeed{[this] {m_shooterSubsystem.Start(); }, {&m_shooterSubsystem}};
+  frc2::InstantCommand m_shooterSpeed2{[this] {m_shooterSubsystem.start2(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_shooterOff{[this] {m_shooterSubsystem.Stop(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_cycleShooterSpeed{[this] {m_shooterSubsystem.SpeedCycle(); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_adjustHoodAngle{[this] {m_shooterSubsystem.setHoodAngle(20); }, {&m_shooterSubsystem}}; 
   frc2::InstantCommand m_adjustHoodAngle0{[this] {m_shooterSubsystem.setHoodAngle(0); }, {&m_shooterSubsystem}}; 
   frc2::InstantCommand m_adjustTurretAngle{[this] {m_shooterSubsystem.setTurretAngle(90); }, {&m_shooterSubsystem}};
+  frc2::InstantCommand m_LowerPortSpeed{[this] {m_shooterSubsystem.SetLowSpeed();}, {&m_shooterSubsystem}};
   
 #endif
 
@@ -206,10 +210,12 @@ class RobotContainer {
     m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
+    frc2::WaitCommand{units::second_t(1)},
     frc2::WaitCommand{units::second_t(2)},   
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(1)},
     m_adjustHoodAngle0,
+    m_shooterSpeed2,
     #endif
     m_autoCommand1_0,
     m_stopDriving,

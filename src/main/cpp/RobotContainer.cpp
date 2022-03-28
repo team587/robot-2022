@@ -139,7 +139,16 @@ RobotContainer::RobotContainer():
 
 void RobotContainer::ConfigureButtonBindings() {
 
+
+
 //These are the drive controllers
+
+#ifdef SHOOTER_SUBSYSTEM 
+
+    frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_LowerPortSpeed);
+
+#endif
+
 #ifdef SWERVE_SUBSYSTEM
     frc2::Button{[&] {return m_driverController.GetRawButton(buttonStart);}}.WhenPressed(&m_ZeroHeading);
     frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_setSpeedLow);
@@ -202,7 +211,7 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_coDriverController.GetRawButton(xButtonA);}}.WhenPressed(&m_cycleShooterSpeed);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(xButtonB);}}.WhenPressed(&m_stopShooter);
 #endif
-
+    frc2::Button{[&] {return m_coDriverController.GetRawButton(xButtonMenu);}}.WhenPressed(&m_toggleClimb);
 }
 
 

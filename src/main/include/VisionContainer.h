@@ -18,6 +18,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "VisionDistance.h"
 #include <unistd.h>
+#include "iostream"
 //#include "robot.h"
 
 #ifndef EXCLUDE_PATHPLANNER
@@ -49,12 +50,12 @@ class VisionContainer
     visionDistances[count++] = VisionDistance(7, 8, 0, .4);
     visionDistances[count++] = VisionDistance(8, 9, 0, .4);
     visionDistances[count++] = VisionDistance(9, 10, 0, .4);
-
+    visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
   };
 
   volatile double yaw;
   volatile double pitch;
-  const static int MAXDISTANCES = 10;
+  const static int MAXDISTANCES = 11;
   constexpr static double angle_var = 180.0-Camerapos::shooter_max-Camerapos::angle_offset;
   VisionDistance visionDistances[MAXDISTANCES];
 
@@ -93,19 +94,30 @@ class VisionContainer
         return &visionDistances[x];
       }
     }
-    return NULL;
+    return &visionDistances[MAXDISTANCES-1];
   }
   double getHoodAngle(double currentAngle)
   {
     //double newangle = currentAngle;
     double distance = getDistance(currentAngle);
     VisionDistance* visionDistance = getVisionDistance(distance);
-    return visionDistance->m_hoodAngle;
+    
+    if(visionDistance->m_hoodAngle>0){
+      return visionDistance->m_hoodAngle;
+    }
+    else{
+      return currentAngle;
+    }
   }
   double getShooterSpeed(double currentAngle){
     double distance = getDistance(currentAngle);
     VisionDistance* visionDistance = getVisionDistance(distance);
-    return visionDistance->m_shooterSpeed;
+    if(visionDistance->m_shooterSpeed>0){
+      return visionDistance->m_shooterSpeed;
+    }
+    else{
+      return -1;
+    }
   }
 
 private:
@@ -139,11 +151,16 @@ private:
         // frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
         // Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(m_shooter->getHoodAngle()),
         // units::degree_t(result.GetBestTarget().GetPitch())).value());
+        std::cout <<"Target" << pitch << yaw;
         
       }
+      else{
+        std::cout << "Has no target";
+      }
       //thread::
-      sleep(100);
+      usleep(15000);
     }
+    
   };
 };
 

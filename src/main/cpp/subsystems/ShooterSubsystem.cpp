@@ -177,11 +177,13 @@ void ShooterSubsystem::AutoAim(){
   hoodAngle = m_visionContainer.getHoodAngle(angle);
   // For Turret:
 #ifdef TURRET_SUBSYSTEM
-  turretAngle = m_visionContainer.getTurretAngle(angle);
+  turretAngle = m_visionContainer.getTurretAngle(getCurrentTurretAngle());
     frc::SmartDashboard::PutNumber("auto shooter speed", shooterSpeed);
 #endif
   // For wheels
-  shooterSpeed = m_visionContainer.getShooterSpeed(angle);
+  if(double temp = m_visionContainer.getShooterSpeed(angle)>0){
+    shooterSpeed = temp;
+  }
   double distance = m_visionContainer.getDistance(angle);
 
   frc::SmartDashboard::PutNumber("V Distance", distance);

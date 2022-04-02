@@ -68,19 +68,6 @@ class VisionContainer
   double getTurretAngle(double currentAngle)
   {
     double newangle = currentAngle;
-    if (yaw > 1.0 || yaw < -1.0)
-    {
-      newangle = yaw + currentAngle;
-
-      if (newangle > 180.0)
-      {
-        newangle = 180.0;
-      }
-      else if (newangle < 45.0)
-      {
-        newangle = 45.0;
-      }
-    }
     return newangle;
   }
   double getDistance(double currentAngle){

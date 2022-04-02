@@ -15,6 +15,10 @@
 #include <frc/shuffleboard/ShuffleboardTab.h>
 #include <subsystems/HopperSubsystem.h>
 #include <frc/DriverStation.h>
+#include <photonlib/PhotonUtils.h>
+#include <photonlib/PhotonCamera.h>
+#include <photonlib/PhotonUtils.h>
+
 
 ShooterSubsystem::ShooterSubsystem() :
 
@@ -105,8 +109,6 @@ ShooterSubsystem::ShooterSubsystem() :
       m_hoodPIDController.SetI(hoodI);
       m_hoodPIDController.SetD(hoodD);
       m_hoodPIDController.SetTolerance(0.1);
-
-      m_visionContainer.start();
 }
 
 void ShooterSubsystem::Periodic() {
@@ -178,7 +180,18 @@ void ShooterSubsystem::AutoAim(){
         photonlib::PhotonTrackedTarget target = result.GetBestTarget();
         // For Turret:
         #ifdef TURRET_SUBSYSTEM
-        turretAngle = m_visionContainer.getTurretAngle(getCurrentTurretAngle());
+        yaw = target.GetYaw();
+        pitch = target.GetPitch();
+        newTurretAngle = getCurrentTurretAngle();
+        if (yaw > 1.0 || yaw < -1.0) {
+          newTurretAngle = yaw + getCurrentTurretAngle();
+          if (newTurretAngle > 180.0) {
+            newTurretAngle = 180.0;
+          } else if (newTurretAngle < 45.0) {
+            newTurretAngle = 45.0;
+          }
+        }
+        //turretAngle = m_visionContainer.getTurretAngle(getCurrentTurretAngle());
         frc::SmartDashboard::PutNumber("auto shooter speed", shooterSpeed);
         #endif
 }}

@@ -30,90 +30,74 @@
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
-
 using namespace DriveConstants;
 
-RobotContainer::RobotContainer():
-    m_camera{"mmal_service_16.1"},
- 
-    
-    
-#ifdef CLIMBER_SUBSYSTEM  
-        m_climberMotor {canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_extendedDigitalInput {canIDs::kExtendedDigitalInput},
-        m_contractedDigitalInput {canIDs::kContractedDigitalInput},
-        m_climberSubsystem {&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
-        
+RobotContainer::RobotContainer() : 
+                                  m_camera{"mmal_service_16.1"},
+#ifdef CLIMBER_SUBSYSTEM
+                                  m_climberMotor{canIDs::kClimberMotorPort, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+                                  m_extendedDigitalInput{canIDs::kExtendedDigitalInput},
+                                  m_contractedDigitalInput{canIDs::kContractedDigitalInput},
+                                  m_climberSubsystem{&m_climberMotor, &m_extendedDigitalInput, &m_contractedDigitalInput},
 #endif
-
 #ifdef INTAKE_SUBSYSTEM
-        //m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        //m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid}, 
-        //m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid},
-        
+// m_intakeMotor {canIDs::kIntakeMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+// m_intakeSolenoid {frc::PneumaticsModuleType::CTREPCM, solenoidIDs::kIntakeSolenoid},
+// m_intakeSubsystem {&m_intakeMotor, &m_intakeSolenoid},
 #endif
-
-
-
 #ifdef HOPPER_SUBSYSTEM
-
-        m_hopperMotor {canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_uptakeMotor{canIDs::kLoadShooterMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
-        m_hopperSubsystem {&m_hopperMotor, &m_uptakeMotor, &m_shooterSubsystem, &m_intakeSubsystem, &m_hopperBallDetection, &m_uptakeBallDetection},
-        m_hopperBallDetection {hopperBallDetectionPort},
-        m_uptakeBallDetection {uptakeBallDetectionPort},
-
+                                  m_hopperMotor{canIDs::kHopperMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+                                  m_uptakeMotor{canIDs::kLoadShooterMotor, rev::CANSparkMaxLowLevel::MotorType::kBrushless},
+                                  m_hopperSubsystem{&m_hopperMotor, &m_uptakeMotor, &m_shooterSubsystem, &m_intakeSubsystem, &m_hopperBallDetection, &m_uptakeBallDetection},
+                                  m_hopperBallDetection{hopperBallDetectionPort},
+                                  m_uptakeBallDetection{uptakeBallDetectionPort},
 #endif
-
-
 #ifdef SWERVE_SUBSYSTEM
-    m_autoCommand1_0(&m_drive, 1, 0),
-    m_autoCommand1_1(&m_drive, 1, 1),
-    m_autoCommand1_2(&m_drive, 1, 2),
-    
-    m_autoCommand2_0(&m_drive, 2, 0),
-    m_autoCommand2_1(&m_drive, 2, 1),
-    m_autoCommand2_2(&m_drive, 2, 2),
+                                  m_autoCommand1_0(&m_drive, 1, 0),
+                                  m_autoCommand1_1(&m_drive, 1, 1),
+                                  m_autoCommand1_2(&m_drive, 1, 2),
 
-    m_autoCommand3_0(&m_drive, 3, 0),
-    m_autoCommand3_1(&m_drive, 3, 1),
-    m_autoCommand3_2(&m_drive, 3, 2),
+                                  m_autoCommand2_0(&m_drive, 2, 0),
+                                  m_autoCommand2_1(&m_drive, 2, 1),
+                                  m_autoCommand2_2(&m_drive, 2, 2),
 
-    m_autoCommand4_0(&m_drive, 4, 0),
-    m_autoCommand4_1(&m_drive, 4, 1),
+                                  m_autoCommand3_0(&m_drive, 3, 0),
+                                  m_autoCommand3_1(&m_drive, 3, 1),
+                                  m_autoCommand3_2(&m_drive, 3, 2),
 
-
-    m_autoCommand4_2(&m_drive, 4, 2)
+                                  m_autoCommand4_0(&m_drive, 4, 0),
+                                  m_autoCommand4_1(&m_drive, 4, 1),
+                                  m_autoCommand4_2(&m_drive, 4, 2)
 #endif
 {
-
-    for (int i = 0; i < kLength; i++) {
-        //Set the value
-        m_ledBuffer[i].SetRGB(0,255,0);
-    }
-    m_led.SetLength(kLength);
-    m_led.SetData(m_ledBuffer);
-    m_led.Start();
+  for (int i = 0; i < kLength; i++)
+  {
+    // Set the value
+    m_ledBuffer[i].SetRGB(0, 255, 0);
+  }
+  m_led.SetLength(kLength);
+  m_led.SetData(m_ledBuffer);
+  m_led.Start();
 
 #ifdef SWERVE_SUBSYSTEM
-    m_chooser.SetDefaultOption("Slot 2", &m_slotCommand2);
-    m_chooser.AddOption("Slot 1", &m_slotCommand1);
-    m_chooser.AddOption("Slot 3", &m_slotCommand3);
-    m_chooser.AddOption("Slot 4", &m_slotCommand4);
+  m_chooser.SetDefaultOption("Slot 2", &m_slotCommand2);
+  m_chooser.AddOption("Slot 1", &m_slotCommand1);
+  m_chooser.AddOption("Slot 3", &m_slotCommand3);
+  m_chooser.AddOption("Slot 4", &m_slotCommand4);
 #endif
 
-    frc::SmartDashboard::PutData(&m_chooser);
-  // Initialize all of your commands and subsystems here
-
+  frc::SmartDashboard::PutData(&m_chooser);
+  
   // Configure the button bindings
   ConfigureButtonBindings();
 
-  // Set up default drive command
-  // The left stick controls translation of the robot.
-  // Turning is controlled by the X axis of the right stick.
-  #ifdef SWERVE_SUBSYSTEM
-    m_drive.SetDefaultCommand(frc2::RunCommand(
-      [this] {
+// Set up default drive command
+// The left stick controls translation of the robot.
+// Turning is controlled by the X axis of the right stick.
+#ifdef SWERVE_SUBSYSTEM
+  m_drive.SetDefaultCommand(frc2::RunCommand(
+      [this]
+      {
         m_drive.Drive(
             /*units::meters_per_second_t(m_driverController.GetRawAxis(leftJoystickVertical)),
             units::meters_per_second_t(m_driverController.GetRawAxis(leftJoystickHorizontal)),
@@ -121,113 +105,149 @@ RobotContainer::RobotContainer():
             */
             units::meters_per_second_t(m_driverController.GetRawAxis(leftJoystickVertical)),
             units::meters_per_second_t(m_driverController.GetRawAxis(leftJoystickHorizontal)),
-            units::radians_per_second_t(2.0*m_driverController.GetRawAxis(rightJoystickHorizontal)), true);
+            units::radians_per_second_t(2.0 * m_driverController.GetRawAxis(rightJoystickHorizontal)), true);
       },
       {&m_drive}));
-  #endif
+#endif
 
 #ifdef INTAKE_SUBSYSTEM
-    m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
-        [this] {
-            m_intakeSubsystem.IntakeSpeed(m_intakeSubsystem.GetDeployed() ? 
-                (m_intakeSubsystem.GetOverride() ? -1 : m_coDriverController.GetRawAxis(leftJoystickVertical)) :
-                0);
-        },
-        {&m_intakeSubsystem}
-    ));
+  m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
+      [this]
+      {
+        m_intakeSubsystem.IntakeSpeed(m_intakeSubsystem.GetDeployed() ? (m_intakeSubsystem.GetOverride() ? -1 : m_coDriverController.GetRawAxis(leftJoystickVertical)) : 0);
+      },
+      {&m_intakeSubsystem}));
 #endif
 
 #ifdef CLIMBER_SUBSYSTEM
-    m_climberSubsystem.SetDefaultCommand(frc2::RunCommand(
-        [this] {
-            if(m_climberSubsystem.GetClimberStart()) {
-                m_climberSubsystem.ClimberSpeed(m_coDriverController.GetRawAxis(rightJoystickVertical));
-            }
-        },
-        {&m_climberSubsystem}
-    ));
+  m_climberSubsystem.SetDefaultCommand(frc2::RunCommand(
+      [this]
+      {
+        if (m_climberSubsystem.GetClimberStart())
+        {
+          m_climberSubsystem.ClimberSpeed(m_coDriverController.GetRawAxis(rightJoystickVertical));
+        }
+      },
+      {&m_climberSubsystem}));
 #endif
 
 #ifdef HOPPER_SUBSYSTEM
-    m_hopperSubsystem.SetDefaultCommand(frc2::RunCommand(
-        [this] {
-            bool ball = !m_uptakeBallDetection.Get();
-            bool index = !m_hopperBallDetection.Get();
-            bool deploy = m_intakeSubsystem.GetDeployed();
-            if((!ball && !index && !deploy) || (ball && index && !deploy) || (ball && index && deploy)) {
-                m_hopperSubsystem.SetHopperSpeed(m_hopperSubsystem.GetReversed() ? -1 * m_hopperSubsystem.GetHopperSpeed() : 0);
-            } else {
-                m_hopperSubsystem.SetHopperSpeed(m_hopperSubsystem.GetReversed() ? -1 * m_hopperSubsystem.GetHopperSpeed() :m_hopperSubsystem.GetHopperSpeed());
-            }
-        },
-        {&m_hopperSubsystem}
-    ));
+  m_hopperSubsystem.SetDefaultCommand(frc2::RunCommand(
+      [this]
+      {
+        bool ball = !m_uptakeBallDetection.Get();
+        bool index = !m_hopperBallDetection.Get();
+        bool deploy = m_intakeSubsystem.GetDeployed();
+        if ((!ball && !index && !deploy) || (ball && index && !deploy) || (ball && index && deploy))
+        {
+          m_hopperSubsystem.SetHopperSpeed(m_hopperSubsystem.GetReversed() ? -1 * m_hopperSubsystem.GetHopperSpeed() : 0);
+        }
+        else
+        {
+          m_hopperSubsystem.SetHopperSpeed(m_hopperSubsystem.GetReversed() ? -1 * m_hopperSubsystem.GetHopperSpeed() : m_hopperSubsystem.GetHopperSpeed());
+        }
+      },
+      {&m_hopperSubsystem}));
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-    m_shooterSubsystem.SetDefaultCommand(frc2::RunCommand(
-        [this] {
-            m_shooterSubsystem.AdjustHoodAngle();
-            #ifdef TURRET_SUBSYSTEM
-                m_shooterSubsystem.AdjustTurretAngle();
-            #endif
-        },
-        {&m_shooterSubsystem}
-    ));
+  m_shooterSubsystem.SetDefaultCommand(frc2::RunCommand(
+      [this]
+      {
+        m_shooterSubsystem.AdjustHoodAngle();
+#ifdef TURRET_SUBSYSTEM
+        m_shooterSubsystem.AdjustTurretAngle();
 #endif
-  
+      },
+      {&m_shooterSubsystem}));
+#endif
 }
 
-void RobotContainer::ConfigureButtonBindings() {
+void RobotContainer::ConfigureButtonBindings()
+{
 
-//These are the drive controllers
+// These are the drive controllers
 #ifdef SWERVE_SUBSYSTEM
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonStart);}}.WhenPressed(&m_ZeroHeading);
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_setSpeedLow); //this was our mistake - Beck
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenReleased(&m_setSpeedHigh);
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenPressed(&m_setSpeedMid);
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenReleased(&m_setSpeedHigh);
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(buttonStart); }}
+      .WhenPressed(&m_ZeroHeading);
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(rightTrigger); }}
+      .WhenPressed(&m_setSpeedLow); // this was our mistake - Beck
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(rightTrigger); }}
+      .WhenReleased(&m_setSpeedHigh);
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(rightBumper); }}
+      .WhenPressed(&m_setSpeedMid);
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(rightBumper); }}
+      .WhenReleased(&m_setSpeedHigh);
 #endif
 
 #ifdef INTAKE_SUBSYSTEM
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonX);}}.WhenPressed(&m_intakeToggle);
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(buttonX); }}
+      .WhenPressed(&m_intakeToggle);
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonB);}}.WhenPressed(&m_startUptake);
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonB);}}.WhenReleased(&m_stopUptake);
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(buttonB); }}
+      .WhenPressed(&m_startUptake);
+  frc2::Button{[&]
+              { return m_driverController.GetRawButton(buttonB); }}
+      .WhenReleased(&m_stopUptake);
 #endif
 
-//These are the co drive controllers
+// These are the co drive controllers
 #ifdef CLIMBER_SUBSYSTEM
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonStart);}}.WhenReleased(&m_toggleClimberStart);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(buttonStart); }}
+      .WhenReleased(&m_toggleClimberStart);
 #endif
 
 #ifdef INTAKE_SUBSYSTEM
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonX);}}.WhenPressed(&m_intakeToggle);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(buttonX); }}
+      .WhenPressed(&m_intakeToggle);
 #endif
 
 #ifdef HOPPER_SUBSYSTEM
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenPressed(&m_reverseHopper);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonY);}}.WhenReleased(&m_normalHopper);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(buttonY); }}
+      .WhenPressed(&m_reverseHopper);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(buttonY); }}
+      .WhenReleased(&m_normalHopper);
 #endif
 
 #ifdef SHOOTER_SUBSYSTEM
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(rightBumper);}}.WhenPressed(&m_hoodCycleUp);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(leftBumper);}}.WhenPressed(&m_hoodCycleDown);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_turretCycleLeft);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(leftTrigger);}}.WhenPressed(&m_turretCycleRight);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonA);}}.WhenPressed(&m_cycleShooterSpeed);
-    frc2::Button{[&] {return m_coDriverController.GetRawButton(buttonB);}}.WhenPressed(&m_stopShooter);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(rightBumper); }}
+      .WhenPressed(&m_hoodCycleUp);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(leftBumper); }}
+      .WhenPressed(&m_hoodCycleDown);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(rightTrigger); }}
+      .WhenPressed(&m_turretCycleLeft);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(leftTrigger); }}
+      .WhenPressed(&m_turretCycleRight);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(buttonA); }}
+      .WhenPressed(&m_cycleShooterSpeed);
+  frc2::Button{[&]
+              { return m_coDriverController.GetRawButton(buttonB); }}
+      .WhenPressed(&m_stopShooter);
 #endif
-
 }
 
-
-
-frc2::Command* RobotContainer::GetAutonomousCommand() {
-   return m_chooser.GetSelected();
-    //return new AutoDriving(this);
+frc2::Command *RobotContainer::GetAutonomousCommand()
+{
+  return m_chooser.GetSelected();
+  // return new AutoDriving(this);
 }
 
 /*

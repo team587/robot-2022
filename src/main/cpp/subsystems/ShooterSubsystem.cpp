@@ -18,6 +18,7 @@
 #include <photonlib/PhotonUtils.h>
 #include <photonlib/PhotonCamera.h>
 #include <photonlib/PhotonUtils.h>
+#include "iostream"
 
 
 ShooterSubsystem::ShooterSubsystem() :
@@ -171,11 +172,12 @@ void ShooterSubsystem::SetLowSpeed() {
 }
 
 void ShooterSubsystem::AutoAim(){
-  photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
+  auto result = m_camera.GetLatestResult();
       // wpi::outs() << "Camera is connected\n";
       // frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
       if (result.HasTargets())
       {
+        std::cout << "Has a target\n     ";
         // Does other calculations
         photonlib::PhotonTrackedTarget target = result.GetBestTarget();
         // For Turret:
@@ -191,6 +193,8 @@ void ShooterSubsystem::AutoAim(){
             newTurretAngle = 45.0;
           }
         }
+        std::cout << newTurretAngle;
+        setTurretAngle(newTurretAngle);
         //turretAngle = m_visionContainer.getTurretAngle(getCurrentTurretAngle());
         frc::SmartDashboard::PutNumber("auto shooter speed", shooterSpeed);
         #endif

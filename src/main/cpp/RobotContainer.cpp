@@ -34,7 +34,6 @@
 using namespace DriveConstants;
 
 RobotContainer::RobotContainer():
-    m_camera{"mmal_service_16.1"},
  
     
     

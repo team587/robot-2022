@@ -4,6 +4,8 @@
 
 #include "Robot.h"
 #include <photonlib/PhotonUtils.h>
+#include <photonlib/PhotonCamera.h>
+
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/CommandScheduler.h>
 #include <cameraserver/CameraServer.h>

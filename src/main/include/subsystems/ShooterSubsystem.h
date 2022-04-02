@@ -87,6 +87,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
 
   VisionContainer m_visionContainer;
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
+  photonlib::PhotonCamera m_camera{"mmal_service_16.1"};
 
   double shooterSpeed;
   //double shooterSpeedH;

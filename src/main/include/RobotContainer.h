@@ -67,7 +67,7 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
-  photonlib::PhotonCamera m_camera;
+  
   
   static constexpr int kLength = 62; // number of leds in rings
   std::array<frc::AddressableLED::LEDData, kLength> m_ledBuffer;

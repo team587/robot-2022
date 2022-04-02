@@ -169,26 +169,19 @@ void ShooterSubsystem::SetLowSpeed() {
 }
 
 void ShooterSubsystem::AutoAim(){
-
-  double currentAngle = m_hoodAnalogInput.GetVoltage();
-  currentAngle -= hoodVoltageOffset;
-  double angleToVoltage = 90.0 / 5.0;
-  double angle = currentAngle * angleToVoltage;
-  hoodAngle = m_visionContainer.getHoodAngle(angle);
-  // For Turret:
-#ifdef TURRET_SUBSYSTEM
-  turretAngle = m_visionContainer.getTurretAngle(getCurrentTurretAngle());
-    frc::SmartDashboard::PutNumber("auto shooter speed", shooterSpeed);
-#endif
-  // For wheels
-  if(double temp = m_visionContainer.getShooterSpeed(angle)>0){
-    shooterSpeed = temp;
-  }
-  double distance = m_visionContainer.getDistance(angle);
-
-  frc::SmartDashboard::PutNumber("V Distance", distance);
-
-}
+  photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
+      // wpi::outs() << "Camera is connected\n";
+      // frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
+      if (result.HasTargets())
+      {
+        // Does other calculations
+        photonlib::PhotonTrackedTarget target = result.GetBestTarget();
+        // For Turret:
+        #ifdef TURRET_SUBSYSTEM
+        turretAngle = m_visionContainer.getTurretAngle(getCurrentTurretAngle());
+        frc::SmartDashboard::PutNumber("auto shooter speed", shooterSpeed);
+        #endif
+}}
 
 void ShooterSubsystem::Stop() {
   speedIndex = 0;

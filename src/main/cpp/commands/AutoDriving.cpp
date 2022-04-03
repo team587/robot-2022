@@ -18,7 +18,8 @@
 AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot, int numPath) : 
     m_driveSubsystem(subsystem), 
     m_slot(slot), 
-    m_numPath(numPath) {
+    m_numPath(numPath),
+    m_initialY(0.0) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(subsystem);
@@ -30,12 +31,17 @@ void AutoDriving::Initialize() {
   std::cout << "Initialize\n";
 
  // m_driveSubsystem->ZeroHeading();
-
+ omegaPidController.EnableContinuousInput((units::radian_t)0.0, (units::radian_t)wpi::numbers::pi);
 #ifndef EXCLUDE_PATHPLANNER
 
   Trajectory = m_trajectory.get_auto_trajectory(m_slot, m_numPath);
   PathPlannerTrajectory::PathPlannerState *initial_state = Trajectory->getInitialState();
+
+  m_initialY = (double)initial_state->pose.Y();
+  //frc::Pose2d tmpPose{initial_state->pose.X(), (units::meter_t)8.23 - initial_state->pose.Y(), initial_state->pose.Rotation()};
+  //initial_state->pose = tmpPose;
   m_driveSubsystem->ResetOdometry(initial_state->pose);
+  omegaPidController.Reset(initial_state->pose.Rotation().Radians());
   
 #endif
 
@@ -50,6 +56,19 @@ void AutoDriving::Execute() {
 
   units::time::second_t time = m_timer.Get();
   PathPlannerTrajectory::PathPlannerState state = Trajectory->sample(time);
+
+  double tmpY = (double)state.pose.Y();
+  tmpY = -1.0 * (tmpY - m_initialY);
+  tmpY = tmpY + m_initialY;
+
+  frc::Pose2d tmpPose{state.pose.X(), (units::meter_t)tmpY, state.pose.Rotation()};
+  state.pose = tmpPose;
+  //frc::Pose2d tmpPose{state.pose.X(), (units::meter_t)8.23 - state.pose.Y(), state.pose.Rotation()};
+  //state.pose = tmpPose;
+
+  frc::Rotation2d rotPi((units::radian_t)wpi::numbers::pi);
+  state.holonomicRotation.RotateBy(rotPi); 
+  
   std::cout << (double)state.pose.X() << " pose x ";
   std::cout << (double)state.pose.Y() << " pose y ";
   std::cout << (double)state.pose.Rotation().Radians() << " pose rot ";
@@ -60,19 +79,37 @@ void AutoDriving::Execute() {
   std::cout << (double)RobotPose.X() << " robot x ";
   std::cout << (double)RobotPose.Y() << " robot y ";
   std::cout << (double)RobotPose.Rotation().Radians() << " robot rot "; 
-  const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
+  //const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
+  double vx = xPidController.Calculate((double)RobotPose.X(), (double)state.pose.X());
+  double vy = yPidController.Calculate((double)RobotPose.Y(), (double)state.pose.Y());
+  double vomega = omegaPidController.Calculate((units::radian_t)m_driveSubsystem->GetHeading(), (units::radian_t)state.holonomicRotation.Radians());
+  //double vomega = 0.0;
 
-  //frc::Rotation2d robotangle(m_driveSubsystem->GetHeading());
-  //const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, robotangle);
+  vx *= 3.0;
+  vy *= 3.0;
+  std::cout << vx << " x ";
+  std::cout << vy << " y ";
+  std::cout << vomega << " omega \n";
+
+/*
   std::cout << (double)adjustedSpeeds.vx << " x ";
   std::cout << (double)adjustedSpeeds.vy << " y ";
   std::cout << (double)adjustedSpeeds.omega << " omega \n";
 
-  //m_driveSubsystem->Drive(adjustedSpeeds.vx/8.0, adjustedSpeeds.vy/8.0, adjustedSpeeds.omega, true);
+  auto states = m_driveSubsystem->kDriveKinematics.ToSwerveModuleStates( 
+          frc::ChassisSpeeds::FromFieldRelativeSpeeds( adjustedSpeeds.vx, 
+                                                       adjustedSpeeds.vy, 
+                                                       adjustedSpeeds.omega, 
+                                                       frc::Rotation2d(units::radian_t(m_driveSubsystem->GetHeading()))));
+*/ 
+   auto states = m_driveSubsystem->kDriveKinematics.ToSwerveModuleStates( 
+          frc::ChassisSpeeds::FromFieldRelativeSpeeds( (units::meters_per_second_t)vx, 
+                                                       (units::meters_per_second_t)vy, 
+                                                       (units::radians_per_second_t)vomega, 
+                                                       frc::Rotation2d(units::radian_t(m_driveSubsystem->GetHeading()))));
+ m_driveSubsystem->SetModuleStates(states);
 
-  //auto [fl, fr, bl, br] = m_container->GetDriveSubsystem()->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds);
-  m_driveSubsystem->SetModuleStates(m_driveSubsystem->kDriveKinematics.ToSwerveModuleStates(adjustedSpeeds));
-  /*
+  auto [fl, fr, bl, br] = states;
   std::cout << (double)fl.speed << " fls ";
   std::cout << (double)fr.speed << " frs ";
 
@@ -84,7 +121,7 @@ void AutoDriving::Execute() {
 
   std::cout << (double)bl.angle.Radians() << " bla ";
   std::cout << (double)br.angle.Radians() << " bra \n";
-  */
+
 
  #endif 
 
@@ -92,6 +129,7 @@ void AutoDriving::Execute() {
 
 // Called once the command ends or is interrupted.
 void AutoDriving::End(bool interrupted) {
+  std::cout << "Auto Drive finished !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
   m_timer.Stop();
   m_driveSubsystem->Drive(units::meters_per_second_t(0), units::meters_per_second_t(0), units::radians_per_second_t(0), true);
 }

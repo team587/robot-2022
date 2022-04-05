@@ -40,7 +40,7 @@ ShooterSubsystem::ShooterSubsystem() :
       shooterSpeeds[count++] = 0;
       //shooterSpeeds[count++] = 0.7;
       //shooterSpeeds[count++] = 0.7;
-      //shooterSpeeds[count++] = 0.6;
+      //shooterSpeeds[count++] = 0.6;//golden speed
       shooterSpeeds[count++] = 0.6;
       shooterSpeeds[count++] = 0.57; // auto speed
       shooterSpeeds[count++] = 0.3; // lower port
@@ -110,6 +110,18 @@ ShooterSubsystem::ShooterSubsystem() :
       m_hoodPIDController.SetI(hoodI);
       m_hoodPIDController.SetD(hoodD);
       m_hoodPIDController.SetTolerance(0.1);
+
+      //frc::SmartDashboard::PutNumber("HoodAng...", 65);
+      //m_visionContainer.start();
+
+  autoShooterSpeed = 0;
+  frc::SmartDashboard::PutNumber("PeriodicP", turretP);
+  frc::SmartDashboard::PutNumber("PeriodicI", turretI);
+  frc::SmartDashboard::PutNumber("PeriodicD", turretD);    
+  frc::SmartDashboard::PutNumber("PeriodicShoot", autoShooterSpeed);
+  frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
+  
+  
 }
 
 void ShooterSubsystem::Periodic() {
@@ -142,22 +154,47 @@ void ShooterSubsystem::Periodic() {
   } else {
     m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   }
+  if(autoShooter) {
+    m_shooterMotor1.Set(autoShooterSpeed);
+  }
 #ifdef TURRET_SUBSYSTEM
   adjustTurretAngle();
 #endif
 
+  
+  
+
+  turretP = frc::SmartDashboard::GetNumber("PeriodicP", turretP);
+  turretI = frc::SmartDashboard::GetNumber("PeriodicI", turretI);
+  turretD = frc::SmartDashboard::GetNumber("PeriodicD", turretD);
+
+  //m_turretPIDController.SetP(turretP);
+  //m_turretPIDController.SetI(turretI);
+  //m_turretPIDController.SetD(turretD);
+
+  hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
+  setHoodAngle(hoodAngle);
+
+  autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
+  
+  if(autoShooterSpeed != m_shooterMotor1.Get()) {
+    m_shooterMotor1.Set(autoShooterSpeed);
+  }
+  
 }
 
 //void ShooterSubsystem::SetSpeed(double speed) {
 //  m_shooterMotor1.Set(speed);
 //}
 void ShooterSubsystem::start2() {
+  autoShooter = false;
   speedIndex = 2;
   shooterSpeeds[speedIndex] = 0.67;
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
 }
 
 void ShooterSubsystem::Start() {
+  autoShooter = false;
   speedIndex = 2;
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   //m_shooterMotor1.Set(0.7);
@@ -166,15 +203,37 @@ void ShooterSubsystem::Start() {
   //m_shooterMotor2.Set(shooterSpeed);
 }
 
+void ShooterSubsystem::AutoStart(double speed) {
+  autoShooter = true;
+  autoShooterSpeed = speed;
+}
+
 void ShooterSubsystem::SetLowSpeed() {
+  autoShooter = false;
   speedIndex = 3;
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
 }
 
-void ShooterSubsystem::AutoAim(){
+void ShooterSubsystem::AutoAim() {
+/*
+  frc::SmartDashboard::PutBoolean("AutoAimTarget", m_visionContainer.getHasTarget());
+  if(m_visionContainer.getHasTarget()) {
+
+    frc::SmartDashboard::PutNumber("AutoAimTurret", m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
+    frc::SmartDashboard::PutNumber("AutoAimHood", m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+    frc::SmartDashboard::PutNumber("AutoAimShooter", m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
+
+    setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
+    setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+    AutoStart(m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
+  }
+*/
+
+  //m_visionContainer.getYaw();
+
   auto result = m_camera.GetLatestResult();
       // wpi::outs() << "Camera is connected\n";
-      // frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
+      frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
       if (result.HasTargets())
       {
         std::cout << "Has a target\n     ";
@@ -185,6 +244,8 @@ void ShooterSubsystem::AutoAim(){
         yaw = target.GetYaw();
         pitch = target.GetPitch();
         newTurretAngle = getCurrentTurretAngle();
+        frc::SmartDashboard::PutNumber("AutoAim Orig Ang", newTurretAngle);
+        frc::SmartDashboard::PutNumber("AutoAim Yaw", yaw);
         if (yaw > 1.0 || yaw < -1.0) {
           newTurretAngle = yaw + getCurrentTurretAngle();
           if (newTurretAngle > 180.0) {
@@ -194,13 +255,27 @@ void ShooterSubsystem::AutoAim(){
           }
         }
         std::cout << newTurretAngle;
+        std::cout << "yaw: " << yaw;
+        frc::SmartDashboard::PutNumber("AutoAim New Ang", newTurretAngle);
+        
+        frc::SmartDashboard::PutNumber("AutoAim pitch", pitch);
+        frc::SmartDashboard::PutNumber("AutoAim Ang", newTurretAngle);
         setTurretAngle(newTurretAngle);
         //turretAngle = m_visionContainer.getTurretAngle(getCurrentTurretAngle());
         frc::SmartDashboard::PutNumber("auto shooter speed", shooterSpeed);
+        frc::SmartDashboard::PutNumber("AutoAim Hood Ang", getCurrentHoodAngle());
+        //double angle = frc::SmartDashboard::GetNumber("HoodAng...", 65);
+        double angle = 61;
+        frc::SmartDashboard::PutNumber("distance: ", photonlib::PhotonUtils::CalculateDistanceToTarget(
+          Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(angle),
+          units::degree_t(pitch)).value());
         #endif
-}}
+        
+  }
+}
 
 void ShooterSubsystem::Stop() {
+  autoShooter = false;
   speedIndex = 0;
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   //noSpeed = true;
@@ -260,6 +335,7 @@ void ShooterSubsystem::adjustTurretAngle() {
   //m_turretPIDController.SetPID(temp_p,temp_i,temp_d);
   double metersToDegrees = 0.5588 / 180;
 
+  frc::SmartDashboard::PutNumber("Turret Cur Ang Deg", currentAngle);
   frc::SmartDashboard::PutNumber("Turret Cur Ang", currentAngle / metersToDegrees);
   frc::SmartDashboard::PutNumber("Turret Des Ang", turretAngle);
 
@@ -299,6 +375,7 @@ void ShooterSubsystem::SetDumpMode(bool dump) {
   }
 
 void ShooterSubsystem::SpeedCycle() {
+  autoShooter = false;
   speedIndex++;
   speedIndex = speedIndex % 2; // slot 2 for auto i0 and 1  for teleop MAX_SETTINGS;
   hoodAngle = shooterAngles[speedIndex];

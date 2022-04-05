@@ -190,9 +190,10 @@ enum canIDs {
     kLoadShooterMotor =18
 };
 namespace Camerapos { //All of these save goal height are completly made up.
-constexpr auto cam_height_meters = units::meter_t(.3937); // We will have to calculate this dynamicly, but this will be the base hight when the camera is at its lowest position. It is also possible that the camera is close enough to the center of the hood rotation such that it does not matter.
-constexpr auto goal_height_meters = units::meter_t(1.59385);// This is 8ft in meters
+//constexpr auto cam_height_meters = units::meter_t(.698); // We will have to calculate this dynamicly, but this will be the base hight when the camera is at its lowest position. It is also possible that the camera is close enough to the center of the hood rotation such that it does not matter.
+constexpr auto cam_height_meters = units::meter_t(.7112); // We will have to calculate this dynamicly, but this will be the base hight when the camera is at its lowest position. It is also possible that the camera is close enough to the center of the hood rotation such that it does not matter.
+constexpr auto goal_height_meters = units::meter_t(2.64);// This is 8ft in meters
 constexpr auto tape_spacing = units::inch_t(10.5); //spacing between peices of tape
-constexpr auto angle_offset = 109.05; 
+constexpr auto angle_offset = 43; 
 constexpr auto shooter_max = 36.8;
 }

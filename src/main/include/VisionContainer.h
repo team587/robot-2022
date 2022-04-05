@@ -34,6 +34,14 @@
  */
 class VisionContainer
 {
+  private:
+
+  volatile double yaw;
+  volatile double pitch;
+  volatile bool hasTarget;
+  const static int MAXDISTANCES = 11;
+  constexpr static double angleConversion = 18/30;
+  VisionDistance visionDistances[MAXDISTANCES];
 
   public:
 
@@ -53,36 +61,44 @@ class VisionContainer
     visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
   };
 
-  volatile double yaw;
-  volatile double pitch;
-  const static int MAXDISTANCES = 11;
-  constexpr static double angle_var = 180.0-Camerapos::shooter_max-Camerapos::angle_offset;
-  VisionDistance visionDistances[MAXDISTANCES];
-
   void start()
   {
     std::thread m_thread(&VisionContainer::VisionThread, this);
     m_thread.detach();
   };
 
-  double getTurretAngle(double currentAngle)
-  {
-    double newangle = currentAngle;
-    return newangle;
+  double getHasTarget() { return hasTarget; }
+  double getYaw() { return yaw; }
+  double getPitch() { return pitch; }
+
+  double getTurretAngle(double currentAngle) {
+    double newTurretAngle = currentAngle;
+    if (yaw > 1.0 || yaw < -1.0) {
+      newTurretAngle = yaw + currentAngle;
+      if (newTurretAngle > 180.0) {
+        newTurretAngle = 180.0;
+      } else if (newTurretAngle < 45.0) {
+        newTurretAngle = 45.0;
+      }
+    }
+    return newTurretAngle;
   }
+
   double getDistance(double currentAngle){
     return photonlib::PhotonUtils::CalculateDistanceToTarget(
-        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(angle_var+currentAngle),
+        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t((currentAngle * angleConversion) + Camerapos::angle_offset),
         units::degree_t(pitch)).value();
   }
+
   VisionDistance* getVisionDistance(double distance){
-    for(unsigned int x = 0; x < sizeof(visionDistances)/sizeof(visionDistances[0]); x++){
+    for(unsigned int x = 0; x < MAXDISTANCES; x++){
       if(visionDistances[x].isDistance(distance)){
         return &visionDistances[x];
       }
     }
     return &visionDistances[MAXDISTANCES-1];
   }
+
   double getHoodAngle(double currentAngle)
   {
     //double newangle = currentAngle;
@@ -96,10 +112,11 @@ class VisionContainer
       return currentAngle;
     }
   }
+
   double getShooterSpeed(double currentAngle){
     double distance = getDistance(currentAngle);
     VisionDistance* visionDistance = getVisionDistance(distance);
-    if(visionDistance->m_shooterSpeed>0){
+    if(visionDistance->m_shooterSpeed > 0){
       return visionDistance->m_shooterSpeed;
     }
     else{
@@ -119,7 +136,8 @@ private:
       photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
       // wpi::outs() << "Camera is connected\n";
       // frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
-      if (result.HasTargets())
+      hasTarget = result.HasTargets();
+      if (hasTarget)
       {
         // Does other calculations
         photonlib::PhotonTrackedTarget target = result.GetBestTarget();
@@ -138,14 +156,15 @@ private:
         // frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
         // Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(m_shooter->getHoodAngle()),
         // units::degree_t(result.GetBestTarget().GetPitch())).value());
-        std::cout <<"Target" << pitch << yaw;
+        std::cout <<"Target Pitch: " << pitch << "Yaw: " << yaw << "\n";
         
       }
       else{
         std::cout << "Has no target";
       }
       //thread::
-      usleep(15000);
+      //usleep(15000);
+      usleep(.1 * 1000000);
     }
     
   };

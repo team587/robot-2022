@@ -57,6 +57,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double getCurrentHoodAngle();
   void adjustHoodAngle();
   void SetLowSpeed();
+  void AutoStart(double speed);
   //void setShooterSpeed(double ShooterSpeed) {
   //  shooterSpeed = ShooterSpeed;
   //  m_shooterMotor1.Set(shooterSpeed);
@@ -97,6 +98,8 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double shooterAngles[MAX_SETTINGS];
   std::string shooterLabels[MAX_SETTINGS];
   int speedIndex;
+  bool autoShooter = false;
+  double autoShooterSpeed = 0;
   
   double turningSpeed;
   double hoodAngle;

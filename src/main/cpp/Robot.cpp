@@ -12,7 +12,7 @@
 
 void Robot::RobotInit() {
   frc::SmartDashboard::PutNumber("auto_slot", 0);
-  frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+  frc::CameraServer::StartAutomaticCapture(0);
 }
 
 /**

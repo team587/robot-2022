@@ -39,7 +39,7 @@ class VisionContainer
   volatile double yaw;
   volatile double pitch;
   volatile bool hasTarget;
-  const static int MAXDISTANCES = 11;
+  const static int MAXDISTANCES = 13;
   constexpr static double angleConversion = 18/30;
   VisionDistance visionDistances[MAXDISTANCES];
 
@@ -48,16 +48,18 @@ class VisionContainer
   VisionContainer() {
     int count = 0;
 
-    visionDistances[count++] = VisionDistance(0, 1, 0, .4);
-    visionDistances[count++] = VisionDistance(1, 2, 0, .4);
-    visionDistances[count++] = VisionDistance(2, 3, 0, .4);
-    visionDistances[count++] = VisionDistance(3, 4, 0, .4);
-    visionDistances[count++] = VisionDistance(4, 5, 0, .4);
-    visionDistances[count++] = VisionDistance(5, 6, 0, .4);
-    visionDistances[count++] = VisionDistance(6, 7, 0, .4);
-    visionDistances[count++] = VisionDistance(7, 8, 0, .4);
-    visionDistances[count++] = VisionDistance(8, 9, 0, .4);
-    visionDistances[count++] = VisionDistance(9, 10, 0, .4);
+    visionDistances[count++] = VisionDistance(0, 1.11, 25, .6);
+    visionDistances[count++] = VisionDistance(1.11, 1.57, 15, .6);
+    visionDistances[count++] = VisionDistance(1.57, 1.90, 12, .6);
+    visionDistances[count++] = VisionDistance(1.90, 2.13, 0, .4);
+    visionDistances[count++] = VisionDistance(2.13, 2.33, 0, .4);
+    visionDistances[count++] = VisionDistance(2.33, 2.49, 0, .4);
+    visionDistances[count++] = VisionDistance(2.49, 2.73, 0, .4);
+    visionDistances[count++] = VisionDistance(2.73, 3.06, 0, .4);
+    visionDistances[count++] = VisionDistance(3.06, 3.21, 0, .4);
+    visionDistances[count++] = VisionDistance(3.21, 3.42, 0, .4);
+    visionDistances[count++] = VisionDistance(3.42, 3.89, 0, .4);
+    visionDistances[count++] = VisionDistance(3.89, 10, 0, .4);
     visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
   };
 

@@ -112,14 +112,14 @@ ShooterSubsystem::ShooterSubsystem() :
       m_hoodPIDController.SetTolerance(0.1);
 
       //frc::SmartDashboard::PutNumber("HoodAng...", 65);
-      //m_visionContainer.start();
+      m_visionContainer.start();
 
-  autoShooterSpeed = 0;
+  //autoShooterSpeed = 0;
   frc::SmartDashboard::PutNumber("PeriodicP", turretP);
   frc::SmartDashboard::PutNumber("PeriodicI", turretI);
   frc::SmartDashboard::PutNumber("PeriodicD", turretD);    
-  frc::SmartDashboard::PutNumber("PeriodicShoot", autoShooterSpeed);
-  frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
+  //frc::SmartDashboard::PutNumber("PeriodicShoot", autoShooterSpeed);
+  //frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
   
   
 }
@@ -154,9 +154,9 @@ void ShooterSubsystem::Periodic() {
   } else {
     m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
   }
-  if(autoShooter) {
-    m_shooterMotor1.Set(autoShooterSpeed);
-  }
+  //if(autoShooter) {
+  //  m_shooterMotor1.Set(autoShooterSpeed);
+  //}
 #ifdef TURRET_SUBSYSTEM
   adjustTurretAngle();
 #endif
@@ -172,14 +172,14 @@ void ShooterSubsystem::Periodic() {
   //m_turretPIDController.SetI(turretI);
   //m_turretPIDController.SetD(turretD);
 
-  hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
-  setHoodAngle(hoodAngle);
+  //hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
+  //setHoodAngle(hoodAngle);
 
-  autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
+  //autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
   
-  if(autoShooterSpeed != m_shooterMotor1.Get()) {
-    m_shooterMotor1.Set(autoShooterSpeed);
-  }
+  //if(autoShooterSpeed != m_shooterMotor1.Get()) {
+  //  m_shooterMotor1.Set(autoShooterSpeed);
+  //}
   
 }
 

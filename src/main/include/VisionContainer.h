@@ -65,6 +65,7 @@ class VisionContainer
 
   void start()
   {
+    frc::SmartDashboard::PutString("Debug", "Vision Thread Pre-Start");
     std::thread m_thread(&VisionContainer::VisionThread, this);
     m_thread.detach();
   };
@@ -131,9 +132,10 @@ private:
   void VisionThread()
   {
     photonlib::PhotonCamera m_camera{"mmal_service_16.1"};
+    frc::SmartDashboard::PutString("Debug", "Vision Thread Start");
     while (true)
     {
-
+      frc::SmartDashboard::PutString("Debug", "Vision Thread running");
       // wpi::outs() << "Lock Exec\n";
       photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
       // wpi::outs() << "Camera is connected\n";
@@ -165,8 +167,8 @@ private:
         std::cout << "Has no target";
       }
       //thread::
-      //usleep(15000);
-      usleep(.1 * 1000000);
+      usleep(15000);
+      //usleep(.1 * 1000000);
     }
     
   };

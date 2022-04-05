@@ -120,7 +120,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double turretI = 0;//.4;
   double turretD = 0;//.1;
 
-  photonlib::PhotonCamera m_camera{"mmal_service_16.1"};
+  //photonlib::PhotonCamera m_camera{"mmal_service_16.1"};
 
   double yaw;
   double pitch;

@@ -115,9 +115,9 @@ ShooterSubsystem::ShooterSubsystem() :
       m_visionContainer.start();
 
   //autoShooterSpeed = 0;
-  frc::SmartDashboard::PutNumber("PeriodicP", turretP);
-  frc::SmartDashboard::PutNumber("PeriodicI", turretI);
-  frc::SmartDashboard::PutNumber("PeriodicD", turretD);    
+  //frc::SmartDashboard::PutNumber("PeriodicP", turretP);
+  //frc::SmartDashboard::PutNumber("PeriodicI", turretI);
+  //frc::SmartDashboard::PutNumber("PeriodicD", turretD);    
   //frc::SmartDashboard::PutNumber("PeriodicShoot", autoShooterSpeed);
   //frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
   
@@ -149,14 +149,15 @@ void ShooterSubsystem::Periodic() {
   //hoodAngle = frc::SmartDashboard::GetNumber("Hood Des Angle", hoodAngle);
   adjustHoodAngle();
 
-  if (dumpSpeed && speedIndex > 0) {
-    m_shooterMotor1.Set(.3);
-  } else {
-    m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  if(!autoShooter) {
+    if (dumpSpeed && speedIndex > 0) {
+      m_shooterMotor1.Set(.3);
+    } else {
+      m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+    }
+  } else if(autoShooter) {
+    m_shooterMotor1.Set(autoShooterSpeed);
   }
-  //if(autoShooter) {
-  //  m_shooterMotor1.Set(autoShooterSpeed);
-  //}
 #ifdef TURRET_SUBSYSTEM
   adjustTurretAngle();
 #endif
@@ -164,9 +165,9 @@ void ShooterSubsystem::Periodic() {
   
   
 
-  turretP = frc::SmartDashboard::GetNumber("PeriodicP", turretP);
-  turretI = frc::SmartDashboard::GetNumber("PeriodicI", turretI);
-  turretD = frc::SmartDashboard::GetNumber("PeriodicD", turretD);
+  //turretP = frc::SmartDashboard::GetNumber("PeriodicP", turretP);
+  //turretI = frc::SmartDashboard::GetNumber("PeriodicI", turretI);
+  //turretD = frc::SmartDashboard::GetNumber("PeriodicD", turretD);
 
   //m_turretPIDController.SetP(turretP);
   //m_turretPIDController.SetI(turretI);
@@ -177,7 +178,7 @@ void ShooterSubsystem::Periodic() {
 
   //autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
   
-  //if(autoShooterSpeed != m_shooterMotor1.Get()) {
+  //if(autoShooter && autoShooterSpeed != m_shooterMotor1.Get()) {
   //  m_shooterMotor1.Set(autoShooterSpeed);
   //}
   
@@ -217,7 +218,10 @@ void ShooterSubsystem::SetLowSpeed() {
 void ShooterSubsystem::AutoAim() {
 
   frc::SmartDashboard::PutBoolean("AutoAimTarget", m_visionContainer.getHasTarget());
+  frc::SmartDashboard::PutNumber("AutoAimYaw", m_visionContainer.getYaw());
+  frc::SmartDashboard::PutNumber("AutoAimPitch", m_visionContainer.getPitch());
   if(m_visionContainer.getHasTarget()) {
+
 
     frc::SmartDashboard::PutNumber("AutoAimTurret", m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
     frc::SmartDashboard::PutNumber("AutoAimHood", m_visionContainer.getHoodAngle(getCurrentHoodAngle()));

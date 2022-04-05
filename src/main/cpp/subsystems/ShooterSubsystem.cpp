@@ -215,22 +215,23 @@ void ShooterSubsystem::SetLowSpeed() {
 }
 
 void ShooterSubsystem::AutoAim() {
-/*
+
   frc::SmartDashboard::PutBoolean("AutoAimTarget", m_visionContainer.getHasTarget());
   if(m_visionContainer.getHasTarget()) {
 
     frc::SmartDashboard::PutNumber("AutoAimTurret", m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
     frc::SmartDashboard::PutNumber("AutoAimHood", m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
     frc::SmartDashboard::PutNumber("AutoAimShooter", m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
+    frc::SmartDashboard::PutNumber("AutoAimDistance", m_visionContainer.getDistance(getCurrentHoodAngle()));
 
     setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
     setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
     AutoStart(m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
   }
-*/
+
 
   //m_visionContainer.getYaw();
-
+/*
   auto result = m_camera.GetLatestResult();
       // wpi::outs() << "Camera is connected\n";
       frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
@@ -271,7 +272,7 @@ void ShooterSubsystem::AutoAim() {
           units::degree_t(pitch)).value());
         #endif
         
-  }
+  }*/
 }
 
 void ShooterSubsystem::Stop() {

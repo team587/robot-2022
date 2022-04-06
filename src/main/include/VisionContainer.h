@@ -40,7 +40,7 @@ class VisionContainer
   volatile double pitch;
   volatile bool hasTarget;
   const static int MAXDISTANCES = 13;
-  constexpr static double angleConversion = 18/30;
+  constexpr static double angleConversion = .546;
   VisionDistance visionDistances[MAXDISTANCES];
 
   public:

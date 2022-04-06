@@ -40,10 +40,10 @@ class VisionContainer
   volatile double pitch;
   volatile bool hasTarget;
   const static int MAXDISTANCES = 13;
-  constexpr static double angleConversion = 18/30;
   VisionDistance visionDistances[MAXDISTANCES];
 
   public:
+  double angleConversion = .546;
 
   VisionContainer() {
     int count = 0;
@@ -57,15 +57,20 @@ class VisionContainer
     visionDistances[count++] = VisionDistance(2.49, 2.73, 5, .68);
     visionDistances[count++] = VisionDistance(2.73, 3.06, 0, .73);
     visionDistances[count++] = VisionDistance(3.06, 3.21, 0, .76);
-    visionDistances[count++] = VisionDistance(3.21, 3.42, 0, .82); //could be a problem child
-    visionDistances[count++] = VisionDistance(3.42, 3.89, 0, .92);
+    visionDistances[count++] = VisionDistance(3.21, 3.42, -3, .82); //could be a problem child
+    visionDistances[count++] = VisionDistance(3.42, 3.89, -3, .92);
     visionDistances[count++] = VisionDistance(3.89, 10, -5, .97);
     visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
   };
 
   void start()
   {
+
     frc::SmartDashboard::PutString("Debug", "Vision Thread Pre-Start");
+    
+    
+
+
     std::thread m_thread(&VisionContainer::VisionThread, this);
     m_thread.detach();
   };
@@ -76,7 +81,7 @@ class VisionContainer
 
   double getTurretAngle(double currentAngle) {
     double newTurretAngle = currentAngle;
-    if (yaw > .5 || yaw < -.5) {
+    if (yaw > .3 || yaw < -.3) {
       newTurretAngle = yaw + currentAngle;
       if (newTurretAngle > 180.0) {
         newTurretAngle = 180.0;
@@ -166,6 +171,7 @@ private:
       else{
         std::cout << "Has no target";
       }
+
       //thread::
       usleep(15000);
       //usleep(.1 * 1000000);

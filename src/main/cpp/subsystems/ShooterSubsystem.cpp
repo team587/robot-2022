@@ -113,6 +113,8 @@ ShooterSubsystem::ShooterSubsystem() :
 
       //frc::SmartDashboard::PutNumber("HoodAng...", 65);
       m_visionContainer.start();
+      frc::SmartDashboard::PutNumber("Angle conversion", m_visionContainer.angleConversion);
+
 
   //autoShooterSpeed = 0;
   //frc::SmartDashboard::PutNumber("PeriodicP", turretP);
@@ -149,15 +151,15 @@ void ShooterSubsystem::Periodic() {
   //hoodAngle = frc::SmartDashboard::GetNumber("Hood Des Angle", hoodAngle);
   adjustHoodAngle();
 
-  if(!autoShooter) {
-    if (dumpSpeed && speedIndex > 0) {
-      m_shooterMotor1.Set(.3);
-    } else {
-      m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
-    }
-  } else if(autoShooter) {
-    m_shooterMotor1.Set(autoShooterSpeed);
-  }
+  //if(!autoShooter) {
+  //  if (dumpSpeed && speedIndex > 0) {
+  //    m_shooterMotor1.Set(.3);
+  //  } else {
+  //    m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+  //  }
+  //} else if(autoShooter) {
+  //  m_shooterMotor1.Set(autoShooterSpeed);
+  //}
 #ifdef TURRET_SUBSYSTEM
   adjustTurretAngle();
 #endif
@@ -173,8 +175,10 @@ void ShooterSubsystem::Periodic() {
   //m_turretPIDController.SetI(turretI);
   //m_turretPIDController.SetD(turretD);
 
-  //hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
-  //setHoodAngle(hoodAngle);
+  hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
+  m_visionContainer.angleConversion = frc::SmartDashboard::GetNumber("Angle conversion", m_visionContainer.angleConversion);
+
+  setHoodAngle(hoodAngle);
 
   //autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
   
@@ -229,8 +233,8 @@ void ShooterSubsystem::AutoAim() {
     frc::SmartDashboard::PutNumber("AutoAimDistance", m_visionContainer.getDistance(getCurrentHoodAngle()));
 
     setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
-    setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
-    AutoStart(m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
+    //setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+    //AutoStart(m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
   }
 
 

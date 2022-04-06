@@ -53,12 +53,12 @@ class VisionContainer
     visionDistances[count++] = VisionDistance(1.57, 1.90, 12, .6);
     visionDistances[count++] = VisionDistance(1.90, 2.13, 10, .632);
     visionDistances[count++] = VisionDistance(2.13, 2.33, 7, .65);
-    visionDistances[count++] = VisionDistance(2.33, 2.49, 10, .7); //could be a problem child
+    visionDistances[count++] = VisionDistance(2.33, 2.49, 6, .66); //could be a problem child
     visionDistances[count++] = VisionDistance(2.49, 2.73, 5, .68);
     visionDistances[count++] = VisionDistance(2.73, 3.06, 0, .73);
-    visionDistances[count++] = VisionDistance(3.06, 3.21, 0, .95);
-    visionDistances[count++] = VisionDistance(3.21, 3.42, 0, .8); //could be a problem child
-    visionDistances[count++] = VisionDistance(3.42, 3.89, 0, .9);
+    visionDistances[count++] = VisionDistance(3.06, 3.21, 0, .76);
+    visionDistances[count++] = VisionDistance(3.21, 3.42, 0, .82); //could be a problem child
+    visionDistances[count++] = VisionDistance(3.42, 3.89, 0, .92);
     visionDistances[count++] = VisionDistance(3.89, 10, 0, .97);
     visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
   };
@@ -76,7 +76,7 @@ class VisionContainer
 
   double getTurretAngle(double currentAngle) {
     double newTurretAngle = currentAngle;
-    if (yaw > 1.0 || yaw < -1.0) {
+    if (yaw > .5 || yaw < -.5) {
       newTurretAngle = yaw + currentAngle;
       if (newTurretAngle > 180.0) {
         newTurretAngle = 180.0;
@@ -108,7 +108,7 @@ class VisionContainer
     double distance = getDistance(currentAngle);
     VisionDistance* visionDistance = getVisionDistance(distance);
     
-    if(visionDistance->m_hoodAngle>0){
+    if(visionDistance->m_hoodAngle >= 0){
       return visionDistance->m_hoodAngle;
     }
     else{
@@ -123,7 +123,7 @@ class VisionContainer
       return visionDistance->m_shooterSpeed;
     }
     else{
-      return -1;
+      return 0;
     }
   }
 

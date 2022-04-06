@@ -59,7 +59,7 @@ class VisionContainer
     visionDistances[count++] = VisionDistance(3.06, 3.21, 0, .76);
     visionDistances[count++] = VisionDistance(3.21, 3.42, 0, .82); //could be a problem child
     visionDistances[count++] = VisionDistance(3.42, 3.89, 0, .92);
-    visionDistances[count++] = VisionDistance(3.89, 10, 0, .97);
+    visionDistances[count++] = VisionDistance(3.89, 10, -5, .97);
     visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
   };
 
@@ -108,7 +108,7 @@ class VisionContainer
     double distance = getDistance(currentAngle);
     VisionDistance* visionDistance = getVisionDistance(distance);
     
-    if(visionDistance->m_hoodAngle >= 0){
+    if(visionDistance->m_hoodAngle >= -10){
       return visionDistance->m_hoodAngle;
     }
     else{

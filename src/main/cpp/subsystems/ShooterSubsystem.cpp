@@ -121,7 +121,7 @@ ShooterSubsystem::ShooterSubsystem() :
   //frc::SmartDashboard::PutNumber("PeriodicI", turretI);
   //frc::SmartDashboard::PutNumber("PeriodicD", turretD);    
   //frc::SmartDashboard::PutNumber("PeriodicShoot", autoShooterSpeed);
-  //frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
+  frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
   
   
 }
@@ -148,7 +148,7 @@ void ShooterSubsystem::Periodic() {
   // This is for characterization
   //shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
   //m_shooterMotor1.Set(shooterSpeed);
-  //hoodAngle = frc::SmartDashboard::GetNumber("Hood Des Angle", hoodAngle);
+  hoodAngle = frc::SmartDashboard::GetNumber("Hood Des Angle", hoodAngle);
   adjustHoodAngle();
 
   //if(!autoShooter) {

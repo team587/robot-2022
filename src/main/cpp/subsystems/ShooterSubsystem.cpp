@@ -114,12 +114,9 @@ ShooterSubsystem::ShooterSubsystem() :
       //frc::SmartDashboard::PutNumber("HoodAng...", 65);
       m_visionContainer.start();
 
-  //autoShooterSpeed = 0;
-  //frc::SmartDashboard::PutNumber("PeriodicP", turretP);
-  //frc::SmartDashboard::PutNumber("PeriodicI", turretI);
-  //frc::SmartDashboard::PutNumber("PeriodicD", turretD);    
-  //frc::SmartDashboard::PutNumber("PeriodicShoot", autoShooterSpeed);
-  //frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
+  autoShooterSpeed = 0;
+  frc::SmartDashboard::PutNumber("PeriodicShoot", autoShooterSpeed);
+  frc::SmartDashboard::PutNumber("PeriodicHood", hoodAngle);
   
   
 }
@@ -128,11 +125,11 @@ void ShooterSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
   //shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
 
-  frc::SmartDashboard::PutNumber("m_shooterMotor1", m_shooterMotor1.Get());
-  frc::SmartDashboard::PutNumber("m_shooterMotor2", m_shooterMotor2.Get());
+  //frc::SmartDashboard::PutNumber("m_shooterMotor1", m_shooterMotor1.Get());
+  //frc::SmartDashboard::PutNumber("m_shooterMotor2", m_shooterMotor2.Get());
 
   //frc::Shuffleboard::GetTab("Shooter").("speed", shooterSpeed);
-  frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
+  //frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
 
   if (m_driverController.GetRawButton(leftBumper)) {
    AutoAim();
@@ -141,12 +138,9 @@ void ShooterSubsystem::Periodic() {
 
   }else  {
      frc::SmartDashboard::PutBoolean("V Enabled", false);
+     autoShooter = false;
   }
   
-  // This is for characterization
-  //shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
-  //m_shooterMotor1.Set(shooterSpeed);
-  //hoodAngle = frc::SmartDashboard::GetNumber("Hood Des Angle", hoodAngle);
   adjustHoodAngle();
 
   if(!autoShooter) {
@@ -162,22 +156,10 @@ void ShooterSubsystem::Periodic() {
   adjustTurretAngle();
 #endif
 
-  
-  
-
-  //turretP = frc::SmartDashboard::GetNumber("PeriodicP", turretP);
-  //turretI = frc::SmartDashboard::GetNumber("PeriodicI", turretI);
-  //turretD = frc::SmartDashboard::GetNumber("PeriodicD", turretD);
-
-  //m_turretPIDController.SetP(turretP);
-  //m_turretPIDController.SetI(turretI);
-  //m_turretPIDController.SetD(turretD);
-
+  //handling manual hood and shooter speed
   //hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
   //setHoodAngle(hoodAngle);
-
   //autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
-  
   //if(autoShooter && autoShooterSpeed != m_shooterMotor1.Get()) {
   //  m_shooterMotor1.Set(autoShooterSpeed);
   //}
@@ -218,10 +200,10 @@ void ShooterSubsystem::SetLowSpeed() {
 void ShooterSubsystem::AutoAim() {
 
   frc::SmartDashboard::PutBoolean("AutoAimTarget", m_visionContainer.getHasTarget());
-  frc::SmartDashboard::PutNumber("AutoAimYaw", m_visionContainer.getYaw());
-  frc::SmartDashboard::PutNumber("AutoAimPitch", m_visionContainer.getPitch());
+  //frc::SmartDashboard::PutNumber("AutoAimYaw", m_visionContainer.getYaw());
+  //frc::SmartDashboard::PutNumber("AutoAimPitch", m_visionContainer.getPitch());
+  
   if(m_visionContainer.getHasTarget()) {
-
 
     frc::SmartDashboard::PutNumber("AutoAimTurret", m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
     frc::SmartDashboard::PutNumber("AutoAimHood", m_visionContainer.getHoodAngle(getCurrentHoodAngle()));

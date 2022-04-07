@@ -141,11 +141,25 @@ private:
         yaw = target.GetYaw();
         pitch = target.GetPitch();
         //std::cout <<"Target Pitch: " << pitch << "Yaw: " << yaw << "\n";
+        // wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
+        // Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+        // units::degree_t{result.GetBestTarget().GetPitch()}).value()) << "\n";
+        // frc::SmartDashboard::PutNumber("Yaw", target.GetYaw());
+        // frc::SmartDashboard::PutNumber("Pitch", target.GetPitch());
+        // frc::SmartDashboard::PutNumber("Skew", target.GetSkew());
+        // frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
+        // Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,
+        // units::degree_t{result.GetBestTarget().GetPitch()}).value());
+        // command to find distance when we know the hood angle:
+        // frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
+        // Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(m_shooter->getHoodAngle()),
+        // units::degree_t(result.GetBestTarget().GetPitch())).value());
+        //std::cout <<"Target" << pitch << yaw;
         
       } else {
         //std::cout << "Has no target";
       }
-      usleep(100000);
+      usleep(20000);
     }
   };
 };

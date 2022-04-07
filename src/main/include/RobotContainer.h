@@ -210,8 +210,7 @@ class RobotContainer {
     m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
-    frc2::WaitCommand{units::second_t(1)},
-    frc2::WaitCommand{units::second_t(2)},   
+    frc2::WaitCommand{units::second_t(1)},  
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(1)},
     m_adjustHoodAngle0,
@@ -240,38 +239,40 @@ class RobotContainer {
 
   frc2::SequentialCommandGroup m_slotCommand2 {
     #ifdef COMPETITIONBOT
-    m_shooterSpeed,
+    m_shooterSpeed2,
     m_intakeDeploy,
     m_intakeSpeedOn,
-    m_adjustHoodAngle,
     m_adjustTurretAngle,
-    frc2::WaitCommand{units::second_t(2)},   
-    m_fireShooterOn,
-    frc2::WaitCommand{units::second_t(1)},
     m_adjustHoodAngle0,
-    m_autoCommand1_0,
+    m_autoCommand2_0,
     m_stopDriving,
     m_fireShooterOn,
-    frc2::WaitCommand{units::second_t(5)},
-    m_fireShooterOff,
-    m_shooterOff, 
-    m_intakeSpeedOff,
-    m_autoCommand1_1,
+    frc2::WaitCommand{units::second_t(3)},
+    m_fireShooterOff, 
+    m_autoCommand2_1,
     m_stopDriving,
+    frc2::WaitCommand{units::second_t(3)},
+    m_intakeSpeedOff,
+    m_shooterOff,
     #endif
   };
 
   frc2::SequentialCommandGroup m_slotCommand3 {
     #ifdef COMPETITIONBOT
-    m_shooterSpeed,
+    m_shooterSpeed2,
     m_intakeDeploy,
     m_intakeSpeedOn,
-    m_adjustHoodAngle,
+    m_adjustHoodAngle0,
     m_adjustTurretAngle,
     #endif
     m_autoCommand3_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
+    m_fireShooterOn,
+    frc2::WaitCommand{units::second_t(2)},
+    m_fireShooterOff,
+    m_autoCommand3_1,
+    m_stopDriving,
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(2)},
     m_intakeSpeedOff,
@@ -285,20 +286,24 @@ class RobotContainer {
 
   frc2::SequentialCommandGroup m_slotCommand4 {
     #ifdef COMPETITIONBOT
+   /*
     m_shooterSpeed,
     m_intakeDeploy,
     m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
+    */
     #endif
     m_autoCommand4_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
+    /*
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(2)},
     m_intakeSpeedOff,
     m_fireShooterOff,
     m_shooterOff,
+    */
     #endif
     //m_autoCommand4_1,
     //m_autoCommand4_2,

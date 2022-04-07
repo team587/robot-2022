@@ -170,7 +170,9 @@ class RobotContainer {
   frc2::InstantCommand m_adjustHoodAngle0{[this] {m_shooterSubsystem.setHoodAngle(0); }, {&m_shooterSubsystem}}; 
   frc2::InstantCommand m_adjustTurretAngle{[this] {m_shooterSubsystem.setTurretAngle(90); }, {&m_shooterSubsystem}};
   frc2::InstantCommand m_LowerPortSpeed{[this] {m_shooterSubsystem.SetLowSpeed();}, {&m_shooterSubsystem}};
-  
+  frc2::InstantCommand m_enableAutoAim{[this] {m_shooterSubsystem.setAutoEnableAim(true); }, {&m_shooterSubsystem}};
+  frc2::InstantCommand m_disableAutoAim{[this] {m_shooterSubsystem.setAutoEnableAim(false); }, {&m_shooterSubsystem}};
+
 #endif
 
 #ifdef SWERVE_SUBSYSTEM
@@ -210,16 +212,18 @@ class RobotContainer {
     m_intakeSpeedOn,
     m_adjustHoodAngle,
     m_adjustTurretAngle,
+    m_enableAutoAim,
     frc2::WaitCommand{units::second_t(1)},  
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(1)},
-    m_adjustHoodAngle0,
-    m_shooterSpeed2,
+    //m_adjustHoodAngle0,
+    //m_shooterSpeed2,
     #endif
     m_autoCommand1_0,
     m_stopDriving,
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(5)},
+    m_disableAutoAim,
     m_fireShooterOff,
     m_shooterOff, 
     m_intakeSpeedOff,
@@ -264,10 +268,13 @@ class RobotContainer {
     m_intakeSpeedOn,
     m_adjustHoodAngle0,
     m_adjustTurretAngle,
+    frc2::WaitCommand{units::second_t(1)},
+    m_enableAutoAim,
     #endif
     m_autoCommand3_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
+    frc2::WaitCommand{units::second_t(2)},
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(2)},
     m_fireShooterOff,
@@ -278,6 +285,7 @@ class RobotContainer {
     m_intakeSpeedOff,
     m_fireShooterOff,
     m_shooterOff,
+    m_disableAutoAim,
     #endif
     //m_autoCommand3_1,
     //m_autoCommand3_2,

@@ -147,7 +147,13 @@ void AutoDriving::Execute() {
 void AutoDriving::End(bool interrupted) {
   std::cout << "Auto Drive finished !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
   m_timer.Stop();
-  m_driveSubsystem->Drive(units::meters_per_second_t(0), units::meters_per_second_t(0), units::radians_per_second_t(0), true);
+    auto states = m_driveSubsystem->kDriveKinematics.ToSwerveModuleStates( 
+          frc::ChassisSpeeds::FromFieldRelativeSpeeds( (units::meters_per_second_t)0.0, 
+                                                       (units::meters_per_second_t)0.0, 
+                                                       (units::radians_per_second_t)0.0, 
+                                                       frc::Rotation2d(units::radian_t(m_driveSubsystem->GetHeading()))));
+ m_driveSubsystem->SetModuleStates(states);
+  //m_driveSubsystem->Drive(units::meters_per_second_t(0), units::meters_per_second_t(0), units::radians_per_second_t(0), true);
 }
 
 // Returns true when the command should end.

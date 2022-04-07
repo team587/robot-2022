@@ -131,7 +131,7 @@ void ShooterSubsystem::Periodic() {
   //frc::Shuffleboard::GetTab("Shooter").("speed", shooterSpeed);
   //frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
 
-  if (m_driverController.GetRawButton(leftBumper)) {
+  if (m_driverController.GetRawButton(leftBumper) || autoEnableAim) {
    AutoAim();
     frc::SmartDashboard::PutBoolean("V Enabled", true);
     

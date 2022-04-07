@@ -63,6 +63,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   //  m_shooterMotor1.Set(shooterSpeed);
   //}
   
+  void setAutoEnableAim(bool enable) { autoEnableAim = enable; }
+  bool getAutoEnable() { return autoEnableAim; }
+
  private:
   
   rev::CANSparkMax m_shooterMotor1{canIDs::kShooterMotor1, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
@@ -89,6 +92,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   VisionContainer m_visionContainer;
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
 
+  bool autoEnableAim = false;
   double shooterSpeed;
   //double shooterSpeedH;
   //double shooterSpeedM;

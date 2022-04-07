@@ -27,7 +27,7 @@ class VisionContainer
   volatile double yaw;
   volatile double pitch;
   volatile bool hasTarget;
-  const static int MAXDISTANCES = 15;
+  const static int MAXDISTANCES = 16;
   const static int MINANGLE = -7;
   const static int MINSPEED = 0;
   constexpr static double angleConversion = .546;
@@ -51,7 +51,8 @@ class VisionContainer
     visionDistances[count++] = VisionDistance(3.06, 3.26, -5, .76);
     visionDistances[count++] = VisionDistance(3.21, 3.47, -6, .82); //could be a problem child
     visionDistances[count++] = VisionDistance(3.42, 3.94, -7, .88);
-    visionDistances[count++] = VisionDistance(3.89, 10, -7, .90);
+    visionDistances[count++] = VisionDistance(3.89, 4.2, -7, .90);
+    visionDistances[count++] = VisionDistance(4.3, 10, -7, .99);
     visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
   };
 

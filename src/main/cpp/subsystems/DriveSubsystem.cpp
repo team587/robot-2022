@@ -72,7 +72,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
                            units::radians_per_second_t rot,
                            bool fieldRelative) {
   
-
+  //std::cout << "Drive: (" << (double)xSpeed << ", " << (double)ySpeed << ", " << (double)rot << "\n";
 /*
   m_decelerate = (units::meters_per_second_t)(frc::Shuffleboard::GetTab("Drive")
     .Add("decelerate", (double)m_decelerate)

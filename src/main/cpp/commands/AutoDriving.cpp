@@ -31,7 +31,7 @@ void AutoDriving::Initialize() {
   std::cout << "Initialize\n";
 
  // m_driveSubsystem->ZeroHeading();
- omegaPidController.EnableContinuousInput((units::radian_t)0.0, (units::radian_t)wpi::numbers::pi);
+ omegaPidController.EnableContinuousInput((units::radian_t)0.0, (units::radian_t)(2.0 * wpi::numbers::pi));
 #ifndef EXCLUDE_PATHPLANNER
 
   Trajectory = m_trajectory.get_auto_trajectory(m_slot, m_numPath);
@@ -41,8 +41,13 @@ void AutoDriving::Initialize() {
   //frc::Pose2d tmpPose{initial_state->pose.X(), (units::meter_t)8.23 - initial_state->pose.Y(), initial_state->pose.Rotation()};
   //initial_state->pose = tmpPose;
   m_driveSubsystem->ResetOdometry(initial_state->pose);
-  omegaPidController.Reset(initial_state->pose.Rotation().Radians());
-  
+  if ((double)initial_state->holonomicRotation.Radians() < 0.0)
+  {
+    frc::Rotation2d rotPi((units::radian_t)(2.0 * wpi::numbers::pi));
+    initial_state->holonomicRotation.RotateBy(rotPi);
+  }
+  //omegaPidController.Reset(initial_state->pose.Rotation().Radians());
+  omegaPidController.Reset(initial_state->holonomicRotation.Radians());
 #endif
 
   m_timer.Reset();
@@ -57,17 +62,27 @@ void AutoDriving::Execute() {
   units::time::second_t time = m_timer.Get();
   PathPlannerTrajectory::PathPlannerState state = Trajectory->sample(time);
 
-  double tmpY = (double)state.pose.Y();
+/*  double tmpY = (double)state.pose.Y();
   tmpY = -1.0 * (tmpY - m_initialY);
   tmpY = tmpY + m_initialY;
-
+  std::cout << (double)state.pose.Y() << " Orig y ";
   frc::Pose2d tmpPose{state.pose.X(), (units::meter_t)tmpY, state.pose.Rotation()};
   state.pose = tmpPose;
-  //frc::Pose2d tmpPose{state.pose.X(), (units::meter_t)8.23 - state.pose.Y(), state.pose.Rotation()};
-  //state.pose = tmpPose;
-
-  frc::Rotation2d rotPi((units::radian_t)wpi::numbers::pi);
-  state.holonomicRotation.RotateBy(rotPi); 
+  */
+  /*
+  double holRot = (double)state.holonomicRotation.Radians();
+  if (holRot < 0.0) holRot += (2.0 * wpi::numbers::pi);
+  holRot = holRot + wpi::numbers::pi;
+  holRot = fmod(holRot, (2.0 * wpi::numbers::pi));
+  frc::Rotation2d newRot((units::radian_t)holRot);
+  frc::Pose2d tmpPose{state.pose.X(), state.pose.Y(), newRot};
+  state.pose = tmpPose;
+  */
+  if ((double)state.holonomicRotation.Radians() < 0.0)
+  {
+    frc::Rotation2d rotPi((units::radian_t)(2.0 * wpi::numbers::pi));
+    state.holonomicRotation.RotateBy(rotPi);
+  }
   
   std::cout << (double)state.pose.X() << " pose x ";
   std::cout << (double)state.pose.Y() << " pose y ";
@@ -82,11 +97,12 @@ void AutoDriving::Execute() {
   //const auto adjustedSpeeds = controller.Calculate(RobotPose, state.pose, state.velocity, state.holonomicRotation);
   double vx = xPidController.Calculate((double)RobotPose.X(), (double)state.pose.X());
   double vy = yPidController.Calculate((double)RobotPose.Y(), (double)state.pose.Y());
-  double vomega = omegaPidController.Calculate((units::radian_t)m_driveSubsystem->GetHeading(), (units::radian_t)state.holonomicRotation.Radians());
+  double vomega = -omegaPidController.Calculate((units::radian_t)m_driveSubsystem->GetHeading(), (units::radian_t)state.holonomicRotation.Radians());
   //double vomega = 0.0;
 
   vx *= 3.0;
   vy *= 3.0;
+  vomega *=12.0;
   std::cout << vx << " x ";
   std::cout << vy << " y ";
   std::cout << vomega << " omega \n";

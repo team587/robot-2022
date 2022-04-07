@@ -151,11 +151,11 @@ private:
         // frc::SmartDashboard::PutNumber("Distance using photon", photonlib::PhotonUtils::CalculateDistanceToTarget(
         // Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(m_shooter->getHoodAngle()),
         // units::degree_t(result.GetBestTarget().GetPitch())).value());
-        std::cout <<"Target" << pitch << yaw;
+        //std::cout <<"Target" << pitch << yaw;
         
       }
       else{
-        std::cout << "Has no target";
+        //std::cout << "Has no target";
       }
       //thread::
       usleep(20000);

@@ -19,7 +19,8 @@ AutoDriving::AutoDriving(DriveSubsystem* subsystem, int slot, int numPath) :
     m_driveSubsystem(subsystem), 
     m_slot(slot), 
     m_numPath(numPath),
-    m_initialY(0.0) {
+    m_initialY(0.0),
+    numberStates(0) {
   std::cout << "Constructor Header\n";
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements(subsystem);
@@ -52,6 +53,7 @@ void AutoDriving::Initialize() {
 
   m_timer.Reset();
   m_timer.Start();
+  numberStates = Trajectory->numStates();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -61,6 +63,12 @@ void AutoDriving::Execute() {
 
   units::time::second_t time = m_timer.Get();
   PathPlannerTrajectory::PathPlannerState state = Trajectory->sample(time);
+  numberStates--;
+  if (numberStates < 0)
+  {
+    std::cout << "underflow of states" << numberStates << "\n"; 
+    return;
+  }
 
 /*  double tmpY = (double)state.pose.Y();
   tmpY = -1.0 * (tmpY - m_initialY);
@@ -100,8 +108,8 @@ void AutoDriving::Execute() {
   double vomega = -omegaPidController.Calculate((units::radian_t)m_driveSubsystem->GetHeading(), (units::radian_t)state.holonomicRotation.Radians());
   //double vomega = 0.0;
 
-  vx *= 3.0;
-  vy *= 3.0;
+  if (vx < 1.0) vx *= 3.0;
+  if (vy < 1.0) vy *= 3.0;
   vomega *=12.0;
   std::cout << vx << " x ";
   std::cout << vy << " y ";
@@ -147,12 +155,23 @@ void AutoDriving::Execute() {
 void AutoDriving::End(bool interrupted) {
   std::cout << "Auto Drive finished !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n";
   m_timer.Stop();
+  /*
     auto states = m_driveSubsystem->kDriveKinematics.ToSwerveModuleStates( 
           frc::ChassisSpeeds::FromFieldRelativeSpeeds( (units::meters_per_second_t)0.0, 
                                                        (units::meters_per_second_t)0.0, 
                                                        (units::radians_per_second_t)0.0, 
                                                        frc::Rotation2d(units::radian_t(m_driveSubsystem->GetHeading()))));
+ frc::Rotation2d tmpzero((units::radian_t)0);
+ states[0].angle = tmpzero;
+ states[0].speed = (units::meter_t)0;
+ states[1].angle = tmpzero;
+ states[1].speed = (units::meter_t)0;
+ states[2].angle = tmpzero;
+ states[2].speed = (units::meter_t)0;
+ states[3].angle = tmpzero;
+ states[3].speed = (units::meter_t)0;
  m_driveSubsystem->SetModuleStates(states);
+ */
   //m_driveSubsystem->Drive(units::meters_per_second_t(0), units::meters_per_second_t(0), units::radians_per_second_t(0), true);
 }
 

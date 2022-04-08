@@ -122,6 +122,14 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   m_rearRight.SetDesiredState(br);
 }
 
+void DriveSubsystem::StopDrive()
+{
+  m_frontLeft.Stop();
+  m_frontRight.Stop();
+  m_rearLeft.Stop();
+  m_rearRight.Stop();
+}
+
 void DriveSubsystem::SetModuleStates(
     wpi::array<frc::SwerveModuleState, 4> desiredStates) {
   kDriveKinematics.DesaturateWheelSpeeds(&desiredStates,

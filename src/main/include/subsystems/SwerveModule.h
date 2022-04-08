@@ -34,6 +34,7 @@ class SwerveModule {
 
   void SetDesiredState(const frc::SwerveModuleState& state);
   void SetDesiredAutoState(const frc::SwerveModuleState& state);
+  void Stop();
   
 
   void ResetEncoders();

@@ -192,9 +192,7 @@ class RobotContainer {
   AutoDriving m_autoCommand4_1;
   AutoDriving m_autoCommand4_2;
   
-  frc2::InstantCommand m_stopDriving{[this] {m_drive.Drive(units::meters_per_second_t(0),
-                          units::meters_per_second_t(0),
-                          units::radians_per_second_t(0), false); }, {&m_drive}};
+  frc2::InstantCommand m_stopDriving{[this] {m_drive.StopDrive(); }, {&m_drive}};
 #endif
 
 
@@ -221,6 +219,7 @@ class RobotContainer {
     #endif
     m_autoCommand1_0,
     m_stopDriving,
+    frc2::WaitCommand{units::second_t(2)},
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(5)},
     m_disableAutoAim,
@@ -274,7 +273,7 @@ class RobotContainer {
     m_autoCommand3_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
-    frc2::WaitCommand{units::second_t(2)},
+    frc2::WaitCommand{units::second_t(3)},
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(2)},
     m_fireShooterOff,

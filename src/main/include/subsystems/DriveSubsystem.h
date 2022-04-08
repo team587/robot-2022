@@ -45,7 +45,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
   void Drive(units::meters_per_second_t xSpeed,
              units::meters_per_second_t ySpeed, units::radians_per_second_t rot,
              bool fieldRelative);
-             
+
+  void StopDrive();
+
   void SetSpeedController(double speed) {m_speedController = speed;}
   /**
    * Resets the drive encoders to currently read a position of 0.

@@ -140,6 +140,12 @@ void SwerveModule::SetDesiredState(
   m_turningMotor.Set(output);
 }
 
+void SwerveModule::Stop()
+{
+   m_driveMotor.Set(0);
+   m_turningMotor.Set(0);
+}
+
 void SwerveModule::SetDesiredAutoState(
     const frc::SwerveModuleState& referenceState) {
   // Optimize the reference state to avoid spinning further than 90 degrees

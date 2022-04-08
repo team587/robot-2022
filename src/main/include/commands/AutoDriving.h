@@ -48,7 +48,7 @@ class AutoDriving
     int m_numPath;
     double lastTime;
     bool ignoreHeading;
-    
+    int numberStates;
     double m_initialY;
 
     trajectories m_trajectory;
@@ -58,11 +58,11 @@ class AutoDriving
     frc2::PIDController yPidController{1, 0, 0};
     frc::ProfiledPIDController<units::radian> omegaPidController{1, 0, 0, frc::TrapezoidProfile<units::radian>::Constraints{6.28_rad_per_s, 3.14_rad_per_s / 1_s}};
 
-
+/*
     frc::HolonomicDriveController controller{
        xPidController, yPidController, omegaPidController
        //frc::ProfiledPIDController<units::radian>{1, 0, 0, frc::TrapezoidProfile<units::radian>::Constraints{6.28_rad_per_s, 3.14_rad_per_s / 1_s}}
     };
-
+*/
 
 };

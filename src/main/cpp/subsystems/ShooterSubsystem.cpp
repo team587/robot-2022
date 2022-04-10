@@ -144,11 +144,11 @@ void ShooterSubsystem::Periodic() {
   adjustHoodAngle();
 
   if(!autoShooter) {
-    if (dumpSpeed && speedIndex > 0) {
-      m_shooterMotor1.Set(.3);
-    } else {
+    //if (dumpSpeed && speedIndex > 0) {
+    //  m_shooterMotor1.Set(.3);
+    //} else {
       m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
-    }
+    //}
   } else if(autoShooter) {
     m_shooterMotor1.Set(autoShooterSpeed);
   }

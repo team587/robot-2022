@@ -99,7 +99,7 @@ class VisionContainer
         return &visionDistances[x];
       }
     }
-    return &visionDistances[MAXDISTANCES-1];
+    return lastDistance != -1 ? &visionDistances[lastDistance] : &visionDistances[0];//&visionDistances[MAXDISTANCES-1];
   }
 
   double getHoodAngle(double currentAngle) {

@@ -213,6 +213,12 @@ void ShooterSubsystem::AutoAim() {
     setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
     setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
     AutoStart(m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
+    if (m_visionContainer.getYaw()>-1 && m_visionContainer.getYaw()<1){
+      locked = true;
+    }
+    else{
+      locked = false;
+    }
   }
 
 

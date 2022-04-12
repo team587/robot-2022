@@ -55,6 +55,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
 #endif
   void start2();
   double getCurrentHoodAngle();
+  bool getLockedStatus(){
+    return locked;
+  };
   void adjustHoodAngle();
   void SetLowSpeed();
   void AutoStart(double speed);
@@ -129,4 +132,5 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double yaw;
   double pitch;
   double newTurretAngle;
+  bool locked;
 };

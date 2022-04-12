@@ -117,6 +117,15 @@ void HopperSubsystem::Periodic() {
   frc::SmartDashboard::PutBoolean("UptakeBall", Ball);
 }
 
+int HopperSubsystem::NumBalls(){
+  if(Index && Ball){
+    return 2;
+  } else if(Ball){
+    return 1;
+  }
+  return 0;
+}
+
 int HopperSubsystem::GetColor(){
   frc::Color detectedColor = m_colorSensor.GetColor();
   frc::SmartDashboard::PutNumber("Red", detectedColor.red);

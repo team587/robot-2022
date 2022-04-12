@@ -64,6 +64,11 @@ class RobotContainer {
   IntakeSubsystem *GetIntakeSubsystem() { return &m_intakeSubsystem;}
 #endif
 
+#ifdef SHOOTER_SUBSYSTEM
+  ShooterSubsystem *GetShooterSubsystem() { return &m_shooterSubsystem;}
+#endif
+
+
   frc2::Command* GetAutonomousCommand();
 
  private:
@@ -244,21 +249,21 @@ class RobotContainer {
 
   frc2::SequentialCommandGroup m_slotCommand2 {
     #ifdef COMPETITIONBOT
-    m_shooterSpeed2,
+  /*  m_shooterSpeed2,
     m_intakeDeploy,
     m_intakeSpeedOn,
     m_adjustTurretAngle,
-    m_adjustHoodAngle0,
+    m_adjustHoodAngle0,*/
     m_autoCommand2_0,
     m_stopDriving,
-    m_fireShooterOn,
+   /* m_fireShooterOn,
     frc2::WaitCommand{units::second_t(3)},
     m_fireShooterOff, 
     m_autoCommand2_1,
     m_stopDriving,
     frc2::WaitCommand{units::second_t(3)},
     m_intakeSpeedOff,
-    m_shooterOff,
+    m_shooterOff,*/
     #endif
   };
 

@@ -124,9 +124,11 @@ class RobotContainer {
 
 #ifdef SWERVE_SUBSYSTEM
   frc2::InstantCommand m_ZeroHeading{[this] {m_drive.ZeroHeading(); }, {&m_drive}};
-  frc2::InstantCommand m_setSpeedLow{[this] {m_drive.SetSpeedController(4.0); }, {&m_drive}};
-  frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); }, {&m_drive}};
-  frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0); }, {&m_drive}};
+ // frc2::InstantCommand m_setSpeedLow{[this] {m_drive.SetSpeedController(4.0); }, {&m_drive}};
+ // frc2::InstantCommand m_setSpeedMid{[this] {m_drive.SetSpeedController(2.0); m_drive.rightBumperPressed(); }, {&m_drive}};
+ // frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.SetSpeedController(1.0);  m_drive.rightBumperReleased(); }, {&m_drive}};
+ frc2::InstantCommand m_setSpeedMid{[this] {m_drive.rightBumperPressed(); }, {&m_drive}};
+ frc2::InstantCommand m_setSpeedHigh{[this] {m_drive.rightBumperReleased(); }, {&m_drive}};
 #endif
 
 

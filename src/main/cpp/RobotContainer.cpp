@@ -24,6 +24,7 @@
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
 #include "subsystems/ClimberSubsystem.h"
+#include "subsystems/SwerveModule.h"
 #include <ctre/Phoenix.h>
 #include <frc/Solenoid.h>
 #include "subsystems/IntakeSubsystem.h"
@@ -65,6 +66,8 @@ RobotContainer::RobotContainer():
 
 
 #ifdef SWERVE_SUBSYSTEM
+
+    
     m_autoCommand1_0(&m_drive, 1, 0),
     m_autoCommand1_1(&m_drive, 1, 1),
     m_autoCommand1_2(&m_drive, 1, 2),
@@ -113,9 +116,12 @@ RobotContainer::RobotContainer():
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
         m_drive.Drive(
-            units::meters_per_second_t(m_driverController.GetRawAxis(leftJoystickVertical)),
-            units::meters_per_second_t(m_driverController.GetRawAxis(leftJoystickHorizontal)),
-            units::radians_per_second_t(2.0*m_driverController.GetRawAxis(rightJoystickHorizontal)), true);
+            units::meters_per_second_t(m_driverController.GetRawAxis(xLeftJoystickVertical)),
+            units::meters_per_second_t(m_driverController.GetRawAxis(xLeftJoystickHorizontal)),
+            units::radians_per_second_t(2.0*m_driverController.GetRawAxis(xRightJoystickHorizontal)), true);
+            m_drive.SetSpeedController(m_driverController.GetRawAxis(xRightTrigger));
+
+            
             /*
             units::meters_per_second_t(m_driverController.GetRawAxis(xLeftJoystickVertical)),
             units::meters_per_second_t(m_driverController.GetRawAxis(xLeftJoystickHorizontal)),
@@ -124,6 +130,7 @@ RobotContainer::RobotContainer():
       },
       {&m_drive}));
   #endif
+ 
 
 #ifdef INTAKE_SUBSYSTEM
  m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
@@ -144,16 +151,19 @@ void RobotContainer::ConfigureButtonBindings() {
 
 #ifdef SHOOTER_SUBSYSTEM 
 
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_LowerPortSpeed);
+    frc2::Button{[&] {return m_driverController.GetRawButton(xButtonY);}}.WhenPressed(&m_LowerPortSpeed);
 
 #endif
 
 #ifdef SWERVE_SUBSYSTEM
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonStart);}}.WhenPressed(&m_ZeroHeading);
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenPressed(&m_setSpeedLow);
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightTrigger);}}.WhenReleased(&m_setSpeedHigh);
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenPressed(&m_setSpeedMid);
-    frc2::Button{[&] {return m_driverController.GetRawButton(rightBumper);}}.WhenReleased(&m_setSpeedHigh);
+    frc2::Button{[&] {return m_driverController.GetRawButton(xButtonMenu);}}.WhenPressed(&m_ZeroHeading);
+
+
+     
+    //frc2::Button{[&] {return m_driverController.GetRawButton(xRightTrigger);}}.WhenPressed(&m_setSpeedLow);
+    //frc2::Button{[&] {return m_driverController.GetRawButton(xRightTrigger);}}.WhenReleased(&m_setSpeedHigh);
+    frc2::Button{[&] {return m_driverController.GetRawButton(xRightBumper);}}.WhenPressed(&m_setSpeedMid);
+    frc2::Button{[&] {return m_driverController.GetRawButton(xRightBumper);}}.WhenReleased(&m_setSpeedHigh);
 
     //frc2::Button{[&] {return m_driverController.GetRawButton(xButtonMenu);}}.WhenPressed(&m_ZeroHeading);
     //frc2::Button{[&] {return m_driverController.GetRawButton(xRightTrigger);}}.WhenPressed(&m_setSpeedLow); //this was our mistake - Beck
@@ -171,7 +181,7 @@ void RobotContainer::ConfigureButtonBindings() {
 
 //These are also drive controllers
 
-    frc2::Button{[&] {return m_driverController.GetRawButton(buttonX);}}.WhenPressed(&m_intakeToggle);
+    frc2::Button{[&] {return m_driverController.GetRawButton(xButtonX);}}.WhenPressed(&m_intakeToggle);
     //frc2::Button{[&] {return m_driverController.GetRawButton(xButtonX);}}.WhenPressed(&m_intakeToggle);
 
    // frc2::Button{[&] {return m_driverController.GetRawButton(buttonY);}}.WhenPressed(&m_intakeRetreat);

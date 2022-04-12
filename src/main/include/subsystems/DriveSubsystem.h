@@ -22,6 +22,7 @@
 
 class DriveSubsystem : public frc2::SubsystemBase {
  public:
+  
   DriveSubsystem();
 
   /**
@@ -47,6 +48,15 @@ class DriveSubsystem : public frc2::SubsystemBase {
              bool fieldRelative);
 
   void StopDrive();
+  
+  bool rightBumperPress = false;
+
+  void rightBumperPressed() {
+      rightBumperPress = true;
+  }
+  void rightBumperReleased() {
+      rightBumperPress = false;
+  }
 
   void SetSpeedController(double speed) {m_speedController = speed;}
   /**

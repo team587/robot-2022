@@ -62,6 +62,13 @@ DriveSubsystem::DriveSubsystem()
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
   //m_odometry.Update(m_NavX.GetRotation2d(), m_frontLeft.GetState(),
+   if (xRightTrigger > 0.55 ) {
+        SetSpeedController(4.0);
+    } else if (rightBumperPress) {
+        SetSpeedController(2.0); 
+    }  else if (!rightBumperPress) {
+      SetSpeedController(1.0);
+    }
   m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())), m_frontLeft.GetState(),
                     m_rearLeft.GetState(), m_frontRight.GetState(),
                     m_rearRight.GetState());

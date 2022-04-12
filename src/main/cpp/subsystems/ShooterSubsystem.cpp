@@ -56,6 +56,7 @@ ShooterSubsystem::ShooterSubsystem() :
 
       speedIndex = 0;
       dumpSpeed = false;
+      tracking = true; // starts it with always tracking.
 
       turningSpeed = .1;
       hoodAngle = 0;
@@ -139,6 +140,9 @@ void ShooterSubsystem::Periodic() {
   }else  {
      frc::SmartDashboard::PutBoolean("V Enabled", false);
      autoShooter = false;
+     if (tracking){
+      AlwaysAutoAim();
+     }
   }
   
   adjustHoodAngle();
@@ -197,6 +201,20 @@ void ShooterSubsystem::SetLowSpeed() {
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
 }
 
+void ShooterSubsystem::ToggleTracking() {
+  tracking = !tracking;
+}
+
+
+void ShooterSubsystem::AlwaysAutoAim() {
+  
+  if(m_visionContainer.getHasTarget()) {
+
+   
+    setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
+    setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+  }
+}
 void ShooterSubsystem::AutoAim() {
 
   frc::SmartDashboard::PutBoolean("AutoAimTarget", m_visionContainer.getHasTarget());

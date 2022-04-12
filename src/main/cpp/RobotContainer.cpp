@@ -119,7 +119,6 @@ RobotContainer::RobotContainer():
             units::meters_per_second_t(m_driverController.GetRawAxis(xLeftJoystickVertical)),
             units::meters_per_second_t(m_driverController.GetRawAxis(xLeftJoystickHorizontal)),
             units::radians_per_second_t(2.0*m_driverController.GetRawAxis(xRightJoystickHorizontal)), true);
-            m_drive.SetSpeedController(m_driverController.GetRawAxis(xRightTrigger));
 
             
             /*

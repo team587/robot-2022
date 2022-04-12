@@ -56,7 +56,7 @@ void HopperSubsystem::HopperStop(){
 
 void HopperSubsystem::Periodic() {
   
-  m_reversed = m_coDriverController.GetRawButton(buttonY);
+  m_reversed = m_coDriverController.GetRawButton(xButtonY);
 
   // Implementation of subsystem periodic method goes here.
   //hopperSpeed = frc::SmartDashboard::GetNumber("Hopper Speed", hopperSpeed);
@@ -78,7 +78,7 @@ void HopperSubsystem::Periodic() {
   if(autoOverride) {
     setLoadingSpeed(1);
   } else {
-    if (m_DriverController.GetRawButton(buttonB) /*|| m_coDriverController.GetRawButton(buttonB)*/) {
+    if (m_DriverController.GetRawButton(xButtonB) /*|| m_coDriverController.GetRawButton(xButtonB)*/) {
       setLoadingSpeed(m_reversed ? -1.0 : 1.0);
     } else {
       setLoadingSpeed(m_reversed ? -1.0 : 0.0);
@@ -158,5 +158,3 @@ void HopperSubsystem::setLoadingSpeed(double speed) {
   loadingSpeed = speed;
   m_loadShooterMotor.Set(-loadingSpeed);
 }
-
-

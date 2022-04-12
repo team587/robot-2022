@@ -12,6 +12,8 @@
 #include <frc/smartdashboard/smartdashboard.h>
 #include <frc/shuffleboard/shuffleboard.h>
 #include <frc/shuffleboard/ShuffleboardTab.h>
+#include <frc2/command/button/JoystickButton.h>
+#include <frc/Joystick.h>
 
 #include "Constants.h" 
 
@@ -60,9 +62,10 @@ DriveSubsystem::DriveSubsystem()
       }
 
 void DriveSubsystem::Periodic() {
+  frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   // Implementation of subsystem periodic method goes here.
   //m_odometry.Update(m_NavX.GetRotation2d(), m_frontLeft.GetState(),
-   if (xRightTrigger > 0.55 ) {
+   if (m_driverController.GetRawAxis(xRightTrigger) > 0.55 ) {
         SetSpeedController(4.0);
     } else if (rightBumperPress) {
         SetSpeedController(2.0); 

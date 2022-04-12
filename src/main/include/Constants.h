@@ -40,7 +40,7 @@ enum DigitalInputs {
     hopperBallDetectionPort = 0,
     uptakeBallDetectionPort = 1,
 };
-
+/*
 enum JoystickButtonConstants {
     buttonX = 1,
     buttonA = 2,
@@ -55,7 +55,7 @@ enum JoystickButtonConstants {
     leftJoystickButton = 11,
     rightJoystickButton = 12
 };
-
+*/
 enum XBoxJoystickButtonConstants {
     xButtonA = 1,
     xButtonB = 2,

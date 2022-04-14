@@ -28,6 +28,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
 
   void Start();
   void AutoAim();
+  void AlwaysAutoAim(); // always running, while toggle is active, does not spit flywheel.
   void Stop();
   void SpeedCycle();
   void turnRight();
@@ -58,6 +59,7 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   void adjustHoodAngle();
   void SetLowSpeed();
   void AutoStart(double speed);
+  void ToggleTracking(); // turns on and off always tracking.
   //void setShooterSpeed(double ShooterSpeed) {
   //  shooterSpeed = ShooterSpeed;
   //  m_shooterMotor1.Set(shooterSpeed);
@@ -129,4 +131,5 @@ class ShooterSubsystem : public frc2::SubsystemBase {
   double yaw;
   double pitch;
   double newTurretAngle;
+  bool tracking; // to turn on and off autotracking.
 };

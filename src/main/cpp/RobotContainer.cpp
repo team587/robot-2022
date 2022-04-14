@@ -203,6 +203,8 @@ void RobotContainer::ConfigureButtonBindings() {
 #endif
 #ifdef SHOOTER_SUBSYSTEM
 
+    frc2::Button{[&] {return m_driverController.GetRawButton(xButtonView);}}.WhenPressed(&m_toggleTracking);
+
    /*frc2::Button{[&] {return m_coDriverController.GetRawButton(rightBumper);}}.WhenPressed(&m_hoodCycleUp);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(leftBumper);}}.WhenPressed(&m_hoodCycleDown);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(leftTrigger);}}.WhenPressed(&m_turretCycleLeft);
@@ -218,8 +220,10 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::Button{[&] {return m_coDriverController.GetRawButton(xLeftBumper);}}.WhenPressed(&m_turretCycleRight);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(xButtonA);}}.WhenPressed(&m_cycleShooterSpeed);
     frc2::Button{[&] {return m_coDriverController.GetRawButton(xButtonB);}}.WhenPressed(&m_stopShooter);
+
 #endif
     frc2::Button{[&] {return m_coDriverController.GetRawButton(xButtonMenu);}}.WhenPressed(&m_toggleClimb);
+
 }
 
 

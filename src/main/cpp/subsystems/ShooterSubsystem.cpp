@@ -56,6 +56,7 @@ ShooterSubsystem::ShooterSubsystem() :
 
       speedIndex = 0;
       dumpSpeed = false;
+      tracking = true; // starts it with always tracking.
 
       turningSpeed = .1;
       hoodAngle = 0;
@@ -139,6 +140,9 @@ void ShooterSubsystem::Periodic() {
   }else  {
      frc::SmartDashboard::PutBoolean("V Enabled", false);
      autoShooter = false;
+     if (tracking){
+      AlwaysAutoAim();
+     }
   }
   
   adjustHoodAngle();
@@ -197,12 +201,28 @@ void ShooterSubsystem::SetLowSpeed() {
   m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
 }
 
+void ShooterSubsystem::ToggleTracking() {
+  tracking = !tracking;
+}
+
+
+void ShooterSubsystem::AlwaysAutoAim() {
+  
+  if(m_visionContainer.getHasTarget()) {
+
+   
+    setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
+    setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+  }
+}
 void ShooterSubsystem::AutoAim() {
 
   frc::SmartDashboard::PutBoolean("AutoAimTarget", m_visionContainer.getHasTarget());
   //frc::SmartDashboard::PutNumber("AutoAimYaw", m_visionContainer.getYaw());
   //frc::SmartDashboard::PutNumber("AutoAimPitch", m_visionContainer.getPitch());
   
+  AlwaysAutoAim();
+
   if(m_visionContainer.getHasTarget()) {
 
     frc::SmartDashboard::PutNumber("AutoAimTurret", m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
@@ -210,8 +230,8 @@ void ShooterSubsystem::AutoAim() {
     frc::SmartDashboard::PutNumber("AutoAimShooter", m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
     frc::SmartDashboard::PutNumber("AutoAimDistance", m_visionContainer.getDistance(getCurrentHoodAngle()));
 
-    setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
-    setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+    //setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
+    //setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
     AutoStart(m_visionContainer.getShooterSpeed(getCurrentHoodAngle()));
   }
 

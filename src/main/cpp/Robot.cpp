@@ -13,6 +13,15 @@
 void Robot::RobotInit() {
   frc::SmartDashboard::PutNumber("auto_slot", 0);
   frc::CameraServer::StartAutomaticCapture();
+
+  for(int i = 0; i < kBallStatusLength; i++){
+    m_ballStatusLedBuffer[i].SetRGB(0, 0, 0);
+  }
+
+  m_ballStatusLed.SetLength(kBallStatusLength);
+  m_ballStatusLed.SetData(m_ballStatusLedBuffer);
+  m_ballStatusLed.Start();
+
 }
 
 /**
@@ -30,11 +39,11 @@ void Robot::RobotPeriodic() {
    frc::SmartDashboard::PutNumber("GyroAngle", (double)m_container.GetDriveSubsystem()->GetHeading());
   #endif
   #ifdef HOPPER_SUBSYSTEM
-  int ballColor = m_container.GetHopperSubsystem()->GetColor();
+  //int ballColor = m_container.GetHopperSubsystem()->GetColor();
   #else 
   int ballColor = 0;
   #endif
-  for (int i = 0; i < kBallStatusLength; i++) {
+  /* for (int i = 0; i < kBallStatusLength; i++) {
         //Set the value
         if(ballColor == 1) {
           m_ballStatusLedBuffer[i].SetRGB(0,0,255);
@@ -43,12 +52,28 @@ void Robot::RobotPeriodic() {
         } else {
           m_ballStatusLedBuffer[i].SetRGB(0,0,0);
         }
-  }
+  } */
 
+    int ballCount = m_container.GetHopperSubsystem()->NumBalls();
+    bool locked = m_container.GetShooterSubsystem()->getLockedStatus();
 
-    //m_ballStatusLed.SetLength(kBallStatusLength);
-    //m_ballStatusLed.SetData(m_ballStatusLedBuffer);
-    //m_ballStatusLed.Start();
+    frc::Color ballColor; 
+
+    if(ballCount == 2){
+      ballColor.FromHSV(210, 98, 100);
+    } else if(ballCount == 1){
+      ballColor.FromHSV(54, 98, 100);
+    } else{
+      ballColor.FromHSV(0, 0, 0);
+    }
+    for(int i = 0; i < kBallStatusLength; i++){
+      m_ballStatusLedBuffer[i].SetLED(ballColor);
+      if(i % 2 == 0 && locked){
+        m_ballStatusLedBuffer[i].SetRGB(158, 3, 255);
+      }
+    }
+
+    m_ballStatusLed.SetData(m_ballStatusLedBuffer);
 
 }
 /*

@@ -45,6 +45,7 @@ class HopperSubsystem : public frc2::SubsystemBase {
 
   double kColorTolerance = .9;
   int GetColor();
+  int NumBalls();
   std::string ConvertColor(int colorIndex);
 
   void Periodic() override;

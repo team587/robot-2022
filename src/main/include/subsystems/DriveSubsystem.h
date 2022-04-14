@@ -19,6 +19,9 @@
 #include "frc/SerialPort.h"
 #include "Constants.h"
 #include "SwerveModule.h"
+#include "BallVisionContainer.h"
+#include <cmath>
+#include <frc/DriverStation.h>
 
 class DriveSubsystem : public frc2::SubsystemBase {
  public:
@@ -68,6 +71,10 @@ class DriveSubsystem : public frc2::SubsystemBase {
    * Sets the drive MotorControllers to a power from -1 to 1.
    */
   void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desiredStates);
+  
+  
+  void addSpeed(double speedChange);
+  void ballLock();
 
   /**
    * Returns the heading of the robot.
@@ -97,10 +104,11 @@ class DriveSubsystem : public frc2::SubsystemBase {
 
   /**
    * Resets the odometry to the specified pose.
-   *
+   *()
    * @param pose The pose to which to set the odometry.
    */
   void ResetOdometry(frc::Pose2d pose);
+  
 
   units::meter_t kTrackWidth =
       0.8128_m;  // Distance between centers of right and left wheels on robot
@@ -116,13 +124,15 @@ class DriveSubsystem : public frc2::SubsystemBase {
  private:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+  BallVisionContainer m_visionContainer;
 
   SwerveModule m_frontLeft;
   SwerveModule m_rearLeft;
   SwerveModule m_frontRight;
   SwerveModule m_rearRight;
-  
   double m_speedController;
+  units::meters_per_second_t m_xSpeedChange;  
+  units::meters_per_second_t m_ySpeedChange;
 
   units::meters_per_second_t m_lastXSpeed;
   units::meters_per_second_t m_lastYSpeed;
@@ -134,4 +144,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
   // Odometry class for tracking robot pose
   // 4 defines the number of modules
   frc::SwerveDriveOdometry<4> m_odometry;
+  
+  double VisionConversion = (45/.3); //converts dagrees to translational movement
+  bool pressed;
+
 };

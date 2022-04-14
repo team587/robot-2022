@@ -14,7 +14,6 @@
 #include <frc/shuffleboard/ShuffleboardTab.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/Joystick.h>
-
 #include "Constants.h" 
 
 using namespace DriveConstants;
@@ -57,9 +56,12 @@ DriveSubsystem::DriveSubsystem()
         m_lastXSpeed = (units::meters_per_second_t)0.0;
         m_lastYSpeed = (units::meters_per_second_t)0.0;
         m_decelerate = (units::meters_per_second_t)0.01;
+        m_visionContainer.start();
 
         //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }
+      
+    
 
 void DriveSubsystem::Periodic() {
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
@@ -72,9 +74,34 @@ void DriveSubsystem::Periodic() {
     }  else if (!rightBumperPress) {
       SetSpeedController(1.0);
     }
+  bool pressed = m_driverController.GetRawAxis(xLeftTrigger) > .5;
+  if (pressed){
+    //frc::SmartDashboard::PutBoolean("Ball Vision Enabled", true);
+    ballLock();
+  }
+  else{
+    frc::SmartDashboard::PutBoolean("Ball Vision Enabled", false);
+  }
   m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())), m_frontLeft.GetState(),
                     m_rearLeft.GetState(), m_frontRight.GetState(),
                     m_rearRight.GetState());
+  
+
+
+}
+
+
+
+void DriveSubsystem::ballLock(){
+  //addSpeed(m_visionContainer.getBallYaw()*VisionConversion);
+
+}
+
+void DriveSubsystem::addSpeed(double speedChange){
+  units::radian_t rotatation = (units::degree_t)m_NavX.GetAngle();
+  m_xSpeedChange = units::meters_per_second_t{std::cos(rotatation.value())*speedChange};
+  m_ySpeedChange = units::meters_per_second_t{std::sin(rotatation.value())*speedChange};
+  
 }
 
 void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
@@ -103,6 +130,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
         m_lastYSpeed + m_decelerate > (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastYSpeed + m_decelerate; 
   }
 */
+  rot = (pressed && fabs(m_visionContainer.getBallYaw()) > .03) ? units::radians_per_second_t(m_visionContainer.getBallYaw() > 0 ? -.2 : .2) : rot;
   if (fabs((double)xSpeed) < 0.05) {
     xSpeed = (units::meters_per_second_t)0.0;
   }
@@ -114,9 +142,19 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
   m_lastXSpeed = xSpeed;
   m_lastYSpeed = ySpeed;
 
+
+  
+
+
   xSpeed = xSpeed / m_speedController;
   ySpeed = ySpeed / m_speedController;
-  rot = rot / m_speedController;                        
+  rot = rot / m_speedController;
+
+  xSpeed+=m_xSpeedChange;
+  ySpeed+=m_ySpeedChange;
+  m_xSpeedChange = units::meters_per_second_t(0);
+  m_ySpeedChange = units::meters_per_second_t(0);
+
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds( 
                           xSpeed, ySpeed, rot, m_NavX.GetRotation2d())

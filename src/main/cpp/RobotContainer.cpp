@@ -135,7 +135,7 @@ RobotContainer::RobotContainer():
  m_intakeSubsystem.SetDefaultCommand(frc2::RunCommand(
       [this] {
        //m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(leftJoystickVertical));
-       m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(xLeftJoystickVertical));
+       m_intakeSubsystem.IntakeSpeed(m_coDriverController.GetRawAxis(xLeftJoystickVertical)*.3);
       },
       {&m_intakeSubsystem}));
 #endif

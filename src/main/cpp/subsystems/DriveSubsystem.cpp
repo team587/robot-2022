@@ -56,7 +56,7 @@ DriveSubsystem::DriveSubsystem()
         m_lastXSpeed = (units::meters_per_second_t)0.0;
         m_lastYSpeed = (units::meters_per_second_t)0.0;
         m_decelerate = (units::meters_per_second_t)0.01;
-        m_visionContainer.start();
+        m_ballVisionContainer.start();
 
         //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }
@@ -93,7 +93,7 @@ void DriveSubsystem::Periodic() {
 
 
 void DriveSubsystem::ballLock(){
-  //addSpeed(m_visionContainer.getBallYaw()*VisionConversion);
+  //addSpeed(m_ballVisionContainer.getBallYaw()*VisionConversion);
 
 }
 
@@ -130,7 +130,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
         m_lastYSpeed + m_decelerate > (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastYSpeed + m_decelerate; 
   }
 */
-  rot = (pressed && fabs(m_visionContainer.getBallYaw()) > .03) ? units::radians_per_second_t(m_visionContainer.getBallYaw() > 0 ? -.2 : .2) : rot;
+  rot = (pressed && fabs(m_ballVisionContainer.getBallYaw()) > .03) ? units::radians_per_second_t(m_ballVisionContainer.getBallYaw() > 0 ? -.2 : .2) : rot;
   if (fabs((double)xSpeed) < 0.05) {
     xSpeed = (units::meters_per_second_t)0.0;
   }

@@ -21,7 +21,6 @@
 #include "subsystems/ShooterSubsystem.h"
 #include <frc/DriverStation.h>
 #include <subsystems/IntakeSubsystem.h>
-#include <frc/DriverStation.h>
 
 
 HopperSubsystem::HopperSubsystem(rev::CANSparkMax *hopperMotor,

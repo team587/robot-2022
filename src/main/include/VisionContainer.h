@@ -33,8 +33,6 @@ class VisionContainer
   constexpr static double angleConversion = .546;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
-  //Ball variables
-
 
   public:
 
@@ -129,7 +127,6 @@ private:
   void VisionThread()
   {
     photonlib::PhotonCamera m_camera{"mmal_service_16.1"};
-
     //frc::SmartDashboard::PutString("Debug", "Vision Thread Start");
     while (true) {
       //frc::SmartDashboard::PutString("Debug", "Vision Thread running");

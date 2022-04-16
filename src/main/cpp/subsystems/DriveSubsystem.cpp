@@ -103,12 +103,16 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
         m_lastYSpeed + m_decelerate > (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastYSpeed + m_decelerate; 
   }
 */
-  if (fabs((double)xSpeed) < 0.05) {
+  if (fabs((double)xSpeed) < 0.08) {
     xSpeed = (units::meters_per_second_t)0.0;
   }
   
-  if (fabs((double)ySpeed) < 0.05) {
+  if (fabs((double)ySpeed) < 0.08) {
     ySpeed = (units::meters_per_second_t)0.0;
+  }
+
+  if (fabs((double)rot) < 0.1) {
+    rot = (units::radians_per_second_t)0.0;
   }
 
   m_lastXSpeed = xSpeed;
@@ -146,12 +150,12 @@ void DriveSubsystem::SetModuleStates(
                                          AutoConstants::kMaxSpeed);
 
   //double maxspeed = (double)AutoConstants::kMaxSpeed;
-/*
-  desiredStates[0].speed = desiredStates[0].speed / 2.0;// / maxspeed;
-  desiredStates[1].speed = desiredStates[1].speed / 2.0;// / maxspeed; 
-  desiredStates[2].speed = desiredStates[2].speed / 2.0;// / maxspeed; 
-  desiredStates[3].speed = desiredStates[3].speed / 2.0;// / maxspeed; 
-*/
+
+  desiredStates[0].speed = desiredStates[0].speed * 0.65;// / maxspeed;
+  desiredStates[1].speed = desiredStates[1].speed * 0.65;// / maxspeed; 
+  desiredStates[2].speed = desiredStates[2].speed * 0.65;// / maxspeed; 
+  desiredStates[3].speed = desiredStates[3].speed * 0.65;// / maxspeed; 
+
   m_frontLeft.SetDesiredAutoState(desiredStates[0]);
   m_frontRight.SetDesiredAutoState(desiredStates[1]);
   m_rearLeft.SetDesiredAutoState(desiredStates[2]);

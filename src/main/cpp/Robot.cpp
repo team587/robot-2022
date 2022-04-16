@@ -14,13 +14,13 @@ void Robot::RobotInit() {
   frc::SmartDashboard::PutNumber("auto_slot", 0);
   frc::CameraServer::StartAutomaticCapture();
 
-  for(int i = 0; i < kBallStatusLength; i++){
-    m_ballStatusLedBuffer[i].SetRGB(0, 0, 0);
-  }
+  //for(int i = 0; i < kBallStatusLength; i++){
+  //  m_ballStatusLedBuffer[i].SetRGB(0, 0, 0);
+  //}
 
-  m_ballStatusLed.SetLength(kBallStatusLength);
-  m_ballStatusLed.SetData(m_ballStatusLedBuffer);
-  m_ballStatusLed.Start();
+  //m_ballStatusLed.SetLength(kBallStatusLength);
+  //m_ballStatusLed.SetData(m_ballStatusLedBuffer);
+  //m_ballStatusLed.Start();
 
 }
 
@@ -73,7 +73,7 @@ void Robot::RobotPeriodic() {
       }
     }
 
-    m_ballStatusLed.SetData(m_ballStatusLedBuffer);
+    //m_ballStatusLed.SetData(m_ballStatusLedBuffer);
 
 }
 /*

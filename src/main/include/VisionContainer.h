@@ -28,9 +28,9 @@ class VisionContainer
   volatile double pitch;
   volatile bool hasTarget;
   const static int MAXDISTANCES = 16;
-  const static int MINANGLE = -7;
+  const static int MINANGLE = 4;
   const static int MINSPEED = 0;
-  constexpr static double angleConversion = .546;
+  constexpr static double angleConversion = .61;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
 
@@ -38,22 +38,23 @@ class VisionContainer
 
   VisionContainer() {
     int count = 0;
-    visionDistances[count++] = VisionDistance(0, .85, 25, .6);
-    visionDistances[count++] = VisionDistance(.8, 1.16, 20, .6);
-    visionDistances[count++] = VisionDistance(1.11, 1.63, 15, .6);
-    visionDistances[count++] = VisionDistance(1.57, 1.95, 11, .64);
-    visionDistances[count++] = VisionDistance(1.90, 2.18, 10, .65);
-    visionDistances[count++] = VisionDistance(2.13, 2.38, 7, .65);
-    visionDistances[count++] = VisionDistance(2.33, 2.54, 6, .66); //could be a problem child
-    visionDistances[count++] = VisionDistance(2.48, 2.50, 5, .67);
-    visionDistances[count++] = VisionDistance(2.49, 2.78, 5, .68);
-    visionDistances[count++] = VisionDistance(2.73, 3.11, -3, .72);
-    visionDistances[count++] = VisionDistance(3.06, 3.26, -5, .76);
-    visionDistances[count++] = VisionDistance(3.21, 3.47, -6, .82); //could be a problem child
-    visionDistances[count++] = VisionDistance(3.42, 3.94, -7, .88);
-    visionDistances[count++] = VisionDistance(3.89, 4.2, -7, .90);
-    visionDistances[count++] = VisionDistance(4.3, 10, -7, .99);
-    visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
+    double offset = 11;
+    visionDistances[count++] = VisionDistance(0, .85, 25+offset, .6);
+    visionDistances[count++] = VisionDistance(.8, 1.16, 22+offset, .6);
+    visionDistances[count++] = VisionDistance(1.11, 1.63, 14+offset, .64);
+    visionDistances[count++] = VisionDistance(1.57, 1.95, 11+offset, .7);
+    visionDistances[count++] = VisionDistance(1.90, 2.2, 7+offset, .77);
+    visionDistances[count++] = VisionDistance(2.15, 2.38, 4+offset, .8);
+    visionDistances[count++] = VisionDistance(2.33, 2.54, -2+offset, .8); //could be a problem child
+    visionDistances[count++] = VisionDistance(2.48, 2.50, -3+offset, .8);
+    visionDistances[count++] = VisionDistance(2.49, 2.78, -6+offset, .84);
+    visionDistances[count++] = VisionDistance(2.73, 3.11, -8+offset, .86);
+    visionDistances[count++] = VisionDistance(3.06, 3.26, -8+offset, .87);
+    visionDistances[count++] = VisionDistance(3.21, 3.47, -8+offset, .88); //could be a problem child
+    visionDistances[count++] = VisionDistance(3.42, 3.94, -8+offset, .89);
+    visionDistances[count++] = VisionDistance(3.89, 4.2, -8+offset, .98);
+    visionDistances[count++] = VisionDistance(4.3, 10, -8+offset, .95);
+    visionDistances[count++] = VisionDistance(1, 0, 15, -1.0); // For if there is no target
   };
 
   void start() {

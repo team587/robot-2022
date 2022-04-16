@@ -50,7 +50,7 @@ ShooterSubsystem::ShooterSubsystem() :
       //shooterAngles[count++] = 10;
       //shooterAngles[count++] = 20;
       //shooterAngles[count++] = 20;
-      shooterAngles[count++] = 30;
+      shooterAngles[count++] = 30+16;
       shooterAngles[count++] = 30; // not used but for auto
       shooterAngles[count++] = 30; // lower port
 
@@ -59,7 +59,7 @@ ShooterSubsystem::ShooterSubsystem() :
       tracking = true; // starts it with always tracking.
 
       turningSpeed = .1;
-      hoodAngle = 0;
+      hoodAngle = 15;
       turretAngle = 0;
       hoodVoltageOffset = 0.8;
 

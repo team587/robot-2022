@@ -41,9 +41,9 @@ class VisionContainer
     double offset = 11;
     visionDistances[count++] = VisionDistance(0, .85, 25+offset, .6);
     visionDistances[count++] = VisionDistance(.8, 1.16, 22+offset, .6);
-    visionDistances[count++] = VisionDistance(1.11, 1.63, 14+offset, .64);
+    visionDistances[count++] = VisionDistance(1.11, 1.63, 13+offset, .67);
     visionDistances[count++] = VisionDistance(1.57, 1.95, 11+offset, .7);
-    visionDistances[count++] = VisionDistance(1.90, 2.2, 7+offset, .77);
+    visionDistances[count++] = VisionDistance(1.90, 2.2, 4+offset, .77);
     visionDistances[count++] = VisionDistance(2.15, 2.38, 4+offset, .8);
     visionDistances[count++] = VisionDistance(2.33, 2.54, -2+offset, .8); //could be a problem child
     visionDistances[count++] = VisionDistance(2.48, 2.50, -3+offset, .8);

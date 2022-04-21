@@ -298,9 +298,9 @@ class RobotContainer {
     m_autoCommand3_2,
     m_stopDriving,
     frc2::WaitCommand{units::second_t(1.5)},
-    m_intakeSpeedOff,
     m_autoCommand2_2,
     m_stopDriving,
+    m_intakeSpeedOff,
     frc2::WaitCommand{units::second_t(.75)},
 
     m_fireShooterOn,

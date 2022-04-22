@@ -136,29 +136,28 @@ private:
       photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
       // wpi::outs() << "Camera is connected\n";
       // frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
-      hasTarget = result.HasTargets();
-      if (hasTarget)
+      
+      if (result.HasTargets())
       {
         // Does other calculations
         //photonlib::PhotonTrackedTarget target = result.GetBestTarget();
 
         wpi::span<const photonlib::PhotonTrackedTarget> targets = result.GetTargets();
-        if(targets.size()>1){
-          double yawtobe = 0;
+        hasTarget = (targets.size()>1);
+        if(hasTarget){
+          double yawtobe = 0.0;
           if(targets[0].GetPitch()-targets[1].GetPitch()>4.0){
             for(int county = 1; county<targets.size(); county++){
               yawtobe+=targets[county].GetYaw();
             }
-            yawtobe=yawtobe/targets.size();
-            yaw = yawtobe;
+            yaw = yawtobe/targets.size();;
             pitch = targets[1].GetPitch();
           }
           else{
             for(int county = 0; county<targets.size(); county++){
               yawtobe+=targets[county].GetYaw();
             }
-            yawtobe=yawtobe/targets.size();
-            yaw = yawtobe;
+            yaw = yawtobe/targets.size();;
             pitch = targets[0].GetPitch();
           }
           

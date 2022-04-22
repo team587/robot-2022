@@ -19,6 +19,7 @@
 #include "VisionDistance.h"
 #include <unistd.h>
 #include "iostream"
+#include "wpi/span.h"
 
 class VisionContainer
 {
@@ -40,11 +41,11 @@ class VisionContainer
     int count = 0;
     double offset = 11;
     visionDistances[count++] = VisionDistance(0, .85, 25+offset, .6);
-    visionDistances[count++] = VisionDistance(.8, 1.16, 22+offset, .6);
-    visionDistances[count++] = VisionDistance(1.11, 1.63, 13+offset, .67);
-    visionDistances[count++] = VisionDistance(1.57, 1.95, 11+offset, .7);
-    visionDistances[count++] = VisionDistance(1.90, 2.2, 4+offset, .77);
-    visionDistances[count++] = VisionDistance(2.15, 2.38, 4+offset, .8);
+    visionDistances[count++] = VisionDistance(.8, 1.16, 22+offset, .65);
+    visionDistances[count++] = VisionDistance(1.11, 1.63, 13+offset, .7);
+    visionDistances[count++] = VisionDistance(1.57, 1.95, 11+offset, .75);
+    visionDistances[count++] = VisionDistance(1.90, 2.2, 2+offset, .77);
+    visionDistances[count++] = VisionDistance(2.15, 2.38, 0+offset, .8);
     visionDistances[count++] = VisionDistance(2.33, 2.54, -2+offset, .8); //could be a problem child
     visionDistances[count++] = VisionDistance(2.48, 2.50, -3+offset, .8);
     visionDistances[count++] = VisionDistance(2.49, 2.78, -6+offset, .84);
@@ -139,9 +140,27 @@ private:
       if (hasTarget)
       {
         // Does other calculations
-        photonlib::PhotonTrackedTarget target = result.GetBestTarget();
-        yaw = target.GetYaw();
-        pitch = target.GetPitch();
+        //photonlib::PhotonTrackedTarget target = result.GetBestTarget();
+        yaw=0;
+        wpi::span<const photonlib::PhotonTrackedTarget> targets = result.GetTargets();
+        if(targets.size()>1){
+          if(targets[0].GetPitch()-targets[1].GetPitch()>4.0){
+            for(int county = 1; county<targets.size(); county++){
+              yaw+=targets[county].GetYaw();
+            }
+            yaw=yaw/targets.size();
+            pitch = targets[1].GetPitch();
+          }
+          else{
+            for(int county = 0; county<targets.size(); county++){
+              yaw+=targets[county].GetYaw();
+            }
+            yaw=yaw/targets.size();
+            pitch = targets[0].GetPitch();
+          }
+          
+        } 
+        
         //std::cout <<"Target Pitch: " << pitch << "Yaw: " << yaw << "\n";
         // wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
         // Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,

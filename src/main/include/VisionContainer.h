@@ -141,21 +141,24 @@ private:
       {
         // Does other calculations
         //photonlib::PhotonTrackedTarget target = result.GetBestTarget();
-        yaw=0;
+
         wpi::span<const photonlib::PhotonTrackedTarget> targets = result.GetTargets();
         if(targets.size()>1){
+          double yawtobe = 0;
           if(targets[0].GetPitch()-targets[1].GetPitch()>4.0){
             for(int county = 1; county<targets.size(); county++){
-              yaw+=targets[county].GetYaw();
+              yawtobe+=targets[county].GetYaw();
             }
-            yaw=yaw/targets.size();
+            yawtobe=yawtobe/targets.size();
+            yaw = yawtobe;
             pitch = targets[1].GetPitch();
           }
           else{
             for(int county = 0; county<targets.size(); county++){
-              yaw+=targets[county].GetYaw();
+              yawtobe+=targets[county].GetYaw();
             }
-            yaw=yaw/targets.size();
+            yawtobe=yawtobe/targets.size();
+            yaw = yawtobe;
             pitch = targets[0].GetPitch();
           }
           

@@ -19,6 +19,7 @@
 #include "frc/SerialPort.h"
 #include "Constants.h"
 #include "SwerveModule.h"
+#include "BallVisionContainer.h"
 
 class DriveSubsystem : public frc2::SubsystemBase {
  public:
@@ -63,7 +64,8 @@ class DriveSubsystem : public frc2::SubsystemBase {
    * Resets the drive encoders to currently read a position of 0.
    */
   void ResetEncoders();
-
+  void addSpeed(double speedChange);
+  void ballLock();
   /**
    * Sets the drive MotorControllers to a power from -1 to 1.
    */
@@ -124,7 +126,9 @@ class DriveSubsystem : public frc2::SubsystemBase {
   SwerveModule m_rearRight;
   
   double m_speedController;
-
+  bool pressed;
+  units::meters_per_second_t m_xSpeedChange;
+  units::meters_per_second_t m_ySpeedChange;
   units::meters_per_second_t m_lastXSpeed;
   units::meters_per_second_t m_lastYSpeed;
   units::meters_per_second_t m_decelerate;

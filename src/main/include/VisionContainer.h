@@ -19,6 +19,7 @@
 #include "VisionDistance.h"
 #include <unistd.h>
 #include "iostream"
+#include "wpi/span.h"
 
 class VisionContainer
 {
@@ -28,34 +29,34 @@ class VisionContainer
   volatile double pitch;
   volatile bool hasTarget;
   const static int MAXDISTANCES = 16;
-  const static int MINANGLE = -7;
+  const static int MINANGLE = 4;
   const static int MINSPEED = 0;
-  constexpr static double angleConversion = .546;
+  constexpr static double angleConversion = .61;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
-  //Ball variables
-
+  double manualoffset = 11.3;
 
   public:
 
   VisionContainer() {
     int count = 0;
-    visionDistances[count++] = VisionDistance(0, .85, 25, .6);
-    visionDistances[count++] = VisionDistance(.8, 1.16, 20, .6);
-    visionDistances[count++] = VisionDistance(1.11, 1.63, 15, .6);
-    visionDistances[count++] = VisionDistance(1.57, 1.95, 11, .64);
-    visionDistances[count++] = VisionDistance(1.90, 2.18, 10, .65);
-    visionDistances[count++] = VisionDistance(2.13, 2.38, 7, .65);
-    visionDistances[count++] = VisionDistance(2.33, 2.54, 6, .66); //could be a problem child
-    visionDistances[count++] = VisionDistance(2.48, 2.50, 5, .67);
-    visionDistances[count++] = VisionDistance(2.49, 2.78, 5, .68);
-    visionDistances[count++] = VisionDistance(2.73, 3.11, -3, .72);
-    visionDistances[count++] = VisionDistance(3.06, 3.26, -5, .76);
-    visionDistances[count++] = VisionDistance(3.21, 3.47, -6, .82); //could be a problem child
-    visionDistances[count++] = VisionDistance(3.42, 3.94, -7, .88);
-    visionDistances[count++] = VisionDistance(3.89, 4.2, -7, .90);
-    visionDistances[count++] = VisionDistance(4.3, 10, -7, .99);
-    visionDistances[count++] = VisionDistance(1, 0, -1, -1.0); // For if there is no target
+    double offset = 11;
+    visionDistances[count++] = VisionDistance(0, .85, 20+offset, .6);
+    visionDistances[count++] = VisionDistance(.8, 1.16, 17+offset, .65);
+    visionDistances[count++] = VisionDistance(1.11, 1.63, 2+offset, .65);
+    visionDistances[count++] = VisionDistance(1.57, 1.95, 0+offset, .67);
+    visionDistances[count++] = VisionDistance(1.90, 2.2, -3+offset, .7);
+    visionDistances[count++] = VisionDistance(2.15, 2.38, -3+offset, .75);
+    visionDistances[count++] = VisionDistance(2.33, 2.54, -5+offset, .8); //could be a problem child
+    visionDistances[count++] = VisionDistance(2.48, 2.50, -5+offset, .8);
+    visionDistances[count++] = VisionDistance(2.49, 2.78, -6+offset, .84);
+    visionDistances[count++] = VisionDistance(2.73, 3.11, -8+offset, .86);
+    visionDistances[count++] = VisionDistance(3.06, 3.26, -8+offset, .87);
+    visionDistances[count++] = VisionDistance(3.21, 3.47, -8+offset, .88); //could be a problem child
+    visionDistances[count++] = VisionDistance(3.42, 3.94, -8+offset, .89);
+    visionDistances[count++] = VisionDistance(3.89, 4.2, -8+offset, .98);
+    visionDistances[count++] = VisionDistance(4.3, 10, -8+offset, .95);
+    visionDistances[count++] = VisionDistance(1, 0, 15, -1.0); // For if there is no target
   };
 
   void start() {
@@ -85,7 +86,7 @@ class VisionContainer
 
   double getDistance(double currentAngle) {
     return photonlib::PhotonUtils::CalculateDistanceToTarget(
-        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t((currentAngle * angleConversion) + Camerapos::angle_offset),
+        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t((currentAngle-manualoffset * angleConversion) + Camerapos::angle_offset),
         units::degree_t(pitch)).value();
   }
 
@@ -129,7 +130,6 @@ private:
   void VisionThread()
   {
     photonlib::PhotonCamera m_camera{"mmal_service_16.1"};
-
     //frc::SmartDashboard::PutString("Debug", "Vision Thread Start");
     while (true) {
       //frc::SmartDashboard::PutString("Debug", "Vision Thread running");
@@ -137,13 +137,39 @@ private:
       photonlib::PhotonPipelineResult result = m_camera.GetLatestResult();
       // wpi::outs() << "Camera is connected\n";
       // frc::SmartDashboard::PutBoolean("has a target", result.HasTargets());
-      hasTarget = result.HasTargets();
-      if (hasTarget)
+      
+      if (result.HasTargets())
       {
+        
         // Does other calculations
-        photonlib::PhotonTrackedTarget target = result.GetBestTarget();
-        yaw = target.GetYaw();
-        pitch = target.GetPitch();
+        //photonlib::PhotonTrackedTarget target = result.GetBestTarget();
+
+        wpi::span<const photonlib::PhotonTrackedTarget> targets = result.GetTargets();
+        hasTarget = (targets.size()>1);
+        if(hasTarget){
+          double yawtobe = 0.0;
+          double pitchTobe = 0.0;
+          if(fabs(targets[0].GetPitch()-targets[1].GetPitch())>4.0){
+            for(int county = 1; county<targets.size(); county++){
+              yawtobe+=targets[county].GetYaw();
+              pitchTobe+=targets[county].GetPitch();
+            }
+            yaw = yawtobe/(targets.size()-1.0);
+            pitch = targets[1].GetPitch();
+            //pitch = pitchTobe/(targets.size()-1.0);
+          }
+          else{
+            for(int county = 0; county<targets.size(); county++){
+              yawtobe+=targets[county].GetYaw();
+              pitchTobe+=targets[county].GetPitch();
+            }
+            yaw = yawtobe/targets.size();
+            pitch = targets[0].GetPitch();
+            //pitch = pitchTobe/targets.size();
+          }
+          
+        } 
+        
         //std::cout <<"Target Pitch: " << pitch << "Yaw: " << yaw << "\n";
         // wpi::outs() << std::to_string(photonlib::PhotonUtils::CalculateDistanceToTarget(
         // Camerapos::cam_height_meters, Camerapos::goal_height_meters, Camerapos::pitch,

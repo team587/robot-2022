@@ -14,6 +14,7 @@
 #include <frc/shuffleboard/ShuffleboardTab.h>
 #include <frc2/command/button/JoystickButton.h>
 #include <frc/Joystick.h>
+
 #include "Constants.h" 
 
 using namespace DriveConstants;
@@ -60,8 +61,6 @@ DriveSubsystem::DriveSubsystem()
 
         //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }
-      
-    
 
 void DriveSubsystem::Periodic() {
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
@@ -74,14 +73,6 @@ void DriveSubsystem::Periodic() {
     }  else if (!rightBumperPress) {
       SetSpeedController(1.0);
     }
-  bool pressed = m_driverController.GetRawAxis(xLeftTrigger) > .5;
-  if (pressed){
-    //frc::SmartDashboard::PutBoolean("Ball Vision Enabled", true);
-    ballLock();
-  }
-  else{
-    frc::SmartDashboard::PutBoolean("Ball Vision Enabled", false);
-  }
   m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())), m_frontLeft.GetState(),
                     m_rearLeft.GetState(), m_frontRight.GetState(),
                     m_rearRight.GetState());
@@ -135,26 +126,20 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
     xSpeed = (units::meters_per_second_t)0.0;
   }
   
-  if (fabs((double)ySpeed) < 0.05) {
+  if (fabs((double)ySpeed) < 0.08) {
     ySpeed = (units::meters_per_second_t)0.0;
+  }
+
+  if (fabs((double)rot) < 0.1) {
+    rot = (units::radians_per_second_t)0.0;
   }
 
   m_lastXSpeed = xSpeed;
   m_lastYSpeed = ySpeed;
 
-
-  
-
-
   xSpeed = xSpeed / m_speedController;
   ySpeed = ySpeed / m_speedController;
-  rot = rot / m_speedController;
-
-  xSpeed+=m_xSpeedChange;
-  ySpeed+=m_ySpeedChange;
-  m_xSpeedChange = units::meters_per_second_t(0);
-  m_ySpeedChange = units::meters_per_second_t(0);
-
+  rot = rot / m_speedController;                        
   auto states = kDriveKinematics.ToSwerveModuleStates(
       fieldRelative ? frc::ChassisSpeeds::FromFieldRelativeSpeeds( 
                           xSpeed, ySpeed, rot, m_NavX.GetRotation2d())
@@ -184,12 +169,12 @@ void DriveSubsystem::SetModuleStates(
                                          AutoConstants::kMaxSpeed);
 
   //double maxspeed = (double)AutoConstants::kMaxSpeed;
-/*
-  desiredStates[0].speed = desiredStates[0].speed / 2.0;// / maxspeed;
-  desiredStates[1].speed = desiredStates[1].speed / 2.0;// / maxspeed; 
-  desiredStates[2].speed = desiredStates[2].speed / 2.0;// / maxspeed; 
-  desiredStates[3].speed = desiredStates[3].speed / 2.0;// / maxspeed; 
-*/
+
+  desiredStates[0].speed = desiredStates[0].speed * 0.65;// / maxspeed;
+  desiredStates[1].speed = desiredStates[1].speed * 0.65;// / maxspeed; 
+  desiredStates[2].speed = desiredStates[2].speed * 0.65;// / maxspeed; 
+  desiredStates[3].speed = desiredStates[3].speed * 0.65;// / maxspeed; 
+
   m_frontLeft.SetDesiredAutoState(desiredStates[0]);
   m_frontRight.SetDesiredAutoState(desiredStates[1]);
   m_rearLeft.SetDesiredAutoState(desiredStates[2]);

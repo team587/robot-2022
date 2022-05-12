@@ -108,9 +108,9 @@ void AutoDriving::Execute() {
   double vomega = -omegaPidController.Calculate((units::radian_t)m_driveSubsystem->GetHeading(), (units::radian_t)state.holonomicRotation.Radians());
   //double vomega = 0.0;
 
-  if (vx < 1.0) vx *= 3.0;
-  if (vy < 1.0) vy *= 3.0;
-  vomega *=12.0;
+  //if (vx < 1.0) vx *= 3.0;
+  //if (vy < 1.0) vy *= 3.0;
+  //vomega *=12.0;
   std::cout << vx << " x ";
   std::cout << vy << " y ";
   std::cout << vomega << " omega \n";

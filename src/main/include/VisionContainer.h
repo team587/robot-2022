@@ -34,20 +34,21 @@ class VisionContainer
   constexpr static double angleConversion = .61;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
+  double manualoffset = 11.3;
 
   public:
 
   VisionContainer() {
     int count = 0;
     double offset = 11;
-    visionDistances[count++] = VisionDistance(0, .85, 25+offset, .6);
-    visionDistances[count++] = VisionDistance(.8, 1.16, 22+offset, .65);
-    visionDistances[count++] = VisionDistance(1.11, 1.63, 13+offset, .7);
-    visionDistances[count++] = VisionDistance(1.57, 1.95, 11+offset, .75);
-    visionDistances[count++] = VisionDistance(1.90, 2.2, 2+offset, .77);
-    visionDistances[count++] = VisionDistance(2.15, 2.38, 0+offset, .8);
-    visionDistances[count++] = VisionDistance(2.33, 2.54, -2+offset, .8); //could be a problem child
-    visionDistances[count++] = VisionDistance(2.48, 2.50, -3+offset, .8);
+    visionDistances[count++] = VisionDistance(0, .85, 20+offset, .6);
+    visionDistances[count++] = VisionDistance(.8, 1.16, 17+offset, .65);
+    visionDistances[count++] = VisionDistance(1.11, 1.63, 2+offset, .65);
+    visionDistances[count++] = VisionDistance(1.57, 1.95, 0+offset, .67);
+    visionDistances[count++] = VisionDistance(1.90, 2.2, -3+offset, .7);
+    visionDistances[count++] = VisionDistance(2.15, 2.38, -3+offset, .75);
+    visionDistances[count++] = VisionDistance(2.33, 2.54, -5+offset, .8); //could be a problem child
+    visionDistances[count++] = VisionDistance(2.48, 2.50, -5+offset, .8);
     visionDistances[count++] = VisionDistance(2.49, 2.78, -6+offset, .84);
     visionDistances[count++] = VisionDistance(2.73, 3.11, -8+offset, .86);
     visionDistances[count++] = VisionDistance(3.06, 3.26, -8+offset, .87);
@@ -85,7 +86,7 @@ class VisionContainer
 
   double getDistance(double currentAngle) {
     return photonlib::PhotonUtils::CalculateDistanceToTarget(
-        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t((currentAngle * angleConversion) + Camerapos::angle_offset),
+        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t((currentAngle-manualoffset * angleConversion) + Camerapos::angle_offset),
         units::degree_t(pitch)).value();
   }
 
@@ -139,6 +140,7 @@ private:
       
       if (result.HasTargets())
       {
+        
         // Does other calculations
         //photonlib::PhotonTrackedTarget target = result.GetBestTarget();
 
@@ -146,19 +148,24 @@ private:
         hasTarget = (targets.size()>1);
         if(hasTarget){
           double yawtobe = 0.0;
-          if(targets[0].GetPitch()-targets[1].GetPitch()>4.0){
+          double pitchTobe = 0.0;
+          if(fabs(targets[0].GetPitch()-targets[1].GetPitch())>4.0){
             for(int county = 1; county<targets.size(); county++){
               yawtobe+=targets[county].GetYaw();
+              pitchTobe+=targets[county].GetPitch();
             }
-            yaw = yawtobe/targets.size();;
+            yaw = yawtobe/(targets.size()-1.0);
             pitch = targets[1].GetPitch();
+            //pitch = pitchTobe/(targets.size()-1.0);
           }
           else{
             for(int county = 0; county<targets.size(); county++){
               yawtobe+=targets[county].GetYaw();
+              pitchTobe+=targets[county].GetPitch();
             }
-            yaw = yawtobe/targets.size();;
+            yaw = yawtobe/targets.size();
             pitch = targets[0].GetPitch();
+            //pitch = pitchTobe/targets.size();
           }
           
         } 

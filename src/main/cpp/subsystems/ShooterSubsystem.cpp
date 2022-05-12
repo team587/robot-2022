@@ -50,12 +50,13 @@ ShooterSubsystem::ShooterSubsystem() :
       //shooterAngles[count++] = 10;
       //shooterAngles[count++] = 20;
       //shooterAngles[count++] = 20;
-      shooterAngles[count++] = 30+16;
+      shooterAngles[count++] = 25;
       shooterAngles[count++] = 30; // not used but for auto
       shooterAngles[count++] = 30; // lower port
 
       speedIndex = 0;
       dumpSpeed = false;
+      
       tracking = true; // starts it with always tracking.
 
       turningSpeed = .1;

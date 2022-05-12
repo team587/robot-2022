@@ -76,6 +76,10 @@ private:
         ballYaw = ballTarget.GetYaw();
         ballPitch = ballTarget.GetPitch();
       }
+      else{
+        ballYaw = 0;
+        ballPitch = 0;
+      }
       usleep(10000);
     }
   };

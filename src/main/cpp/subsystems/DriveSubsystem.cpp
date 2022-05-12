@@ -58,6 +58,8 @@ DriveSubsystem::DriveSubsystem()
         m_lastYSpeed = (units::meters_per_second_t)0.0;
         m_decelerate = (units::meters_per_second_t)0.01;
         m_ballVisionContainer.start();
+        pressed = false;
+        frc::SmartDashboard::PutBoolean("chasing balls", pressed);
 
         //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }
@@ -66,6 +68,12 @@ void DriveSubsystem::Periodic() {
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   // Implementation of subsystem periodic method goes here.
   //m_odometry.Update(m_NavX.GetRotation2d(), m_frontLeft.GetState(),
+  if(m_driverController.GetRawButton(xLeftTrigger)){
+    pressed = true;
+  }
+  else{
+    pressed = false;
+  }
    if (m_driverController.GetRawAxis(xRightTrigger) > 0.55 ) {
         SetSpeedController(4.0);
     } else if (rightBumperPress) {

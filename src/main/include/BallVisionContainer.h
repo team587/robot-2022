@@ -62,7 +62,7 @@ private:
 
   void VisionThread()
   {
-    m_ballCamera = new photonlib::PhotonCamera{"ball"};
+    m_ballCamera = new photonlib::PhotonCamera{"Ballcam"};
     SetColorPipeline();
     //frc::SmartDashboard::PutString("Debug", "Vision Thread Start");
     while (true) {

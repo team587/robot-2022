@@ -58,8 +58,6 @@ DriveSubsystem::DriveSubsystem()
         m_lastYSpeed = (units::meters_per_second_t)0.0;
         m_decelerate = (units::meters_per_second_t)0.01;
         m_ballVisionContainer.start();
-        pressed = false;
-        frc::SmartDashboard::PutBoolean("chasing balls", pressed);
 
         //frc::Shuffleboard::GetTab("Drive").Add("decelerate", (double)m_decelerate);
       }
@@ -68,12 +66,13 @@ void DriveSubsystem::Periodic() {
   frc::Joystick m_driverController{OIConstants::kDriverControllerPort};
   // Implementation of subsystem periodic method goes here.
   //m_odometry.Update(m_NavX.GetRotation2d(), m_frontLeft.GetState(),
-  if(m_driverController.GetRawButton(xLeftTrigger)){
+  if(m_driverController.GetRawAxis(xLeftTrigger) > .55){
     pressed = true;
   }
   else{
     pressed = false;
   }
+  frc::SmartDashboard::PutBoolean("Ball Vision", pressed);
    if (m_driverController.GetRawAxis(xRightTrigger) > 0.55 ) {
         SetSpeedController(4.0);
     } else if (rightBumperPress) {
@@ -129,7 +128,7 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
         m_lastYSpeed + m_decelerate > (units::meters_per_second_t)0.0 ? (units::meters_per_second_t)0.0 : m_lastYSpeed + m_decelerate; 
   }
 */
-  rot = (pressed && fabs(m_ballVisionContainer.getBallYaw()) > .03) ? units::radians_per_second_t(m_ballVisionContainer.getBallYaw() > 0 ? -.2 : .2) : rot;
+  rot = (pressed && fabs(m_ballVisionContainer.getBallYaw()) > 7) ? units::radians_per_second_t(m_ballVisionContainer.getBallYaw() > 0 ? -.1 : .1) : rot;
   if (fabs((double)xSpeed) < 0.05) {
     xSpeed = (units::meters_per_second_t)0.0;
   }

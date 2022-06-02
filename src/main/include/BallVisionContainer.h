@@ -62,7 +62,8 @@ private:
 
   void VisionThread()
   {
-    m_ballCamera = new photonlib::PhotonCamera{"Ballcam"};
+
+    m_ballCamera = new photonlib::PhotonCamera{"ball"};
     SetColorPipeline();
     //frc::SmartDashboard::PutString("Debug", "Vision Thread Start");
     while (true) {
@@ -75,11 +76,12 @@ private:
         photonlib::PhotonTrackedTarget ballTarget = ballResult.GetBestTarget();
         ballYaw = ballTarget.GetYaw();
         ballPitch = ballTarget.GetPitch();
-      }
-      else{
+      } else{
         ballYaw = 0;
         ballPitch = 0;
       }
+      frc::SmartDashboard::PutNumber("Ball Yaw", ballYaw);
+
       usleep(10000);
     }
   };

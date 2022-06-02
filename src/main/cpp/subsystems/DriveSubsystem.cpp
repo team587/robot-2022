@@ -80,6 +80,11 @@ void DriveSubsystem::Periodic() {
     }  else if (!rightBumperPress) {
       SetSpeedController(1.0);
     }
+  if (m_driverController.GetRawButton(xLeftTrigger)){
+    pressed = true;
+  } else{
+    pressed = false;
+  }
   m_odometry.Update(frc::Rotation2d(units::radian_t(GetHeading())), m_frontLeft.GetState(),
                     m_rearLeft.GetState(), m_frontRight.GetState(),
                     m_rearRight.GetState());

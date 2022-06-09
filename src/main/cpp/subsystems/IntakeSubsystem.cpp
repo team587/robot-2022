@@ -46,5 +46,5 @@ void IntakeSubsystem::Retreat(){
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){
-  m_intakeSpeed = IntakeSpeed * .7;
+  m_intakeSpeed = IntakeSpeed*.7;
 }

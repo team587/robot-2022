@@ -126,6 +126,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   SwerveModule m_rearRight;
   
   double m_speedController;
+  double VisionConversion = .008;
   bool pressed;
   units::meters_per_second_t m_xSpeedChange;
   units::meters_per_second_t m_ySpeedChange;

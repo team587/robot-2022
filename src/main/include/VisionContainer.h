@@ -34,7 +34,7 @@ class VisionContainer
   constexpr static double angleConversion = .61;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
-  double manualoffset = 11.3;
+  double manualoffset = 12.16;
 
   public:
 
@@ -85,8 +85,9 @@ class VisionContainer
   }
 
   double getDistance(double currentAngle) {
+      frc::SmartDashboard::PutNumber("thought angle", (currentAngle-manualoffset) * angleConversion + Camerapos::angle_offset);
     return photonlib::PhotonUtils::CalculateDistanceToTarget(
-        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t((currentAngle-manualoffset * angleConversion) + Camerapos::angle_offset),
+        Camerapos::cam_height_meters, Camerapos::goal_height_meters, units::degree_t(((currentAngle-manualoffset) * angleConversion) + Camerapos::angle_offset),
         units::degree_t(pitch)).value();
   }
 

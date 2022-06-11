@@ -165,10 +165,11 @@ void ShooterSubsystem::Periodic() {
   //handling manual hood and shooter speed
   hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
   hoodAngle += 2.27;
-  setHoodAngle(hoodAngle);
+  
   autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
   if(autoShooter && autoShooterSpeed != m_shooterMotor1.Get()) {
     m_shooterMotor1.Set(autoShooterSpeed);
+    setHoodAngle(hoodAngle);
   }
   
 }
@@ -215,7 +216,7 @@ void ShooterSubsystem::AlwaysAutoAim() {
 
    
     setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
-    setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+    //setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
   }
 }
 void ShooterSubsystem::AutoAim() {

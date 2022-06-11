@@ -164,7 +164,7 @@ void ShooterSubsystem::Periodic() {
 
   //handling manual hood and shooter speed
   hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
-  hoodAngle += 2.27;
+  hoodAngle += 6.62;
   
   autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
   if(autoShooter && autoShooterSpeed != m_shooterMotor1.Get()) {

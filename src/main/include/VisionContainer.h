@@ -34,13 +34,13 @@ class VisionContainer
   constexpr static double angleConversion = .61;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
-  double manualoffset = 2.26;
+  double manualoffset = 6.62;
 
   public:
 
   VisionContainer() {
     int count = 0;
-    double offset = 11;
+    double offset = manualoffset;
     visionDistances[count++] = VisionDistance(0, .85, 20+offset, .6);
     visionDistances[count++] = VisionDistance(.8, 1.16, 17+offset, .65);
     visionDistances[count++] = VisionDistance(1.11, 1.63, 2+offset, .65);

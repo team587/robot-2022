@@ -43,6 +43,7 @@ IntakeSubsystem();
   bool m_deployed;  
   bool m_autoOverride;
   double m_intakeSpeed;
+  double intakeDeadzone;
 
 
 };

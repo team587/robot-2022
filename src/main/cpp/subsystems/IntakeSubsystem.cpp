@@ -19,6 +19,7 @@ IntakeSubsystem::IntakeSubsystem() {
   Retreat();
   m_autoOverride = false;
   m_intakeSpeed = .7;
+  intakeDeadzone = .15;
 
 }
 
@@ -46,5 +47,6 @@ void IntakeSubsystem::Retreat(){
 
 }
 void IntakeSubsystem::IntakeSpeed(double IntakeSpeed){
-  m_intakeSpeed = IntakeSpeed*.7;
+  //Sec0nd term is to add deadzone
+  m_intakeSpeed = IntakeSpeed*.7*(fabs(IntakeSpeed)>intakeDeadzone);
 }

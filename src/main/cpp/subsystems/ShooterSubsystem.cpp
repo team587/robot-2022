@@ -18,7 +18,6 @@
 #include <photonlib/PhotonUtils.h>
 #include <photonlib/PhotonCamera.h>
 #include <photonlib/PhotonUtils.h>
-#include "VisionContainer.h"
 #include "iostream"
 
 
@@ -137,7 +136,7 @@ void ShooterSubsystem::Periodic() {
   if (m_driverController.GetRawButton(xLeftBumper) || autoEnableAim) {
    AutoAim();
     frc::SmartDashboard::PutBoolean("V Enabled", true);
-    autoShooter = true;
+    
 
   }else  {
      frc::SmartDashboard::PutBoolean("V Enabled", false);
@@ -153,7 +152,7 @@ void ShooterSubsystem::Periodic() {
     //if (dumpSpeed && speedIndex > 0) {
     //  m_shooterMotor1.Set(.3);
     //} else {
-      //m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
+      m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
     //}
   } else if(autoShooter) {
     m_shooterMotor1.Set(autoShooterSpeed);
@@ -163,14 +162,12 @@ void ShooterSubsystem::Periodic() {
 #endif
 
   //handling manual hood and shooter speed
-  hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
-  hoodAngle += 6.62;
-  
-  autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
-  if(autoShooter && autoShooterSpeed != m_shooterMotor1.Get()) {
-    m_shooterMotor1.Set(autoShooterSpeed);
-    setHoodAngle(hoodAngle);
-  }
+  //hoodAngle = frc::SmartDashboard::GetNumber("PeriodicHood", hoodAngle);
+  //setHoodAngle(hoodAngle);
+  //autoShooterSpeed = frc::SmartDashboard::GetNumber("PeriodicShoot", autoShooterSpeed);
+  //if(autoShooter && autoShooterSpeed != m_shooterMotor1.Get()) {
+  //  m_shooterMotor1.Set(autoShooterSpeed);
+  //}
   
 }
 
@@ -196,7 +193,7 @@ void ShooterSubsystem::Start() {
 
 void ShooterSubsystem::AutoStart(double speed) {
   autoShooter = true;
-  //autoShooterSpeed = speed;
+  autoShooterSpeed = speed;
 }
 
 void ShooterSubsystem::SetLowSpeed() {
@@ -216,7 +213,7 @@ void ShooterSubsystem::AlwaysAutoAim() {
 
    
     setTurretAngle(m_visionContainer.getTurretAngle(getCurrentTurretAngle()));
-    //setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
+    setHoodAngle(m_visionContainer.getHoodAngle(getCurrentHoodAngle()));
   }
 }
 void ShooterSubsystem::AutoAim() {

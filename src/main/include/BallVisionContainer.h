@@ -51,9 +51,13 @@ photonlib::PhotonCamera*m_ballCamera;
   void SetColorPipeline(){
   frc::DriverStation::Alliance alliance = frc::DriverStation::GetAlliance();
   if (frc::DriverStation::Alliance::kBlue == alliance) {
-    m_ballCamera->SetPipelineIndex(1);
+    if (m_ballCamera->GetPipelineIndex()!=1){
+      m_ballCamera->SetPipelineIndex(1);
+    }
   } else {
-    m_ballCamera->SetPipelineIndex(0);
+      if (m_ballCamera->GetPipelineIndex()!=0){
+        m_ballCamera->SetPipelineIndex(0);
+      }
   }
   
 }
@@ -63,10 +67,16 @@ private:
   void VisionThread()
   {
 
-    m_ballCamera = new photonlib::PhotonCamera{"ball"};
+    m_ballCamera = new photonlib::PhotonCamera{"Ballcam"};
     SetColorPipeline();
     //frc::SmartDashboard::PutString("Debug", "Vision Thread Start");
+    int counter = 0;
     while (true) {
+      counter+=1;
+      if (counter==500){
+        counter = 0;
+        SetColorPipeline();
+      }
       //frc::SmartDashboard::PutString("Debug", "Vision Thread running");
       // wpi::outs() << "Lock Exec\n";
       photonlib::PhotonPipelineResult ballResult = m_ballCamera->GetLatestResult();
@@ -82,7 +92,7 @@ private:
       }
       frc::SmartDashboard::PutNumber("Ball Yaw", ballYaw);
 
-      usleep(10000);
+      usleep(15000);
     }
   };
 };

@@ -34,7 +34,7 @@ class VisionContainer
   constexpr static double angleConversion = .61;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
-  double manualoffset = 6.62;
+  double manualoffset = 9.3;
 
   public:
 
@@ -45,10 +45,10 @@ class VisionContainer
     visionDistances[count++] = VisionDistance(.25, .708, 27+offset, .57);
     visionDistances[count++] = VisionDistance(.556, 1.01, 23+offset, .62);
     visionDistances[count++] = VisionDistance(.86, 1.32, 13+offset, .63);
-    visionDistances[count++] = VisionDistance(1.17, 1.62, 7+offset, .68);
+    visionDistances[count++] = VisionDistance(1.17, 1.62, 7+offset, .66);
     visionDistances[count++] = VisionDistance(1.47, 1.93, 6+offset, .70);
     visionDistances[count++] = VisionDistance(1.77, 2.23, 5+offset, .69); //could be a problem child
-    visionDistances[count++] = VisionDistance(2.01, 2.54, 2+offset, .8);
+    visionDistances[count++] = VisionDistance(2.01, 2.54, 2+offset, .75);
     visionDistances[count++] = VisionDistance(2.38, 2.84, -4+offset, .78);
     visionDistances[count++] = VisionDistance(2.69, 3.15, -7+offset, .8);
     visionDistances[count++] = VisionDistance(2.99, 3.45, -7+offset, .82);
@@ -194,7 +194,7 @@ private:
       } else {
         //std::cout << "Has no target";
       }
-      usleep(20000);
+      usleep(15000);
     }
   };
 };

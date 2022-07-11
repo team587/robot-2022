@@ -81,7 +81,7 @@ void DriveSubsystem::Periodic() {
     }  else if (!rightBumperPress) {
       SetSpeedController(1.0);
     }
-  if (m_driverController.GetRawButton(xLeftTrigger)){
+  if (m_driverController.GetRawAxis(xLeftTrigger)>.5){
     pressed = true;
   } else{
     pressed = false;
@@ -102,8 +102,8 @@ void DriveSubsystem::ballLock(){
 
 void DriveSubsystem::addSpeed(double speedChange){
   units::radian_t rotatation = (units::degree_t)m_NavX.GetAngle();
-  m_xSpeedChange = units::meters_per_second_t{std::cos(rotatation.value())*speedChange};
-  m_ySpeedChange = units::meters_per_second_t{std::sin(rotatation.value())*speedChange};
+  m_ySpeedChange = units::meters_per_second_t{std::cos(rotatation.value())*speedChange};
+  m_xSpeedChange = units::meters_per_second_t{std::sin(rotatation.value())*speedChange};
   
 }
 
@@ -136,11 +136,11 @@ void DriveSubsystem::Drive(units::meters_per_second_t xSpeed,
 m_xSpeedChange = units::meters_per_second_t{0.0};
 m_ySpeedChange = units::meters_per_second_t{0.0};
   if (pressed && fabs(m_ballVisionContainer.getBallYaw()) > 4){
-    //ballLock();
+    ballLock();
     xSpeed+=m_xSpeedChange;
     ySpeed+=m_ySpeedChange;
   }
-  rot = (pressed && fabs(m_ballVisionContainer.getBallYaw()) > 7) ? units::radians_per_second_t(m_ballVisionContainer.getBallYaw() > 0 ? -.1 : .1) : rot;
+  //rot = (pressed && fabs(m_ballVisionContainer.getBallYaw()) > 7) ? units::radians_per_second_t(m_ballVisionContainer.getBallYaw() > 0 ? .25 : -.25) : rot;
   if (fabs((double)xSpeed) < 0.05) {
     xSpeed = (units::meters_per_second_t)0.0;
   }

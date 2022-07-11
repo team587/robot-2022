@@ -138,7 +138,7 @@ void ShooterSubsystem::Periodic() {
     frc::SmartDashboard::PutBoolean("V Enabled", true);
     
 
-  }else  {
+  }else if(autoEnableAim)  {
      frc::SmartDashboard::PutBoolean("V Enabled", false);
      autoShooter = false;
      if (tracking){

@@ -192,6 +192,7 @@ class RobotContainer {
   AutoDriving m_autoCommand2_0;
   AutoDriving m_autoCommand2_1;
   AutoDriving m_autoCommand2_2;
+  AutoDriving m_autoCommand2_3;
   
   AutoDriving m_autoCommand3_0;
   AutoDriving m_autoCommand3_1;
@@ -250,23 +251,53 @@ class RobotContainer {
   };
 
   frc2::SequentialCommandGroup m_slotCommand2 {
-    #ifdef COMPETITIONBOT
-  /*  m_shooterSpeed2,
+     #ifdef COMPETITIONBOT
+    m_shooterSpeed,
     m_intakeDeploy,
     m_intakeSpeedOn,
+    m_adjustHoodAngle,
     m_adjustTurretAngle,
-    m_adjustHoodAngle0,*/
+    m_enableAutoAim,
+    //frc2::WaitCommand{units::second_t(2)},  
+    //m_fireShooterOn,
+    frc2::WaitCommand{units::second_t(.5)},
+    //m_adjustHoodAngle0,
+    //m_shooterSpeed2,
+    #endif
     m_autoCommand2_0,
     m_stopDriving,
-   /* m_fireShooterOn,
-    frc2::WaitCommand{units::second_t(3)},
-    m_fireShooterOff, 
-    m_autoCommand2_1,
+    frc2::WaitCommand{units::second_t(1.2)},
+    m_fireShooterOn,
+    frc2::WaitCommand{units::second_t(2)},
+    
+    m_fireShooterOff,
+    m_disableAutoAim,
+    m_autoCommand2_2,
     m_stopDriving,
-    frc2::WaitCommand{units::second_t(3)},
+    
+    m_shooterOff, 
+    m_adjustTurretAngle,
+    m_LowerPortSpeed,
+    frc2::WaitCommand{units::second_t(1)},
+    m_fireShooterOn,
+    frc2::WaitCommand{units::second_t(2)},
+    m_fireShooterOff,
+    m_intakeRetreat,
+    m_autoCommand2_3,
+    m_shooterOff, 
     m_intakeSpeedOff,
-    m_shooterOff,*/
+    //m_autoCommand1_1,
+    //m_stopDriving,
+    #ifdef HOPPER_SUBSYSTEM
+   // m_fireShooterOn,
+  
+    //m_intakeSpeedOff,
+    //m_fireShooterOff,
+    //m_shooterOff,
     #endif
+
+    //m_autoCommand1_2,
+    //m_stopDriving
   };
 
   frc2::SequentialCommandGroup m_slotCommand3 {
@@ -320,7 +351,7 @@ class RobotContainer {
     m_adjustTurretAngle,
     */
     #endif
-    m_autoCommand4_0,
+    m_autoCommand4_1,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
     /*

@@ -75,6 +75,7 @@ RobotContainer::RobotContainer():
     m_autoCommand2_0(&m_drive, 2, 0),
     m_autoCommand2_1(&m_drive, 2, 1),
     m_autoCommand2_2(&m_drive, 2, 2),
+    m_autoCommand2_3(&m_drive, 2, 3),
 
     m_autoCommand3_0(&m_drive, 3, 0),
     m_autoCommand3_1(&m_drive, 3, 1),

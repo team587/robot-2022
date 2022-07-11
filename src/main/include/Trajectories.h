@@ -33,6 +33,7 @@ class trajectories {
   PathPlannerTrajectory slot3_0;
   PathPlannerTrajectory slot3_1;
   PathPlannerTrajectory slot3_2;
+  PathPlannerTrajectory slot3_3;
 
   PathPlannerTrajectory slot4_0;
   PathPlannerTrajectory slot4_1;

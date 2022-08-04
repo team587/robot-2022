@@ -51,12 +51,12 @@ photonlib::PhotonCamera*m_ballCamera;
   void SetColorPipeline(){
   frc::DriverStation::Alliance alliance = frc::DriverStation::GetAlliance();
   if (frc::DriverStation::Alliance::kBlue == alliance) {
-    if (m_ballCamera->GetPipelineIndex()!=1){
-      m_ballCamera->SetPipelineIndex(1);
+    if (m_ballCamera->GetPipelineIndex()!=0){
+      m_ballCamera->SetPipelineIndex(0);
     }
   } else {
-      if (m_ballCamera->GetPipelineIndex()!=0){
-        m_ballCamera->SetPipelineIndex(0);
+      if (m_ballCamera->GetPipelineIndex()!=1){
+        m_ballCamera->SetPipelineIndex(1);
       }
   }
   

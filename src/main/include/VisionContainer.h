@@ -34,7 +34,7 @@ class VisionContainer
   constexpr static double angleConversion = .61;
   VisionDistance visionDistances[MAXDISTANCES];
   int lastDistance = -1;
-  double manualoffset = 9.3;
+  double manualoffset = 9.35;
 
   public:
 
@@ -73,8 +73,10 @@ class VisionContainer
 
   double getTurretAngle(double currentAngle) {
     double newTurretAngle = currentAngle;
-    if (yaw > .5 || yaw < -.5) {
-      newTurretAngle = yaw + currentAngle;
+    //double newyaw = yaw+atan(.3/getDistance(hoodAngle)*180/3.14);
+    double newyaw = yaw;
+    if (newyaw > .5 || newyaw < -.5) {
+      newTurretAngle = newyaw + currentAngle;
       /*if (newTurretAngle > 180.0) {
         newTurretAngle = 180.0;
       } else if (newTurretAngle < 45.0) {

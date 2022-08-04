@@ -197,6 +197,7 @@ class RobotContainer {
   AutoDriving m_autoCommand3_0;
   AutoDriving m_autoCommand3_1;
   AutoDriving m_autoCommand3_2;
+  AutoDriving m_autoCommand3_3;
 
   AutoDriving m_autoCommand4_0;
   AutoDriving m_autoCommand4_1;
@@ -313,14 +314,14 @@ class RobotContainer {
     m_autoCommand3_0,
     m_stopDriving,
     #ifdef HOPPER_SUBSYSTEM
-    frc2::WaitCommand{units::second_t(1.2)},
+    frc2::WaitCommand{units::second_t(1)},
     m_fireShooterOn,
     frc2::WaitCommand{units::second_t(.6)},
     m_fireShooterOff,
     m_autoCommand3_1,
     m_stopDriving,
     m_fireShooterOn,
-    frc2::WaitCommand{units::second_t(1.8)},
+    frc2::WaitCommand{units::second_t(1.6)},
     m_fireShooterOff,
     
     
@@ -328,8 +329,8 @@ class RobotContainer {
     //m_autoCommand3_1,
     m_autoCommand3_2,
     m_stopDriving,
-    frc2::WaitCommand{units::second_t(1.0)},
-    m_autoCommand2_2,
+    frc2::WaitCommand{units::second_t(.9)},
+    m_autoCommand3_3,
     m_stopDriving,
     m_intakeSpeedOff,
     frc2::WaitCommand{units::second_t(.75)},

@@ -80,6 +80,7 @@ RobotContainer::RobotContainer():
     m_autoCommand3_0(&m_drive, 3, 0),
     m_autoCommand3_1(&m_drive, 3, 1),
     m_autoCommand3_2(&m_drive, 3, 2),
+    m_autoCommand3_3(&m_drive, 3, 3),
 
     m_autoCommand4_0(&m_drive, 4, 0),
     m_autoCommand4_1(&m_drive, 4, 1),
@@ -91,7 +92,7 @@ RobotContainer::RobotContainer():
 
     for (int i = 0; i < kLength; i++) {
         //Set the value
-        m_ledBuffer[i].SetRGB(0,255,0);
+        m_ledBuffer[i].SetRGB(255,0,255);
     }
     m_led.SetLength(kLength);
     m_led.SetData(m_ledBuffer);

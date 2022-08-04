@@ -31,6 +31,7 @@ trajectories::trajectories() {
     slot3_0 = PathPlanner::loadPath("slot3.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
     slot3_1 = PathPlanner::loadPath("slot3.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
     slot3_2 = PathPlanner::loadPath("slot3.2", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
+    slot3_3 = PathPlanner::loadPath("slot3.3", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
 
     slot4_0 = PathPlanner::loadPath("slot4.0", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
     slot4_1 = PathPlanner::loadPath("slot4.1", AutoConstants::kMaxSpeed, AutoConstants::kMaxAcceleration);
@@ -70,6 +71,8 @@ PathPlannerTrajectory* trajectories::get_auto_trajectory(int slot, int pathNum) 
         return &slot3_1;
     } else if (slot == 3 && pathNum == 2) {
         return &slot3_2;
+    } else if (slot == 3 && pathNum == 3) {
+        return &slot3_3;
     } else if (slot == 4 && pathNum == 0) {
         return &slot4_0;
     } else if (slot == 4 && pathNum == 1) {

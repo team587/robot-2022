@@ -101,89 +101,20 @@ ShooterSubsystem::ShooterSubsystem() :
 }
 
 void ShooterSubsystem::Periodic() {
-  // Implementation of subsystem periodic method goes here.
-  //shooterSpeed = frc::SmartDashboard::GetNumber("Shooter Speed", shooterSpeed);
-
-  //frc::SmartDashboard::PutNumber("m_shooterMotor1", m_shooterMotor1.Get());
-  //frc::SmartDashboard::PutNumber("m_shooterMotor2", m_shooterMotor2.Get());
-
-  //frc::Shuffleboard::GetTab("Shooter").("speed", shooterSpeed);
-  //frc::SmartDashboard::PutNumber("Hood", m_hoodAnalogInput.GetValue());
-
-  //if (m_driverController.GetRawButton(leftBumper)) {
-   //AutoAim();
-  //}
-
   
-
-  /*if (dumpSpeed && speedIndex > 0) {
-    m_shooterMotor1.Set(.3);
-  } else {
-    m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
-  }*/
- /* AdjustHoodAngle();
-#ifdef TURRET_SUBSYSTEM
-  AdjustTurretAngle();
-#endif
-*/
-}
-
-//void ShooterSubsystem::SetSpeed(double speed) {
-//  m_shooterMotor1.Set(speed);
-//}
+}}
 
 
 void ShooterSubsystem::Start() {
   m_speedIndex = 1;
   m_shooterMotor1.Set(m_shooterSpeeds[m_speedIndex]);
-  //isRunning = true;
-  //hSpeed = true;
-  //m_shooterMotor2.Set(shooterSpeed);
 }
-/*
-void ShooterSubsystem::AutoAim(){
-
-  double currentAngle = m_hoodAnalogInput.GetVoltage();
-  currentAngle -= hoodVoltageOffset;
-  double angleToVoltage = 90.0 / 5.0;
-  double angle = currentAngle * angleToVoltage;
-  hoodAngle = m_visionContainer.getHoodAngle(angle);
-  // For Turret:
-#ifdef TURRET_SUBSYSTEM
-  turretAngle = m_visionContainer.getTurretAngle(angle);
-  //frc::Shuffleboard::GetTab("Vision").Add("Shooter mcGavin Speed", shooterSpeed);
-#endif
-  // For wheels
-  shooterSpeed = m_visionContainer.getShooterSpeed(angle);
-  double distance = m_visionContainer.getDistance(angle);
-
-  //frc::Shuffleboard::GetTab("Vision").Add("Distance", distance);
-  //frc::Shuffleboard::GetTab("Vision").Add("Hood Angle", hoodAngle);
-  //frc::Shuffleboard::GetTab("Vision").Add("Turret Angle", turretAngle);
-  //frc::Shuffleboard::GetTab("Vision").Add("Current Angle", currentAngle);
-  //frc::Shuffleboard::GetTab("Vision").Add("Enabled", m_driverController.GetRawButton(leftBumper));
-
-}*/
 
 void ShooterSubsystem::Stop() {
   m_speedIndex = 0;
   m_shooterMotor1.Set(m_shooterSpeeds[m_speedIndex]);
-  //noSpeed = true;
-  //m_shooterMotor2.Set(0);
 }
-/*
-void ShooterSubsystem::turnRight(){
-  //m_turningMotor->Set(turningSpeed);
-} 
 
-void ShooterSubsystem::turnLeft(){
-  //m_turningMotor->Set(turningSpeed * -1);
-} 
-
-void ShooterSubsystem::stopTurning(){
-  //m_turningMotor->Set(0);
-}
-*/
 //
 //I think we need to set hood angle and turret angle at end of functions
 //
@@ -210,16 +141,6 @@ void ShooterSubsystem::AdjustHoodAngle() {
 void ShooterSubsystem::AdjustTurretAngle() {
   
   double currentAngle = m_turretEncoder.GetPosition();
-
-//  if(m_turningLimitSwitch0.Get()){
-//    currentAngle = 0;
-//    m_turretEncoder.SetPosition(currentAngle);
-//  }
-
-//  if(m_turningLimitSwitch180.Get()){
-//    currentAngle = 0.5588;
-//    m_turretEncoder.SetPosition(currentAngle);
-//  }
   
   double metersToDegrees = 0.5588 / 180;
 
@@ -255,40 +176,12 @@ double ShooterSubsystem::GetCurrentHoodAngle() {
   
   return currentAngle * angleToVoltage;
 }
-/*
-void ShooterSubsystem::SetDumpMode(bool dump) { 
-    frc::SmartDashboard::PutBoolean("Dump  Mode", dump);
-    dumpSpeed = dump; 
-  }
-*/
+
 void ShooterSubsystem::SpeedCycle() {
   m_speedIndex++;
   m_speedIndex = m_speedIndex % MAX_SETTINGS;
   m_hoodAngle = m_shooterAngles[m_speedIndex];
   m_shooterMotor1.Set(m_shooterSpeeds[m_speedIndex]);
   frc::SmartDashboard::PutNumber("ShooterMode", m_speedIndex);
-  
-  //if(speedIndex == 3) {
-  //  speedIndex = 0;
-  //}
-  //m_shooterMotor1.Set(shooterSpeeds[speedIndex]);
-  
-  
-  /*if(noSpeed) {
-    noSpeed = false;
-    hSpeed = true;
-    m_shooterMotor1.Set(shooterSpeedH);
-  } else if(hSpeed) {
-    hSpeed = false;
-    mSpeed = true;
-    m_shooterMotor1.Set(shooterSpeedM);
-  } else if(mSpeed) {
-    mSpeed = false;
-    lSpeed = true;
-    m_shooterMotor1.Set(shooterSpeedL);
-  } else if(lSpeed) {
-    lSpeed = false;
-    hSpeed = true;
-    m_shooterMotor1.Set(shooterSpeedH);
-  }*/
+
 }
